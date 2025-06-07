@@ -1,0 +1,16 @@
+{
+  "HomePage": {
+    "title": "Tsüri Connections",
+    "subtitle": "Create four groups of four",
+    "tagline": "You've won the game!",
+    "submit": "Submit",
+    "clear": "Deselect All",
+    "shuffle": "Shuffle",
+    "showResults": "Show Results",
+    "betterLuck": "Better luck next time!",
+    "oneAway": "One away ...",
+    "categoryItems": "{items}",
+    "alreadyGuessed": "You've already guessed that!",
+    "mistakesRemaining": "Mistakes Remaining: {count}"
+  }
+}

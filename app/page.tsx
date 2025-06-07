@@ -11,6 +11,7 @@ import useGameLogic from "./_hooks/use-game-logic";
 import usePopup from "./_hooks/use-popup";
 import { SubmitResult, Word } from "./_types";
 import { getPerfection } from "./_utils";
+import {useTranslations} from "next-intl";
 
 export default function Home() {
   const [popupState, showPopup] = usePopup();
@@ -41,6 +42,8 @@ export default function Home() {
     animateWrongGuess,
   } = useAnimation();
 
+  const t = useTranslations('HomePage');
+
   const handleSubmit = async () => {
     setSubmitted(true);
     await animateGuess(selectedWords);
@@ -49,14 +52,14 @@ export default function Home() {
 
     switch (result.result) {
       case "same":
-        showPopup("You've already guessed that!");
+        showPopup(t('alreadyGuessed'));
         break;
       case "one-away":
         animateWrongGuess();
-        showPopup("One away...");
+        showPopup(t('oneAway'));
         break;
       case "loss":
-        showPopup("Better luck next time!");
+        showPopup(t('betterLuck'));
         await handleLoss();
         setShowGameLostModal(true);
         break;
@@ -82,7 +85,7 @@ export default function Home() {
   const renderControlButtons = () => {
     const showResultsWonButton = (
       <ControlButton
-        text="Show Results"
+        text={t('showResults')}
         onClick={() => {
           setShowGameWonModal(true);
         }}
@@ -91,7 +94,7 @@ export default function Home() {
 
     const showResultsLostButton = (
       <ControlButton
-        text="Show Results"
+        text={t('showResults')}
         onClick={() => {
           setShowGameLostModal(true);
         }}
@@ -101,17 +104,17 @@ export default function Home() {
     const inProgressButtons = (
       <div className="flex gap-2 mb-12">
         <ControlButton
-          text="Shuffle"
+          text={t('shuffle')}
           onClick={shuffleWords}
           unclickable={submitted}
         />
         <ControlButton
-          text="Deselect All"
+          text={t('clear')}
           onClick={deselectAllWords}
           unclickable={selectedWords.length === 0 || submitted}
         />
         <ControlButton
-          text="Submit"
+          text={t('submit')}
           unclickable={selectedWords.length !== 4 || submitted}
           onClick={handleSubmit}
         />
@@ -127,14 +130,14 @@ export default function Home() {
     }
   };
 
+
+
   return (
     <>
       <div className="flex flex-col items-center w-11/12 md:w-3/4 lg:w-7/12 mx-auto mt-14">
-        <h1 className="text-black text-4xl font-semibold my-4 ml-4">
-          Connections
-        </h1>
+        <h1 className="text-black text-4xl font-semibold my-4 ml-4">{t('title')}</h1>
         <hr className="mb-4 md:mb-4 w-full"></hr>
-        <h1 className="text-black mb-4">Create four groups of four!</h1>
+        <h1 className="text-black mb-4">{t('subtitle')}</h1>
         <div className="relative w-full">
           <Popup show={popupState.show} message={popupState.message} />
           <Grid
@@ -147,8 +150,7 @@ export default function Home() {
           />
         </div>
         <h2 className="text-black my-4 md:my-8 mx-8">
-          Mistakes Remaining:{" "}
-          {mistakesRemaining > 0 ? Array(mistakesRemaining).fill("•") : ""}
+          {t('mistakesRemaining', {count: mistakesRemaining > 0 ? Array(mistakesRemaining).fill("•").toString() : ""})}
         </h2>
         {renderControlButtons()}
       </div>
