@@ -1,10 +1,9 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import {getLocale} from "next-intl/server";
-import {NextIntlClientProvider} from "next-intl";
+import { getLocale } from "next-intl/server";
+import { NextIntlClientProvider } from "next-intl";
 import { FlagProvider } from "@unleash/nextjs/client";
-
 
 const inter = Inter({ subsets: ["latin"] });
 

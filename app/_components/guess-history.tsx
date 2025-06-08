@@ -14,7 +14,7 @@ export default function GuessHistory(props: GuessHistoryProps) {
             key={index}
             className={`size-12 rounded-md ${getWordColor(word.level)}`}
           ></div>
-        ))
+        )),
       )}
     </div>
   );

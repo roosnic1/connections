@@ -21,5 +21,5 @@ export const categories: Category[] = [
     category: "Zürcher Exekutiv Politiker:innen ohne 'er' am Ende",
     items: ["Stock", "Stein", "Brand", "Baum"],
     level: 4,
-  }
+  },
 ];

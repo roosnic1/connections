@@ -7,7 +7,7 @@ export default function useGameLogic() {
   const [gameWords, setGameWords] = useState<Word[]>([]);
   const selectedWords = useMemo(
     () => gameWords.filter((item) => item.selected),
-    [gameWords]
+    [gameWords],
   );
   const [clearedCategories, setClearedCategories] = useState<Category[]>([]);
   const [isWon, setIsWon] = useState(false);
@@ -18,7 +18,7 @@ export default function useGameLogic() {
   useEffect(() => {
     const words: Word[] = categories
       .map((category) =>
-        category.items.map((word) => ({ word: word, level: category.level }))
+        category.items.map((word) => ({ word: word, level: category.level })),
       )
       .flat();
     setGameWords(shuffleArray(words));
@@ -48,13 +48,13 @@ export default function useGameLogic() {
     setGameWords(
       gameWords.map((item) => {
         return { ...item, selected: false };
-      })
+      }),
     );
   };
 
   const getSubmitResult = (): SubmitResult => {
     const sameGuess = guessHistoryRef.current.some((guess) =>
-      guess.every((word) => selectedWords.includes(word))
+      guess.every((word) => selectedWords.includes(word)),
     );
 
     if (sameGuess) {
@@ -82,7 +82,7 @@ export default function useGameLogic() {
   const getCorrectResult = (category: Category): SubmitResult => {
     setClearedCategories([...clearedCategories, category]);
     setGameWords(
-      gameWords.filter((item) => !category.items.includes(item.word))
+      gameWords.filter((item) => !category.items.includes(item.word)),
     );
 
     if (clearedCategories.length === 3) {
@@ -106,7 +106,7 @@ export default function useGameLogic() {
 
   const handleLoss = async () => {
     const remainingCategories = categories.filter(
-      (category) => !clearedCategories.includes(category)
+      (category) => !clearedCategories.includes(category),
     );
 
     deselectAllWords();
@@ -118,7 +118,7 @@ export default function useGameLogic() {
         category,
       ]);
       setGameWords((prevGameWords) =>
-        prevGameWords.filter((item) => !category.items.includes(item.word))
+        prevGameWords.filter((item) => !category.items.includes(item.word)),
       );
     }
 
