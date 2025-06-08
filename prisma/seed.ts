@@ -5,25 +5,53 @@ async function main() {
   const data = [
     {
       publishDate: null,
-      level1title: "Fussballspieler",
-      level1words: ["sommer", "keller", "hitz", "frei"],
-      level2title: "Musikerinnen",
-      level2words: ["winter", "button", "känzig", "gfeller"],
-      level3title: "Zürcher Wege",
-      level3words: ["laternen", "herbst", "panorama", "zelt"],
-      level4title: "Spät____",
-      level4words: ["frühling", "lese", "zünder", "i"],
+      categories: [
+        {
+          title: "Fussballspieler",
+          words: ["sommer", "keller", "hitz", "frei"],
+          level: 1,
+        },
+        {
+          title: "Musikerinnen",
+          words: ["winter", "button", "känzig", "gfeller"],
+          level: 2,
+        },
+        {
+          title: "Zürcher Wege",
+          words: ["laternen", "herbst", "panorama", "zelt"],
+          level: 3,
+        },
+        {
+          title: "Spät____",
+          words: ["frühling", "lese", "zünder", "i"],
+          level: 4,
+        },
+      ],
     },
     {
       publishDate: null,
-      level1title: "____grund",
-      level1words: ["ab", "letzi", "unter", "hinter"],
-      level2title: "Zürcher Areale",
-      level2words: ["hunziker", "hürlimann", "toni", "koch"],
-      level3title: "Zürcher Bier",
-      level3words: ["löwenbräu", "chopfab", "sprint", "amboss"],
-      level4title: "Schmied-Werkzeuge",
-      level4words: ["hammer", "glut", "wasser", "zange"],
+      categories: [
+        {
+          title: "____grund",
+          words: ["ab", "letzi", "unter", "hinter"],
+          level: 1,
+        },
+        {
+          title: "Zürcher Areale",
+          words: ["hunziker", "hürlimann", "toni", "koch"],
+          level: 2,
+        },
+        {
+          title: "Zürcher Bier",
+          words: ["löwenbräu", "chopfab", "sprint", "amboss"],
+          level: 3,
+        },
+        {
+          title: "Schmied-Werkzeuge",
+          words: ["hammer", "glut", "wasser", "zange"],
+          level: 4,
+        },
+      ],
     },
   ];
   const connections = [];
@@ -31,7 +59,10 @@ async function main() {
     connections.push(
       await prisma.connection.create({
         data: {
-          ...item,
+          publishDate: item.publishDate,
+          categories: {
+            create: item.categories,
+          },
         },
       }),
     );

@@ -17,12 +17,14 @@ datasource db {
 model Connection {
   id            String @id @default(auto()) @map("_id") @db.ObjectId
   publishDate   DateTime?
-  level1title   String
-  level1words   String[]
-  level2title   String
-  level2words   String[]
-  level3title   String
-  level3words   String[]
-  level4title   String
-  level4words   String[]
+  categories    Category[]
+}
+
+model Category {
+  id            String @id @default(auto()) @map("_id") @db.ObjectId
+  title         String
+  words         String[]
+  level         Int
+  connection    Connection @relation(fields: [connectionId], references: [id])
+  connectionId  String @db.ObjectId
 }

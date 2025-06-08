@@ -10,6 +10,10 @@ export type Word = {
   selected?: boolean;
 };
 
+export type Connection = {
+  categories: Category[];
+};
+
 export type SubmitResultType =
   | "correct"
   | "incorrect"

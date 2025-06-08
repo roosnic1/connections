@@ -9,12 +9,16 @@ import Popup from "./_components/popup";
 import useAnimation from "./_hooks/use-animation";
 import useGameLogic from "./_hooks/use-game-logic";
 import usePopup from "./_hooks/use-popup";
-import { SubmitResult, Word } from "./_types";
+import { Category, CellAnimationState, SubmitResult, Word } from "./_types";
 import { getPerfection } from "./_utils";
 import { useTranslations } from "next-intl";
 import { useFlag } from "@unleash/nextjs/client";
 
-export default function Home() {
+type GameProps = {
+  categories: Category[];
+};
+
+export default function Game(props: GameProps) {
   const [popupState, showPopup] = usePopup();
   const {
     gameWords,
@@ -30,7 +34,7 @@ export default function Home() {
     getSubmitResult,
     handleWin,
     handleLoss,
-  } = useGameLogic();
+  } = useGameLogic({ categories: props.categories });
 
   const [showGameWonModal, setShowGameWonModal] = useState(false);
   const [showGameLostModal, setShowGameLostModal] = useState(false);
