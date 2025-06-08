@@ -12,6 +12,7 @@ import usePopup from "./_hooks/use-popup";
 import { SubmitResult, Word } from "./_types";
 import { getPerfection } from "./_utils";
 import {useTranslations} from "next-intl";
+import {useFlag} from "@unleash/nextjs/client";
 
 export default function Home() {
   const [popupState, showPopup] = usePopup();
@@ -130,6 +131,8 @@ export default function Home() {
     }
   };
 
+  const isEnabled = useFlag("ask_feedback");
+
 
 
   return (
@@ -138,6 +141,7 @@ export default function Home() {
         <h1 className="text-black text-4xl font-semibold my-4 ml-4">{t('title')}</h1>
         <hr className="mb-4 md:mb-4 w-full"></hr>
         <h1 className="text-black mb-4">{t('subtitle')}</h1>
+        <h2 className="text-black my-4 md:my-8 mx-8">is enabled: {isEnabled ? "ENABLED" : "DISABLED"}</h2>
         <div className="relative w-full">
           <Popup show={popupState.show} message={popupState.message} />
           <Grid
