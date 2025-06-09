@@ -10,21 +10,21 @@ generator client {
 }
 
 datasource db {
-  provider = "mongodb"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
 model Connection {
-  id            String @id @default(auto()) @map("_id") @db.ObjectId
+  id            Int @id @default(autoincrement())
   publishDate   DateTime?
   categories    Category[]
 }
 
 model Category {
-  id            String @id @default(auto()) @map("_id") @db.ObjectId
+  id            Int @id @default(autoincrement())
   title         String
   words         String[]
   level         Int
   connection    Connection @relation(fields: [connectionId], references: [id])
-  connectionId  String @db.ObjectId
+  connectionId  Int
 }
