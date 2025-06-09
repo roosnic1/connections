@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { getLocale } from "next-intl/server";
@@ -25,6 +26,7 @@ export default async function RootLayout({
         <body className={inter.className}>
           {children}
           <Analytics />
+          <SpeedInsights />
         </body>
       </NextIntlClientProvider>
     </html>
