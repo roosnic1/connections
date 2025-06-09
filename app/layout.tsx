@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Analytics } from "@vercel/analytics/next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { getLocale } from "next-intl/server";
@@ -21,7 +22,10 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <NextIntlClientProvider>
-        <body className={inter.className}>{children}</body>
+        <body className={inter.className}>
+          {children}
+          <Analytics />
+        </body>
       </NextIntlClientProvider>
     </html>
   );
