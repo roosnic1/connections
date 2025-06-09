@@ -6,7 +6,7 @@
     "dev:new": "next dev --turbopack",
     "dev": "next dev",
     "build": "next build",
-    "build:prod": "prisma migrate deploy && next build",
+    "build:prod": "npx prisma migrate deploy && next build",
     "start": "next start",
     "lint": "next lint",
     "prisma:migrate": "dotenv -e .env.local -- prisma migrate dev",
