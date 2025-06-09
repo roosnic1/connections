@@ -3,21 +3,19 @@
 import { useCallback, useState } from "react";
 import ControlButton from "./_components/button/control-button";
 import Grid from "./_components/game/grid";
-import Popup from "./_components/popup";
 import useAnimation from "./_hooks/use-animation";
 import useGameLogic from "./_hooks/use-game-logic";
-import usePopup from "./_hooks/use-popup";
 import { Category, CellAnimationState, SubmitResult, Word } from "./_types";
 import { getPerfection } from "./_utils";
 import { useTranslations } from "next-intl";
 import GameModal from "@/app/_components/modal/game-modal";
+import { toast } from "react-toastify";
 
 type GameProps = {
   categories: Category[];
 };
 
 export default function Game(props: GameProps) {
-  const [popupState, showPopup] = usePopup();
   const {
     gameWords,
     selectedWords,
@@ -54,19 +52,20 @@ export default function Game(props: GameProps) {
 
     switch (result.result) {
       case "same":
-        showPopup(t("alreadyGuessed"));
+        toast(t("alreadyGuessed"));
+        //showPopup(t("alreadyGuessed"));
         break;
       case "one-away":
         animateWrongGuess();
-        showPopup(t("oneAway"));
+        toast(t("oneAway"));
         break;
       case "loss":
-        showPopup(t("betterLuck"));
+        toast(t("betterLuck"));
         await handleLoss();
         setShowGameModal(true);
         break;
       case "win":
-        showPopup(getPerfection(mistakesRemaining));
+        toast(getPerfection(mistakesRemaining));
         await handleWin();
         setShowGameModal(true);
         break;
@@ -129,7 +128,6 @@ export default function Game(props: GameProps) {
         <h1 className="text-black mb-4">{t("subtitle")}</h1>
         <hr className="mb-4 md:mb-4 w-full"></hr>
         <div className="relative w-full">
-          <Popup show={popupState.show} message={popupState.message} />
           <Grid
             words={gameWords}
             selectedWords={selectedWords}
@@ -143,7 +141,7 @@ export default function Game(props: GameProps) {
           {t("mistakesRemaining", {
             count:
               mistakesRemaining > 0
-                ? Array(mistakesRemaining).fill("•").toString()
+                ? Array(mistakesRemaining).fill("•").join("")
                 : "",
           })}
         </h2>
