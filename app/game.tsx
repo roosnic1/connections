@@ -12,8 +12,6 @@ import usePopup from "./_hooks/use-popup";
 import { Category, CellAnimationState, SubmitResult, Word } from "./_types";
 import { getPerfection } from "./_utils";
 import { useTranslations } from "next-intl";
-import * as Sentry from "@sentry/nextjs";
-import { UnleashClient } from "unleash-proxy-client";
 
 type GameProps = {
   categories: Category[];
@@ -111,10 +109,7 @@ export default function Game(props: GameProps) {
       <div className="flex gap-2 mb-12">
         <ControlButton
           text={t("shuffle")}
-          onClick={() => {
-            shuffleWords();
-            throw new Error("test");
-          }}
+          onClick={shuffleWords}
           unclickable={submitted}
         />
         <ControlButton
@@ -139,15 +134,6 @@ export default function Game(props: GameProps) {
     }
   };
 
-  const unleash = new UnleashClient({
-    url: process.env.NEXT_PUBLIC_UNLEASH_FRONTEND_API_URL || "",
-    clientKey: process.env.NEXT_PUBLIC_UNLEASH_FRONTEND_API_TOKEN || "",
-    appName: "connections",
-  });
-
-  const isEnabled = unleash.isEnabled("ask_feedback");
-  Sentry.captureException(new Error("Something went wrong!"));
-
   return (
     <>
       <div>
@@ -156,9 +142,6 @@ export default function Game(props: GameProps) {
         </h1>
         <hr className="mb-4 md:mb-4 w-full"></hr>
         <h1 className="text-black mb-4">{t("subtitle")}</h1>
-        <h2 className="text-black my-4 md:my-8 mx-8">
-          is enabled: {isEnabled ? "ENABLED" : "DISABLED"}
-        </h2>
         <div className="relative w-full">
           <Popup show={popupState.show} message={popupState.message} />
           <Grid
