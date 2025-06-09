@@ -3,7 +3,6 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { getLocale } from "next-intl/server";
 import { NextIntlClientProvider } from "next-intl";
-import { FlagProvider } from "@unleash/nextjs/client";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -22,9 +21,7 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <NextIntlClientProvider>
-        <FlagProvider>
-          <body className={inter.className}>{children}</body>
-        </FlagProvider>
+        <body className={inter.className}>{children}</body>
       </NextIntlClientProvider>
     </html>
   );

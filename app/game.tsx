@@ -12,7 +12,8 @@ import usePopup from "./_hooks/use-popup";
 import { Category, CellAnimationState, SubmitResult, Word } from "./_types";
 import { getPerfection } from "./_utils";
 import { useTranslations } from "next-intl";
-import { useFlag } from "@unleash/nextjs/client";
+import * as Sentry from "@sentry/nextjs";
+import { UnleashClient } from "unleash-proxy-client";
 
 type GameProps = {
   categories: Category[];
@@ -110,7 +111,10 @@ export default function Game(props: GameProps) {
       <div className="flex gap-2 mb-12">
         <ControlButton
           text={t("shuffle")}
-          onClick={shuffleWords}
+          onClick={() => {
+            shuffleWords();
+            throw new Error("test");
+          }}
           unclickable={submitted}
         />
         <ControlButton
@@ -135,7 +139,14 @@ export default function Game(props: GameProps) {
     }
   };
 
-  const isEnabled = useFlag("ask_feedback");
+  const unleash = new UnleashClient({
+    url: process.env.NEXT_PUBLIC_UNLEASH_FRONTEND_API_URL || "",
+    clientKey: process.env.NEXT_PUBLIC_UNLEASH_FRONTEND_API_TOKEN || "",
+    appName: "connections",
+  });
+
+  const isEnabled = unleash.isEnabled("ask_feedback");
+  Sentry.captureException(new Error("Something went wrong!"));
 
   return (
     <>

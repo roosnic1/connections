@@ -1,5 +1,6 @@
 import prisma from "@/lib/prisma";
-import { Category, Word } from "./_types";
+import { UnleashClient } from "unleash-proxy-client";
+import { Category } from "./_types";
 import Game from "./game";
 
 export default async function Home() {
@@ -17,6 +18,14 @@ export default async function Home() {
     level: category.level as 1 | 2 | 3 | 4,
   }));
   //console.log(categories)
+
+  const unleash = new UnleashClient({
+    url: process.env.NEXT_PUBLIC_UNLEASH_FRONTEND_API_URL || "",
+    clientKey: process.env.NEXT_PUBLIC_UNLEASH_FRONTEND_API_TOKEN || "",
+    appName: "connections",
+  });
+
+  await unleash.start();
 
   return (
     <>

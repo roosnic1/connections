@@ -3,12 +3,20 @@
 // https://docs.sentry.io/platforms/javascript/guides/nextjs/
 
 import * as Sentry from "@sentry/nextjs";
+import { UnleashClient } from "unleash-proxy-client";
 
 Sentry.init({
   dsn: "https://d8a90d627d5b4752e46cadca7070ec52@o4509464836898816.ingest.de.sentry.io/4509464838013008",
 
   // Add optional integrations for additional features
-  integrations: [Sentry.replayIntegration()],
+  integrations: [
+    Sentry.replayIntegration(),
+    Sentry.unleashIntegration({ featureFlagClientClass: UnleashClient }),
+    Sentry.feedbackIntegration({
+      // Additional SDK configuration goes in here, for example:
+      colorScheme: "system",
+    }),
+  ],
 
   // Define how likely traces are sampled. Adjust this value in production, or use tracesSampler for greater control.
   tracesSampleRate: 1,
