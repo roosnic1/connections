@@ -3,22 +3,19 @@
 import { useCallback, useState } from "react";
 import ControlButton from "./_components/button/control-button";
 import Grid from "./_components/game/grid";
-import GameLostModal from "./_components/modal/game-lost-modal";
-import GameWonModal from "./_components/modal/game-won-modal";
-import Popup from "./_components/popup";
 import useAnimation from "./_hooks/use-animation";
 import useGameLogic from "./_hooks/use-game-logic";
-import usePopup from "./_hooks/use-popup";
 import { Category, CellAnimationState, SubmitResult, Word } from "./_types";
 import { getPerfection } from "./_utils";
 import { useTranslations } from "next-intl";
+import GameModal from "@/app/_components/modal/game-modal";
+import { toast } from "react-toastify";
 
 type GameProps = {
   categories: Category[];
 };
 
 export default function Game(props: GameProps) {
-  const [popupState, showPopup] = usePopup();
   const {
     gameWords,
     selectedWords,
@@ -35,8 +32,7 @@ export default function Game(props: GameProps) {
     handleLoss,
   } = useGameLogic({ categories: props.categories });
 
-  const [showGameWonModal, setShowGameWonModal] = useState(false);
-  const [showGameLostModal, setShowGameLostModal] = useState(false);
+  const [showGameModal, setShowGameModal] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
   const {
@@ -56,21 +52,22 @@ export default function Game(props: GameProps) {
 
     switch (result.result) {
       case "same":
-        showPopup(t("alreadyGuessed"));
+        toast(t("alreadyGuessed"));
+        //showPopup(t("alreadyGuessed"));
         break;
       case "one-away":
         animateWrongGuess();
-        showPopup(t("oneAway"));
+        toast(t("oneAway"));
         break;
       case "loss":
-        showPopup(t("betterLuck"));
+        toast(t("betterLuck"));
         await handleLoss();
-        setShowGameLostModal(true);
+        setShowGameModal(true);
         break;
       case "win":
-        showPopup(getPerfection(mistakesRemaining));
+        toast(getPerfection(mistakesRemaining));
         await handleWin();
-        setShowGameWonModal(true);
+        setShowGameModal(true);
         break;
       case "incorrect":
         animateWrongGuess();
@@ -87,21 +84,11 @@ export default function Game(props: GameProps) {
   );
 
   const renderControlButtons = () => {
-    const showResultsWonButton = (
+    const showResultsButton = (
       <ControlButton
         text={t("showResults")}
-        onClick={() => {
-          setShowGameWonModal(true);
-        }}
-      />
-    );
-
-    const showResultsLostButton = (
-      <ControlButton
-        text={t("showResults")}
-        onClick={() => {
-          setShowGameLostModal(true);
-        }}
+        onClick={() => setShowGameModal(true)}
+        unclickable={submitted}
       />
     );
 
@@ -125,10 +112,8 @@ export default function Game(props: GameProps) {
       </div>
     );
 
-    if (isWon) {
-      return showResultsWonButton;
-    } else if (isLost) {
-      return showResultsLostButton;
+    if (isWon || isLost) {
+      return showResultsButton;
     } else {
       return inProgressButtons;
     }
@@ -136,14 +121,13 @@ export default function Game(props: GameProps) {
 
   return (
     <>
-      <div>
+      <div className="min-w-full sm:min-w-[630px]">
         <h1 className="text-black text-4xl font-semibold my-4 ml-4">
           {t("title")}
         </h1>
-        <hr className="mb-4 md:mb-4 w-full"></hr>
         <h1 className="text-black mb-4">{t("subtitle")}</h1>
+        <hr className="mb-4 md:mb-4 w-full"></hr>
         <div className="relative w-full">
-          <Popup show={popupState.show} message={popupState.message} />
           <Grid
             words={gameWords}
             selectedWords={selectedWords}
@@ -157,22 +141,18 @@ export default function Game(props: GameProps) {
           {t("mistakesRemaining", {
             count:
               mistakesRemaining > 0
-                ? Array(mistakesRemaining).fill("•").toString()
+                ? Array(mistakesRemaining).fill("•").join("")
                 : "",
           })}
         </h2>
         {renderControlButtons()}
       </div>
-      <GameWonModal
-        isOpen={showGameWonModal}
-        onClose={() => setShowGameWonModal(false)}
+      <GameModal
+        isOpen={showGameModal}
+        isWon={isWon}
+        onClose={() => setShowGameModal(false)}
         guessHistory={guessHistoryRef.current}
         perfection={getPerfection(mistakesRemaining)}
-      />
-      <GameLostModal
-        isOpen={showGameLostModal}
-        onClose={() => setShowGameLostModal(false)}
-        guessHistory={guessHistoryRef.current}
       />
     </>
   );

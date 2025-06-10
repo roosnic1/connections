@@ -32,10 +32,8 @@ export default async function Home() {
   console.log(`ASK_FEEDBACK: ${isEnabled ? "enabled" : "disabled"}`);
 
   return (
-    <>
-      <div className="flex flex-col items-center w-11/12 md:w-3/4 lg:w-7/12 mx-auto mt-14">
-        <Game categories={categories || []} />
-      </div>
-    </>
+    <div className="flex flex-col items-center w-11/12 md:w-3/4 lg:w-7/12 mx-auto mt-14">
+      <Game categories={categories || []} />
+    </div>
   );
 }
