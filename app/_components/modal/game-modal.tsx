@@ -68,7 +68,7 @@ export default function GameModal(props: GameModalProps) {
     <dialog
       ref={dialogRef}
       onClick={handleClickOutside}
-      className={`backdrop:bg-black backdrop:opacity-75 rounded-md p-8`}
+      className={`backdrop:bg-black backdrop:opacity-75 rounded-md p-8 fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 max-w-[90%] w-full sm:w-[500px]`}
     >
       <div className="flex flex-col items-center justify-center px-12">
         <h1 className="text-black text-4xl font-black my-4 ml-4">
