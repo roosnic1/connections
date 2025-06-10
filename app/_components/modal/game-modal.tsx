@@ -5,6 +5,7 @@ import GuessHistory from "@/app/_components/guess-history";
 import ControlButton from "@/app/_components/button/control-button";
 import { Word } from "@/app/_types";
 import { useTranslations } from "next-intl";
+import { getWordEmoji } from "@/app/_utils";
 
 type GameModalProps = {
   isOpen: boolean;
@@ -42,11 +43,9 @@ export default function GameModal(props: GameModalProps) {
   };
 
   const handleShare = async () => {
-    console.log(props.guessHistory);
-    const emojis = ["🟨", "🟩", "🟦", "🟪"];
     const resultsEmojiis = props.guessHistory
       .map((words) => {
-        return `${words.map((word) => emojis[word.level - 1]).join("")}\n`;
+        return `${words.map((word) => getWordEmoji(word.level)).join("")}\n`;
       })
       .join("");
     if (navigator.share) {
@@ -56,7 +55,7 @@ export default function GameModal(props: GameModalProps) {
         });
         console.log("Shared successfully");
       } catch (error) {
-        console.error("Error sharing:", error);
+        console.log("Error sharing:", error);
       }
     } else {
       alert("Sharing not supported in this browser.");

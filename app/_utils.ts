@@ -25,6 +25,21 @@ export const getWordColor = (category: 1 | 2 | 3 | 4): string => {
   }
 };
 
+export const getWordEmoji = (category: 1 | 2 | 3 | 4): string => {
+  switch (category) {
+    case 1:
+      return "🟨";
+    case 2:
+      return "🟩";
+    case 3:
+      return "🟦";
+    case 4:
+      return "🟪";
+    default:
+      return "⬛️";
+  }
+};
+
 export const getPerfection = (mistakesRemaining: number) => {
   switch (mistakesRemaining) {
     case 4:
