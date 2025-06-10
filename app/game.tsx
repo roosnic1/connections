@@ -121,7 +121,7 @@ export default function Game(props: GameProps) {
 
   return (
     <>
-      <div>
+      <div className="min-w-full sm:min-w-[630px]">
         <h1 className="text-black text-4xl font-semibold my-4 ml-4">
           {t("title")}
         </h1>
