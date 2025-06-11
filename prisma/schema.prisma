@@ -16,7 +16,7 @@ datasource db {
 
 model Connection {
   id            Int @id @default(autoincrement())
-  publishDate   DateTime?
+  publishDate   DateTime
   categories    Category[]
 }
 

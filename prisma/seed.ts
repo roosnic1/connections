@@ -1,10 +1,12 @@
 import { PrismaClient } from "@/app/generated/prisma/client";
+import { DateTime } from "luxon";
 const prisma = new PrismaClient();
 
 async function main() {
+  const now = DateTime.now().setZone("Europe/Berlin");
   const data = [
     {
-      publishDate: null,
+      publishDate: now.set({ hour: 0, minute: 0, second: 1, millisecond: 0 }),
       categories: [
         {
           title: "Fussballspieler",
@@ -29,7 +31,7 @@ async function main() {
       ],
     },
     {
-      publishDate: null,
+      publishDate: now.set({ hour: 0, minute: 0, second: 1, millisecond: 0 }),
       categories: [
         {
           title: "____grund",
@@ -59,7 +61,7 @@ async function main() {
     connections.push(
       await prisma.connection.create({
         data: {
-          publishDate: item.publishDate,
+          publishDate: item.publishDate.toJSDate(),
           categories: {
             create: item.categories,
           },
