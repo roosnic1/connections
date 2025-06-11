@@ -16,12 +16,16 @@ datasource db {
 
 model Connection {
   id            Int @id @default(autoincrement())
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
   publishDate   DateTime
   categories    Category[]
 }
 
 model Category {
   id            Int @id @default(autoincrement())
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
   title         String
   words         String[]
   level         Int
