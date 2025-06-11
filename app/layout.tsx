@@ -6,6 +6,7 @@ import "./globals.css";
 import { getLocale } from "next-intl/server";
 import { NextIntlClientProvider } from "next-intl";
 import { Bounce, ToastContainer } from "react-toastify";
+import { GameContextProvider } from "@/app/_components/game-context";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -25,7 +26,7 @@ export default async function RootLayout({
     <html lang="en">
       <NextIntlClientProvider>
         <body className={inter.className}>
-          {children}
+          <GameContextProvider>{children}</GameContextProvider>
           <ToastContainer
             position="top-center"
             autoClose={5000}

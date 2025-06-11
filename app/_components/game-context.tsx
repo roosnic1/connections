@@ -1,33 +1,68 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+"use client";
 
-import { Category, SubmitResult, Word } from "../_types";
-import { delay, shuffleArray } from "../_utils";
+import { createContext, useState, useEffect, useMemo } from "react";
+import { Word, Category, SubmitResult } from "@/app/_types";
+import { delay, shuffleArray } from "@/app/_utils";
 
-type GameLogicProps = {
-  categories: Category[];
+type GameContextType = {
+  setTodaysCategories: React.Dispatch<React.SetStateAction<Category[]>>;
+  gameWords: Word[];
+  setGameWords: React.Dispatch<React.SetStateAction<Word[]>>;
+  selectedWords: Word[];
+  clearedCategories: Category[];
+  mistakesRemaining: number;
+  isWon: boolean;
+  isLost: boolean;
+  guessHistory: Word[][];
+  selectWord: (word: Word) => void;
+  shuffleWords: () => void;
+  deselectAllWords: () => void;
+  getSubmitResult: () => SubmitResult;
+  handleLoss: () => Promise<void>;
+  handleWin: () => Promise<void>;
+} | null; // Add `| null` if you may be using a default null value.
+
+export const GameContext = createContext<GameContextType>(null);
+
+type GameContextProviderProps = {
+  children: React.ReactNode;
 };
 
-export default function useGameLogic(props: GameLogicProps) {
-  const categories = props.categories;
+export function GameContextProvider(props: GameContextProviderProps) {
+  const [guessHistory, setGuessHistory] = useState<Word[][]>([]);
+  const [todaysCategories, setTodaysCategories] = useState<Category[]>([]);
+  const [clearedCategories, setClearedCategories] = useState<Category[]>([]);
+  const [isWon, setIsWon] = useState(false);
+  const [isLost, setIsLost] = useState(false);
+  const [mistakesRemaining, setMistakesRemaning] = useState(4);
+
   const [gameWords, setGameWords] = useState<Word[]>([]);
   const selectedWords = useMemo(
     () => gameWords.filter((item) => item.selected),
     [gameWords],
   );
-  const [clearedCategories, setClearedCategories] = useState<Category[]>([]);
-  const [isWon, setIsWon] = useState(false);
-  const [isLost, setIsLost] = useState(false);
-  const [mistakesRemaining, setMistakesRemaning] = useState(4);
-  const guessHistoryRef = useRef<Word[][]>([]);
 
   useEffect(() => {
-    const words: Word[] = categories
+    const words: Word[] = todaysCategories
       .map((category) =>
         category.items.map((word) => ({ word: word, level: category.level })),
       )
       .flat();
     setGameWords(shuffleArray(words));
-  }, []);
+  }, [todaysCategories]);
+
+  // Local Storage: setting & getting data
+  /*useEffect(() => {
+    const cartItemsData = JSON.parse(localStorage.getItem('cartItems'))
+
+    if (cartItemsData) {
+      setCartItems(cartItemsData)
+    }
+  }, [])
+
+  useEffect(() => {
+    localStorage.setItem('cartItems', JSON.stringify(cartItems))
+  }, [cartItems])*/
 
   const selectWord = (word: Word): void => {
     const newGameWords = gameWords.map((item) => {
@@ -58,7 +93,7 @@ export default function useGameLogic(props: GameLogicProps) {
   };
 
   const getSubmitResult = (): SubmitResult => {
-    const sameGuess = guessHistoryRef.current.some((guess) =>
+    const sameGuess = guessHistory.some((guess) =>
       guess.every((word) => selectedWords.includes(word)),
     );
 
@@ -67,9 +102,9 @@ export default function useGameLogic(props: GameLogicProps) {
       return { result: "same" };
     }
 
-    guessHistoryRef.current.push(selectedWords);
+    setGuessHistory((prevGuessHistory) => [...prevGuessHistory, selectedWords]);
 
-    const likenessCounts = categories.map((category) => {
+    const likenessCounts = todaysCategories.map((category) => {
       return selectedWords.filter((item) => category.items.includes(item.word))
         .length;
     });
@@ -78,7 +113,7 @@ export default function useGameLogic(props: GameLogicProps) {
     const maxIndex = likenessCounts.indexOf(maxLikeness);
 
     if (maxLikeness === 4) {
-      return getCorrectResult(categories[maxIndex]);
+      return getCorrectResult(todaysCategories[maxIndex]);
     } else {
       return getIncorrectResult(maxLikeness);
     }
@@ -110,7 +145,7 @@ export default function useGameLogic(props: GameLogicProps) {
   };
 
   const handleLoss = async () => {
-    const remainingCategories = categories.filter(
+    const remainingCategories = todaysCategories.filter(
       (category) => !clearedCategories.includes(category),
     );
 
@@ -136,20 +171,27 @@ export default function useGameLogic(props: GameLogicProps) {
     setIsWon(true);
   };
 
-  return {
-    gameWords,
-    setGameWords,
-    selectedWords,
-    clearedCategories,
-    mistakesRemaining,
-    isWon,
-    isLost,
-    guessHistoryRef,
-    selectWord,
-    shuffleWords,
-    deselectAllWords,
-    getSubmitResult,
-    handleLoss,
-    handleWin,
-  };
+  return (
+    <GameContext.Provider
+      value={{
+        setTodaysCategories,
+        gameWords,
+        setGameWords,
+        selectedWords,
+        clearedCategories,
+        mistakesRemaining,
+        isWon,
+        isLost,
+        guessHistory,
+        selectWord,
+        shuffleWords,
+        deselectAllWords,
+        getSubmitResult,
+        handleLoss,
+        handleWin,
+      }}
+    >
+      {props.children}
+    </GameContext.Provider>
+  );
 }

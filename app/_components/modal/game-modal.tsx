@@ -1,18 +1,15 @@
 "use client";
 
-import React from "react";
+import React, { useContext } from "react";
 import GuessHistory from "@/app/_components/guess-history";
 import ControlButton from "@/app/_components/button/control-button";
-import { Word } from "@/app/_types";
 import { useTranslations } from "next-intl";
-import { getWordEmoji } from "@/app/_utils";
+import { getPerfection, getWordEmoji } from "@/app/_utils";
+import { GameContext } from "@/app/_components/game-context";
 
 type GameModalProps = {
   isOpen: boolean;
   onClose: () => void;
-  isWon: boolean;
-  guessHistory: Word[][];
-  perfection: string;
 };
 
 export default function GameModal(props: GameModalProps) {
@@ -26,6 +23,13 @@ export default function GameModal(props: GameModalProps) {
       dialogRef.current?.close();
     }
   }, [props.isOpen]);
+
+  const gameContext = useContext(GameContext);
+  if (!gameContext)
+    throw new Error(
+      "GameContext is not provided. Make sure you wrap your app in <GameContextProvider>",
+    );
+  const { guessHistory, mistakesRemaining, isWon } = gameContext;
 
   // If clicked outside bounding rect, close
   const handleClickOutside = (e: React.MouseEvent<HTMLDialogElement>) => {
@@ -43,8 +47,8 @@ export default function GameModal(props: GameModalProps) {
   };
 
   const handleShare = async () => {
-    const resultsEmojiis = props.guessHistory
-      .map((words) => {
+    const resultsEmojiis = guessHistory
+      .map((words: any[]) => {
         return `${words.map((word) => getWordEmoji(word.level)).join("")}\n`;
       })
       .join("");
@@ -72,13 +76,13 @@ export default function GameModal(props: GameModalProps) {
     >
       <div className="flex flex-col items-center justify-center px-12">
         <h1 className="text-black text-4xl font-black my-4 ml-4">
-          {props.perfection}
+          {getPerfection(mistakesRemaining)}
         </h1>
         <hr className="mb-2 md:mb-4 w-full"></hr>
         <h2 className="text-black mb-8">
-          {props.isWon ? t("wonGame") : t("lostGame")}
+          {isWon ? t("wonGame") : t("lostGame")}
         </h2>
-        <GuessHistory guessHistory={props.guessHistory} />
+        <GuessHistory guessHistory={guessHistory} />
         <div className="flex gap-2 mb-12">
           <ControlButton text={t("share")} onClick={handleShare} />
           <ControlButton text={t("close")} onClick={props.onClose} />
