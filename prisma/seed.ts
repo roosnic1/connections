@@ -1,10 +1,64 @@
 import { PrismaClient } from "@/app/generated/prisma/client";
+import { DateTime } from "luxon";
 const prisma = new PrismaClient();
 
 async function main() {
+  const now = DateTime.now().setZone("Europe/Berlin");
   const data = [
     {
-      publishDate: null,
+      publishDate: now.set({ hour: 0, minute: 0, second: 1, millisecond: 0 }),
+      categories: [
+        {
+          title: "letzi____",
+          words: ["park", "grund", "graben", "strasse"],
+          level: 1,
+        },
+        {
+          title: "____quai",
+          words: ["limmat", "sihl", "bahnhof", "uto"],
+          level: 2,
+        },
+        {
+          title: "Schweizer Schauspielerinnen",
+          words: ["wedler", "braunschweig", "schuler", "winiger"],
+          level: 3,
+        },
+        {
+          title: "Thomas",
+          words: ["mann", "bucheli", "müller", "borer"],
+          level: 4,
+        },
+      ],
+    },
+    {
+      publishDate: now.set({ hour: 0, minute: 0, second: 1, millisecond: 0 }),
+      categories: [
+        {
+          title: "Supermarkt",
+          words: ["frisch", "gefroren", "konserviert", "eingemacht"],
+          level: 1,
+        },
+        {
+          title: "Homo _____",
+          words: ["faber", "deus", "sapiens", "sexuell"],
+          level: 2,
+        },
+        {
+          title: "Zürcher Rapper:innen",
+          words: ["skor", "big zis", "luuk", "eaz"],
+          level: 3,
+        },
+        {
+          title: "Orte an der Amerikanischen Ostküste:",
+          words: ["montauk", "beaufort", "brunswick", "st. augustine"],
+          level: 4,
+        },
+      ],
+    },
+    {
+      publishDate: now
+        .set({ hour: 0, minute: 0, second: 1, millisecond: 0 })
+        .plus({ days: 1 }),
       categories: [
         {
           title: "Fussballspieler",
@@ -29,7 +83,9 @@ async function main() {
       ],
     },
     {
-      publishDate: null,
+      publishDate: now
+        .set({ hour: 0, minute: 0, second: 1, millisecond: 0 })
+        .plus({ days: 2 }),
       categories: [
         {
           title: "____grund",
@@ -59,7 +115,7 @@ async function main() {
     connections.push(
       await prisma.connection.create({
         data: {
-          publishDate: item.publishDate,
+          publishDate: item.publishDate.toJSDate(),
           categories: {
             create: item.categories,
           },
