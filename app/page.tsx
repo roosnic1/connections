@@ -54,7 +54,7 @@ export default async function Page({
 
   const isEnabled = unleash.isEnabled("ask_feedback");
   console.log(`ASK_FEEDBACK: ${isEnabled ? "enabled" : "disabled"}`);
-  const paramsio = await searchParams;
+  const params = await searchParams;
   console.log("params", params);
 
   return (
