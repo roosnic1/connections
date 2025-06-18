@@ -1,36 +1,57 @@
 "use client";
 
-import { useCallback, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import ControlButton from "./_components/button/control-button";
 import Grid from "./_components/game/grid";
 import useAnimation from "./_hooks/use-animation";
-import useGameLogic from "./_hooks/use-game-logic";
-import { Category, CellAnimationState, SubmitResult, Word } from "./_types";
+import {
+  CellAnimationState,
+  ConnectionGame,
+  SubmitResult,
+  Word,
+} from "./_types";
 import { getPerfection } from "./_utils";
 import { useTranslations } from "next-intl";
 import GameModal from "@/app/_components/modal/game-modal";
 import { toast } from "react-toastify";
+import { GameContext } from "@/app/_components/game-context";
+import { DateTime } from "luxon";
 
 type GameProps = {
-  categories: Category[];
+  game: ConnectionGame;
 };
 
 export default function Game(props: GameProps) {
+  const gameContext = useContext(GameContext);
+  if (!gameContext)
+    throw new Error(
+      "GameContext is not provided. Make sure you wrap your app in <GameContextProvider>",
+    );
   const {
+    setTodaysCategories,
+    publishDate,
+    setPublishDate,
     gameWords,
     selectedWords,
     clearedCategories,
     mistakesRemaining,
     isWon,
     isLost,
-    guessHistoryRef,
     selectWord,
     shuffleWords,
     deselectAllWords,
     getSubmitResult,
     handleWin,
     handleLoss,
-  } = useGameLogic({ categories: props.categories });
+  } = gameContext;
+
+  useEffect(() => {
+    console.log("game props", props.game);
+    setTodaysCategories(props.game.categories);
+    const newDateTime = DateTime.fromJSDate(props.game.publishDate);
+    console.log("newDateTime", newDateTime);
+    setPublishDate(newDateTime);
+  }, [props.game]);
 
   const [showGameModal, setShowGameModal] = useState(false);
   const [submitted, setSubmitted] = useState(false);
@@ -123,7 +144,9 @@ export default function Game(props: GameProps) {
     <>
       <div className="min-w-full sm:min-w-[630px]">
         <h1 className="text-black text-4xl font-semibold my-4 ml-4">
-          {t("title")}
+          {t("title", {
+            day: `${publishDate.setLocale("de-CH").toLocaleString(DateTime.DATE_SHORT)}`,
+          })}
         </h1>
         <h1 className="text-black mb-4">{t("subtitle")}</h1>
         <hr className="mb-4 md:mb-4 w-full"></hr>
@@ -149,10 +172,7 @@ export default function Game(props: GameProps) {
       </div>
       <GameModal
         isOpen={showGameModal}
-        isWon={isWon}
         onClose={() => setShowGameModal(false)}
-        guessHistory={guessHistoryRef.current}
-        perfection={getPerfection(mistakesRemaining)}
       />
     </>
   );
