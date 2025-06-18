@@ -1,12 +1,15 @@
 "use client";
 
 import { createContext, useState, useEffect, useMemo } from "react";
-import { Word, Category, SubmitResult } from "@/app/_types";
+import { Word, Category, SubmitResult, LocalStorageGame } from "@/app/_types";
 import { delay, generateHashFromArray, shuffleArray } from "@/app/_utils";
 import * as Sentry from "@sentry/nextjs";
+import { DateTime } from "luxon";
 
 type GameContextType = {
   setTodaysCategories: React.Dispatch<React.SetStateAction<Category[]>>;
+  publishDate: DateTime;
+  setPublishDate: React.Dispatch<React.SetStateAction<DateTime>>;
   gameWords: Word[];
   setGameWords: React.Dispatch<React.SetStateAction<Word[]>>;
   selectedWords: Word[];
@@ -32,6 +35,7 @@ type GameContextProviderProps = {
 export function GameContextProvider(props: GameContextProviderProps) {
   const [todaysCategories, setTodaysCategories] = useState<Category[]>([]);
 
+  const [publishDate, setPublishDate] = useState<DateTime>(DateTime.now());
   const [guessHistory, setGuessHistory] = useState<Word[][]>([]);
   const [clearedCategories, setClearedCategories] = useState<Category[]>([]);
   const [isWon, setIsWon] = useState(false);
@@ -55,59 +59,67 @@ export function GameContextProvider(props: GameContextProviderProps) {
     }
   }, [todaysCategories]);
 
+  const getLocalStorageGames = (): LocalStorageGame[] => {
+    const games: LocalStorageGame[] = [];
+    try {
+      const gamesLocalStorageString = localStorage.getItem("games");
+      if (!gamesLocalStorageString) return games;
+      const gamesLocalStorage = JSON.parse(gamesLocalStorageString);
+      games.push(...gamesLocalStorage);
+    } catch (error) {
+      console.log("loading localStorage error", error);
+      Sentry.captureException(error);
+    }
+    return games;
+  };
+
   useEffect(() => {
     const loadDataFromLocalStorage = async () => {
       const hash = await generateHashFromArray(todaysCategories);
-      try {
-        const activeGameString = localStorage.getItem("activeGame");
-        if (!activeGameString) return;
-        const activeGame = JSON.parse(activeGameString);
-        if (activeGame.hash !== hash) return;
-        const {
-          guessHistory,
-          clearedCategories,
-          isWon,
-          isLost,
-          mistakesRemaining,
-          gameWords,
-        } = activeGame.data;
-        setGuessHistory(guessHistory);
-        setClearedCategories(clearedCategories);
-        setIsWon(isWon);
-        setIsLost(isLost);
-        setMistakesRemaning(mistakesRemaining);
-        setGameWords(gameWords);
-      } catch (error) {
-        console.log("loading localStorage error", error);
-        Sentry.captureException(error);
-      }
+      const games = getLocalStorageGames();
+      const activeGame = games.find((game) => game.hash === hash);
+      if (!activeGame) return;
+      const {
+        guessHistory,
+        publishDate,
+        clearedCategories,
+        isWon,
+        isLost,
+        mistakesRemaining,
+        gameWords,
+      } = activeGame;
+      setPublishDate(DateTime.fromISO(publishDate)); // TODO: handle error case
+      setGuessHistory(guessHistory);
+      setClearedCategories(clearedCategories);
+      setIsWon(isWon);
+      setIsLost(isLost);
+      setMistakesRemaning(mistakesRemaining);
+      setGameWords(gameWords);
     };
     if (todaysCategories.length > 0) loadDataFromLocalStorage();
   }, [todaysCategories]);
 
   useEffect(() => {
     const saveDataToLocalStorage = async () => {
+      const games = getLocalStorageGames();
       const hash = await generateHashFromArray(todaysCategories);
-
-      console.log("hash", hash, todaysCategories);
-      localStorage.setItem(
-        "activeGame",
-        JSON.stringify({
-          hash,
-          data: {
-            guessHistory,
-            clearedCategories,
-            isWon,
-            isLost,
-            mistakesRemaining,
-            gameWords: gameWords.map((word) => ({ ...word, selected: false })),
-          },
-        }),
-      );
+      const updatedGames = games.filter((game) => game.hash !== hash);
+      updatedGames.push({
+        hash,
+        publishDate: publishDate.toISO() as string,
+        guessHistory,
+        clearedCategories,
+        isWon,
+        isLost,
+        mistakesRemaining,
+        gameWords: gameWords.map((word) => ({ ...word, selected: false })),
+      });
+      localStorage.setItem("games", JSON.stringify(updatedGames));
     };
     if (todaysCategories.length > 0) saveDataToLocalStorage();
   }, [
     guessHistory,
+    publishDate,
     clearedCategories,
     isWon,
     isLost,
@@ -226,6 +238,8 @@ export function GameContextProvider(props: GameContextProviderProps) {
     <GameContext.Provider
       value={{
         setTodaysCategories,
+        publishDate,
+        setPublishDate,
         gameWords,
         setGameWords,
         selectedWords,

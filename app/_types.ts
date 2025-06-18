@@ -10,7 +10,8 @@ export type Word = {
   selected?: boolean;
 };
 
-export type Connection = {
+export type ConnectionGame = {
+  publishDate: Date;
   categories: Category[];
 };
 
@@ -29,4 +30,15 @@ export type SubmitResult = {
 export type CellAnimationState = {
   show: boolean;
   index: number;
+};
+
+export type LocalStorageGame = {
+  hash: string;
+  publishDate: string;
+  mistakesRemaining: number;
+  gameWords: Word[];
+  isWon: boolean;
+  isLost: boolean;
+  clearedCategories: Category[];
+  guessHistory: Word[][];
 };

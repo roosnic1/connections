@@ -4,15 +4,21 @@ import { useCallback, useContext, useEffect, useState } from "react";
 import ControlButton from "./_components/button/control-button";
 import Grid from "./_components/game/grid";
 import useAnimation from "./_hooks/use-animation";
-import { Category, CellAnimationState, SubmitResult, Word } from "./_types";
+import {
+  CellAnimationState,
+  ConnectionGame,
+  SubmitResult,
+  Word,
+} from "./_types";
 import { getPerfection } from "./_utils";
 import { useTranslations } from "next-intl";
 import GameModal from "@/app/_components/modal/game-modal";
 import { toast } from "react-toastify";
 import { GameContext } from "@/app/_components/game-context";
+import { DateTime } from "luxon";
 
 type GameProps = {
-  categories: Category[];
+  game: ConnectionGame;
 };
 
 export default function Game(props: GameProps) {
@@ -23,6 +29,8 @@ export default function Game(props: GameProps) {
     );
   const {
     setTodaysCategories,
+    publishDate,
+    setPublishDate,
     gameWords,
     selectedWords,
     clearedCategories,
@@ -38,8 +46,12 @@ export default function Game(props: GameProps) {
   } = gameContext;
 
   useEffect(() => {
-    setTodaysCategories(props.categories);
-  }, [props.categories]);
+    console.log("game props", props.game);
+    setTodaysCategories(props.game.categories);
+    const newDateTime = DateTime.fromJSDate(props.game.publishDate);
+    console.log("newDateTime", newDateTime);
+    setPublishDate(newDateTime);
+  }, [props.game]);
 
   const [showGameModal, setShowGameModal] = useState(false);
   const [submitted, setSubmitted] = useState(false);
@@ -132,7 +144,9 @@ export default function Game(props: GameProps) {
     <>
       <div className="min-w-full sm:min-w-[630px]">
         <h1 className="text-black text-4xl font-semibold my-4 ml-4">
-          {t("title")}
+          {t("title", {
+            day: `${publishDate.setLocale("de-CH").toLocaleString(DateTime.DATE_SHORT)}`,
+          })}
         </h1>
         <h1 className="text-black mb-4">{t("subtitle")}</h1>
         <hr className="mb-4 md:mb-4 w-full"></hr>

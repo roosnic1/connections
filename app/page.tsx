@@ -1,7 +1,7 @@
 import { lazy } from "react";
 import prisma from "@/lib/prisma";
 import { UnleashClient } from "unleash-proxy-client";
-import { Category } from "./_types";
+import { Category, ConnectionGame } from "./_types";
 import Game from "./game";
 import { DateTime } from "luxon";
 
@@ -38,12 +38,18 @@ export default async function Page({
   });*/
 
   // TODO: what to do when no connection is found.
-  // @ts-ignore
+  if (!connection) return;
+
   const categories: Category[] = connection.categories.map((category) => ({
     category: category.title,
     items: category.words,
     level: category.level as 1 | 2 | 3 | 4,
   }));
+
+  const connectionGame: ConnectionGame = {
+    publishDate: connection.publishDate,
+    categories,
+  };
 
   const unleash = new UnleashClient({
     url: process.env.NEXT_PUBLIC_UNLEASH_FRONTEND_API_URL || "",
@@ -60,7 +66,7 @@ export default async function Page({
 
   return (
     <div className="flex flex-col items-center w-11/12 md:w-3/4 lg:w-7/12 mx-auto mt-14">
-      <Game categories={categories} />
+      <Game game={connectionGame} />
     </div>
   );
 }
