@@ -56,3 +56,14 @@ export const getPerfection = (mistakesRemaining: number) => {
 export const delay = (ms: number) => {
   return new Promise((resolve) => setTimeout(resolve, ms));
 };
+
+export const generateHashFromArray = async function (
+  data: any,
+): Promise<string> {
+  const dataString = JSON.stringify(data);
+  const encoder = new TextEncoder();
+  const encodedData = encoder.encode(dataString);
+  const hashBuffer = await crypto.subtle.digest("SHA-256", encodedData);
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  return hashArray.map((byte) => byte.toString(16).padStart(2, "0")).join("");
+};

@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useContext, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import ControlButton from "./_components/button/control-button";
 import Grid from "./_components/game/grid";
 import useAnimation from "./_hooks/use-animation";
@@ -37,7 +37,9 @@ export default function Game(props: GameProps) {
     handleLoss,
   } = gameContext;
 
-  setTodaysCategories(props.categories);
+  useEffect(() => {
+    setTodaysCategories(props.categories);
+  }, [props.categories]);
 
   const [showGameModal, setShowGameModal] = useState(false);
   const [submitted, setSubmitted] = useState(false);

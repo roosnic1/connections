@@ -1,3 +1,4 @@
+import { lazy } from "react";
 import prisma from "@/lib/prisma";
 import { UnleashClient } from "unleash-proxy-client";
 import { Category } from "./_types";
@@ -59,7 +60,7 @@ export default async function Page({
 
   return (
     <div className="flex flex-col items-center w-11/12 md:w-3/4 lg:w-7/12 mx-auto mt-14">
-      <Game categories={categories || []} />
+      <Game categories={categories} />
     </div>
   );
 }

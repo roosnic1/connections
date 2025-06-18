@@ -2,7 +2,8 @@
 
 import { createContext, useState, useEffect, useMemo } from "react";
 import { Word, Category, SubmitResult } from "@/app/_types";
-import { delay, shuffleArray } from "@/app/_utils";
+import { delay, generateHashFromArray, shuffleArray } from "@/app/_utils";
+import * as Sentry from "@sentry/nextjs";
 
 type GameContextType = {
   setTodaysCategories: React.Dispatch<React.SetStateAction<Category[]>>;
@@ -29,40 +30,90 @@ type GameContextProviderProps = {
 };
 
 export function GameContextProvider(props: GameContextProviderProps) {
-  const [guessHistory, setGuessHistory] = useState<Word[][]>([]);
   const [todaysCategories, setTodaysCategories] = useState<Category[]>([]);
+
+  const [guessHistory, setGuessHistory] = useState<Word[][]>([]);
   const [clearedCategories, setClearedCategories] = useState<Category[]>([]);
   const [isWon, setIsWon] = useState(false);
   const [isLost, setIsLost] = useState(false);
   const [mistakesRemaining, setMistakesRemaning] = useState(4);
-
   const [gameWords, setGameWords] = useState<Word[]>([]);
+
   const selectedWords = useMemo(
     () => gameWords.filter((item) => item.selected),
     [gameWords],
   );
 
   useEffect(() => {
-    const words: Word[] = todaysCategories
-      .map((category) =>
-        category.items.map((word) => ({ word: word, level: category.level })),
-      )
-      .flat();
-    setGameWords(shuffleArray(words));
+    if (todaysCategories.length > 0) {
+      const words: Word[] = todaysCategories
+        .map((category) =>
+          category.items.map((word) => ({ word: word, level: category.level })),
+        )
+        .flat();
+      setGameWords(shuffleArray(words));
+    }
   }, [todaysCategories]);
 
-  // Local Storage: setting & getting data
-  /*useEffect(() => {
-    const cartItemsData = JSON.parse(localStorage.getItem('cartItems'))
-
-    if (cartItemsData) {
-      setCartItems(cartItemsData)
-    }
-  }, [])
+  useEffect(() => {
+    const loadDataFromLocalStorage = async () => {
+      const hash = await generateHashFromArray(todaysCategories);
+      try {
+        const activeGameString = localStorage.getItem("activeGame");
+        if (!activeGameString) return;
+        const activeGame = JSON.parse(activeGameString);
+        if (activeGame.hash !== hash) return;
+        const {
+          guessHistory,
+          clearedCategories,
+          isWon,
+          isLost,
+          mistakesRemaining,
+          gameWords,
+        } = activeGame.data;
+        setGuessHistory(guessHistory);
+        setClearedCategories(clearedCategories);
+        setIsWon(isWon);
+        setIsLost(isLost);
+        setMistakesRemaning(mistakesRemaining);
+        setGameWords(gameWords);
+      } catch (error) {
+        console.log("loading localStorage error", error);
+        Sentry.captureException(error);
+      }
+    };
+    if (todaysCategories.length > 0) loadDataFromLocalStorage();
+  }, [todaysCategories]);
 
   useEffect(() => {
-    localStorage.setItem('cartItems', JSON.stringify(cartItems))
-  }, [cartItems])*/
+    const saveDataToLocalStorage = async () => {
+      const hash = await generateHashFromArray(todaysCategories);
+
+      console.log("hash", hash, todaysCategories);
+      localStorage.setItem(
+        "activeGame",
+        JSON.stringify({
+          hash,
+          data: {
+            guessHistory,
+            clearedCategories,
+            isWon,
+            isLost,
+            mistakesRemaining,
+            gameWords: gameWords.map((word) => ({ ...word, selected: false })),
+          },
+        }),
+      );
+    };
+    if (todaysCategories.length > 0) saveDataToLocalStorage();
+  }, [
+    guessHistory,
+    clearedCategories,
+    isWon,
+    isLost,
+    mistakesRemaining,
+    gameWords,
+  ]);
 
   const selectWord = (word: Word): void => {
     const newGameWords = gameWords.map((item) => {
