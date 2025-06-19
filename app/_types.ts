@@ -11,6 +11,7 @@ export type Word = {
 };
 
 export type ConnectionGame = {
+  id: number;
   publishDate: Date;
   categories: Category[];
 };

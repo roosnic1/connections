@@ -1,16 +1,16 @@
 "use client";
 
 import { useCallback, useContext, useEffect, useState } from "react";
-import ControlButton from "./_components/button/control-button";
-import Grid from "./_components/game/grid";
-import useAnimation from "./_hooks/use-animation";
+import ControlButton from "./button/control-button";
+import Grid from "./game/grid";
+import useAnimation from "../_hooks/use-animation";
 import {
   CellAnimationState,
   ConnectionGame,
   SubmitResult,
   Word,
-} from "./_types";
-import { getPerfection } from "./_utils";
+} from "../_types";
+import { getPerfection } from "../_utils";
 import { useTranslations } from "next-intl";
 import GameModal from "@/app/_components/modal/game-modal";
 import { toast } from "react-toastify";
@@ -19,6 +19,7 @@ import { DateTime } from "luxon";
 
 type GameProps = {
   game: ConnectionGame;
+  saveDataToLocalStorage?: boolean;
 };
 
 export default function Game(props: GameProps) {
@@ -29,6 +30,7 @@ export default function Game(props: GameProps) {
     );
   const {
     setTodaysCategories,
+    setUseLocalStorageData,
     publishDate,
     setPublishDate,
     gameWords,
@@ -46,11 +48,10 @@ export default function Game(props: GameProps) {
   } = gameContext;
 
   useEffect(() => {
-    console.log("game props", props.game);
     setTodaysCategories(props.game.categories);
-    const newDateTime = DateTime.fromJSDate(props.game.publishDate);
-    console.log("newDateTime", newDateTime);
-    setPublishDate(newDateTime);
+    setPublishDate(DateTime.fromJSDate(props.game.publishDate));
+    props.saveDataToLocalStorage !== undefined &&
+      setUseLocalStorageData(props.saveDataToLocalStorage);
   }, [props.game]);
 
   const [showGameModal, setShowGameModal] = useState(false);
