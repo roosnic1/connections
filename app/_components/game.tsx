@@ -20,6 +20,7 @@ import { DateTime } from "luxon";
 type GameProps = {
   game: ConnectionGame;
   saveDataToLocalStorage?: boolean;
+  extraButtons?: [React.ReactNode];
 };
 
 export default function Game(props: GameProps) {
@@ -115,7 +116,7 @@ export default function Game(props: GameProps) {
     );
 
     const inProgressButtons = (
-      <div className="flex gap-2 mb-12">
+      <>
         <ControlButton
           text={t("shuffle")}
           onClick={shuffleWords}
@@ -131,14 +132,25 @@ export default function Game(props: GameProps) {
           unclickable={selectedWords.length !== 4 || submitted}
           onClick={handleSubmit}
         />
-      </div>
+      </>
     );
 
-    if (isWon || isLost) {
+    /*if (isWon || isLost) {
       return showResultsButton;
     } else {
       return inProgressButtons;
-    }
+    }*/
+
+    return (
+      <div className="flex gap-2 mb-12">
+        {(isWon || isLost) && showResultsButton}
+        {!isWon && !isLost && inProgressButtons}
+        <div className="ml-3"></div>
+        {props.extraButtons &&
+          props.extraButtons.length > 0 &&
+          props.extraButtons.map((button) => button)}
+      </div>
+    );
   };
 
   return (
