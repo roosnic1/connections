@@ -1,16 +1,16 @@
 "use client";
 
 import { useCallback, useContext, useEffect, useState } from "react";
-import ControlButton from "./_components/button/control-button";
-import Grid from "./_components/game/grid";
-import useAnimation from "./_hooks/use-animation";
+import ControlButton from "./button/control-button";
+import Grid from "./game/grid";
+import useAnimation from "../_hooks/use-animation";
 import {
   CellAnimationState,
   ConnectionGame,
   SubmitResult,
   Word,
-} from "./_types";
-import { getPerfection } from "./_utils";
+} from "../_types";
+import { getPerfection } from "../_utils";
 import { useTranslations } from "next-intl";
 import GameModal from "@/app/_components/modal/game-modal";
 import { toast } from "react-toastify";
@@ -19,6 +19,8 @@ import { DateTime } from "luxon";
 
 type GameProps = {
   game: ConnectionGame;
+  saveDataToLocalStorage?: boolean;
+  extraButtons?: [React.ReactNode];
 };
 
 export default function Game(props: GameProps) {
@@ -29,6 +31,7 @@ export default function Game(props: GameProps) {
     );
   const {
     setTodaysCategories,
+    setUseLocalStorageData,
     publishDate,
     setPublishDate,
     gameWords,
@@ -46,11 +49,10 @@ export default function Game(props: GameProps) {
   } = gameContext;
 
   useEffect(() => {
-    console.log("game props", props.game);
     setTodaysCategories(props.game.categories);
-    const newDateTime = DateTime.fromJSDate(props.game.publishDate);
-    console.log("newDateTime", newDateTime);
-    setPublishDate(newDateTime);
+    setPublishDate(DateTime.fromJSDate(props.game.publishDate));
+    props.saveDataToLocalStorage !== undefined &&
+      setUseLocalStorageData(props.saveDataToLocalStorage);
   }, [props.game]);
 
   const [showGameModal, setShowGameModal] = useState(false);
@@ -114,7 +116,7 @@ export default function Game(props: GameProps) {
     );
 
     const inProgressButtons = (
-      <div className="flex gap-2 mb-12">
+      <>
         <ControlButton
           text={t("shuffle")}
           onClick={shuffleWords}
@@ -130,14 +132,25 @@ export default function Game(props: GameProps) {
           unclickable={selectedWords.length !== 4 || submitted}
           onClick={handleSubmit}
         />
-      </div>
+      </>
     );
 
-    if (isWon || isLost) {
+    /*if (isWon || isLost) {
       return showResultsButton;
     } else {
       return inProgressButtons;
-    }
+    }*/
+
+    return (
+      <div className="flex gap-2 mb-12">
+        {(isWon || isLost) && showResultsButton}
+        {!isWon && !isLost && inProgressButtons}
+        <div className="ml-3"></div>
+        {props.extraButtons &&
+          props.extraButtons.length > 0 &&
+          props.extraButtons.map((button) => button)}
+      </div>
+    );
   };
 
   return (

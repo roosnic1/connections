@@ -8,6 +8,7 @@ import { DateTime } from "luxon";
 
 type GameContextType = {
   setTodaysCategories: React.Dispatch<React.SetStateAction<Category[]>>;
+  setUseLocalStorageData: React.Dispatch<React.SetStateAction<boolean>>;
   publishDate: DateTime;
   setPublishDate: React.Dispatch<React.SetStateAction<DateTime>>;
   gameWords: Word[];
@@ -35,6 +36,8 @@ type GameContextProviderProps = {
 export function GameContextProvider(props: GameContextProviderProps) {
   const [todaysCategories, setTodaysCategories] = useState<Category[]>([]);
 
+  const [useLocalStorageData, setUseLocalStorageData] = useState(false);
+
   const [publishDate, setPublishDate] = useState<DateTime>(DateTime.now());
   const [guessHistory, setGuessHistory] = useState<Word[][]>([]);
   const [clearedCategories, setClearedCategories] = useState<Category[]>([]);
@@ -55,6 +58,12 @@ export function GameContextProvider(props: GameContextProviderProps) {
           category.items.map((word) => ({ word: word, level: category.level })),
         )
         .flat();
+      // Make sure that a new todaysCategories resets everything.
+      setGuessHistory([]);
+      setClearedCategories([]);
+      setIsWon(false);
+      setIsLost(false);
+      setMistakesRemaning(4);
       setGameWords(shuffleArray(words));
     }
   }, [todaysCategories]);
@@ -96,7 +105,8 @@ export function GameContextProvider(props: GameContextProviderProps) {
       setMistakesRemaning(mistakesRemaining);
       setGameWords(gameWords);
     };
-    if (todaysCategories.length > 0) loadDataFromLocalStorage();
+    if (todaysCategories.length > 0 && useLocalStorageData)
+      loadDataFromLocalStorage();
   }, [todaysCategories]);
 
   useEffect(() => {
@@ -116,7 +126,8 @@ export function GameContextProvider(props: GameContextProviderProps) {
       });
       localStorage.setItem("games", JSON.stringify(updatedGames));
     };
-    if (todaysCategories.length > 0) saveDataToLocalStorage();
+    if (todaysCategories.length > 0 && useLocalStorageData)
+      saveDataToLocalStorage();
   }, [
     guessHistory,
     publishDate,
@@ -238,6 +249,7 @@ export function GameContextProvider(props: GameContextProviderProps) {
     <GameContext.Provider
       value={{
         setTodaysCategories,
+        setUseLocalStorageData,
         publishDate,
         setPublishDate,
         gameWords,

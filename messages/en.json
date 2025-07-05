@@ -15,5 +15,9 @@
     "categoryItems": "{items}",
     "alreadyGuessed": "You've already guessed that!",
     "mistakesRemaining": "Mistakes Remaining: {count}"
+  },
+  "testing": {
+    "newGame": "New Game",
+    "noGamesToTest": "No new games for testing"
   }
 }
