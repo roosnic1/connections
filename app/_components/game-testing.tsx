@@ -83,7 +83,11 @@ export default function GameTesting(props: GameTestingProps) {
           game={game}
           saveDataToLocalStorage={false}
           extraButtons={[
-            <ControlButton text={t("newGame")} onClick={handleNewGame} />,
+            <ControlButton
+              key="new-game-button"
+              text={t("newGame")}
+              onClick={handleNewGame}
+            />,
           ]}
         />
       )}
