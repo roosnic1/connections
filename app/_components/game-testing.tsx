@@ -12,6 +12,7 @@ type GameTestingProps = {
 };
 
 type ConnectionGameOrNull = ConnectionGame | null;
+type AlreadyTestedIDsOrNull = number[] | null;
 
 export default function GameTesting(props: GameTestingProps) {
   const gameContext = useContext(GameContext);
@@ -23,7 +24,8 @@ export default function GameTesting(props: GameTestingProps) {
 
   const [games] = useState<ConnectionGame[]>(props.games);
   const [game, setGame] = useState<ConnectionGameOrNull>(null);
-  const [alreadyTestedIDs, setAlreadyTestedIDs] = useState<number[]>([]);
+  const [alreadyTestedIDs, setAlreadyTestedIDs] =
+    useState<AlreadyTestedIDsOrNull>(null);
 
   const getAlreadyTestedIDsFromLocalStorage = () => {
     const ids = localStorage.getItem("alreadyTestedIDs");
@@ -36,6 +38,7 @@ export default function GameTesting(props: GameTestingProps) {
   }, []);
 
   const selectRandomGame = () => {
+    if (alreadyTestedIDs === null || games.length === 0) return;
     const testedIDs = alreadyTestedIDs.length > 0 ? alreadyTestedIDs : [];
     if (games.length > 0) {
       const filteredGames = games.filter(
@@ -48,11 +51,11 @@ export default function GameTesting(props: GameTestingProps) {
   };
 
   useEffect(() => {
-    if (game === null) selectRandomGame();
-  }, [game]);
+    if (game === null && alreadyTestedIDs !== null) selectRandomGame();
+  }, [game, alreadyTestedIDs]);
 
   useEffect(() => {
-    if ((isWon || isLost) && game) {
+    if ((isWon || isLost) && game && alreadyTestedIDs !== null) {
       const updatedAlreadyTestedIDs = [...alreadyTestedIDs, game.id];
       localStorage.setItem(
         "alreadyTestedIDs",
