@@ -19,5 +19,18 @@
   "testing": {
     "newGame": "New Game",
     "noGamesToTest": "No new games for testing"
+  },
+  "admin": {
+    "id": "ID",
+    "publishDate": "Publish Date",
+    "createDate": "Creation Date",
+    "actions": "Actions",
+    "show": "Show",
+    "hide": "Hide",
+    "category": "Category",
+    "word1": "First Word",
+    "word2": "Second Word",
+    "word3": "Third Word",
+    "word4": "Fourth Word"
   }
 }
