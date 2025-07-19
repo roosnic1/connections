@@ -15,7 +15,12 @@ type Props = {
   children: React.ReactNode;
 };
 
-const tolgee = TolgeeBase().init();
+const tolgee = TolgeeBase().init({
+  staticData: {
+    en: () => import("../messages/en.json"),
+    de: () => import("../messages/de.json"),
+  },
+});
 
 export const TolgeeNextProvider = ({
   language,
