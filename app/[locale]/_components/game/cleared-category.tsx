@@ -1,9 +1,9 @@
-import { getWordColor } from "@/app/_utils";
-import { Category } from "@/app/_types";
-import { useTranslations } from "next-intl";
+import { getWordColor } from "@/app/[locale]/_utils";
+import { Category } from "@/app/[locale]/_types";
+import { useTranslate } from "@tolgee/react";
 
 export default function ClearedCategory(props: { category: Category }) {
-  const t = useTranslations("HomePage");
+  const { t } = useTranslate();
   const level = props.category.level;
   const bgColor = getWordColor(level);
 
@@ -17,7 +17,7 @@ export default function ClearedCategory(props: { category: Category }) {
         {props.category.category}
       </h1>
       <h2 className="text-black text-sm md:text-md text-center mx-2">
-        {t("categoryItems", { items: concatItems })}
+        {t("HomePage.categoryItems", { items: concatItems })}
       </h2>
     </div>
   );

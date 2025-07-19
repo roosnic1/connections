@@ -1,6 +1,6 @@
 "use client";
 
-import { Word } from "@/app/_types";
+import { Word } from "@/app/[locale]/_types";
 
 type CellProps = {
   cellValue: Word;

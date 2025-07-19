@@ -11,11 +11,11 @@ import {
   Word,
 } from "../_types";
 import { getPerfection } from "../_utils";
-import { useTranslations } from "next-intl";
-import GameModal from "@/app/_components/modal/game-modal";
+import GameModal from "@/app/[locale]/_components/modal/game-modal";
 import { toast } from "react-toastify";
-import { GameContext } from "@/app/_components/game-context";
+import { GameContext } from "@/app/[locale]/_components/game-context";
 import { DateTime } from "luxon";
+import { useTranslate } from "@tolgee/react";
 
 type GameProps = {
   game: ConnectionGame;
@@ -65,7 +65,7 @@ export default function Game(props: GameProps) {
     animateWrongGuess,
   } = useAnimation();
 
-  const t = useTranslations("HomePage");
+  const { t } = useTranslate();
 
   const handleSubmit = async () => {
     setSubmitted(true);
@@ -75,15 +75,15 @@ export default function Game(props: GameProps) {
 
     switch (result.result) {
       case "same":
-        toast(t("alreadyGuessed"));
+        toast(t("HomePage.alreadyGuessed"));
         //showPopup(t("alreadyGuessed"));
         break;
       case "one-away":
         animateWrongGuess();
-        toast(t("oneAway"));
+        toast(t("HomePage.oneAway"));
         break;
       case "loss":
-        toast(t("betterLuck"));
+        toast(t("HomePage.betterLuck"));
         await handleLoss();
         setShowGameModal(true);
         break;
@@ -109,7 +109,7 @@ export default function Game(props: GameProps) {
   const renderControlButtons = () => {
     const showResultsButton = (
       <ControlButton
-        text={t("showResults")}
+        text={t("HomePage.showResults")}
         onClick={() => setShowGameModal(true)}
         unclickable={submitted}
       />
@@ -118,17 +118,17 @@ export default function Game(props: GameProps) {
     const inProgressButtons = (
       <>
         <ControlButton
-          text={t("shuffle")}
+          text={t("HomePage.shuffle")}
           onClick={shuffleWords}
           unclickable={submitted}
         />
         <ControlButton
-          text={t("clear")}
+          text={t("HomePage.clear")}
           onClick={deselectAllWords}
           unclickable={selectedWords.length === 0 || submitted}
         />
         <ControlButton
-          text={t("submit")}
+          text={t("HomePage.submit")}
           unclickable={selectedWords.length !== 4 || submitted}
           onClick={handleSubmit}
         />
@@ -157,11 +157,11 @@ export default function Game(props: GameProps) {
     <>
       <div className="min-w-full sm:min-w-[630px]">
         <h1 className="text-black text-4xl font-semibold my-4 ml-4">
-          {t("title", {
+          {t("HomePage.title", {
             day: `${publishDate.setLocale("de-CH").toLocaleString(DateTime.DATE_SHORT)}`,
           })}
         </h1>
-        <h1 className="text-black mb-4">{t("subtitle")}</h1>
+        <h1 className="text-black mb-4">{t("HomePage.subtitle")}</h1>
         <hr className="mb-4 md:mb-4 w-full"></hr>
         <div className="relative w-full">
           <Grid
@@ -174,7 +174,7 @@ export default function Game(props: GameProps) {
           />
         </div>
         <h2 className="text-black my-4 md:my-8 mx-8">
-          {t("mistakesRemaining", {
+          {t("HomePage.mistakesRemaining", {
             count:
               mistakesRemaining > 0
                 ? Array(mistakesRemaining).fill("•").join("")

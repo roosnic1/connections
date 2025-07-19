@@ -2,7 +2,7 @@ import prisma from "@/lib/prisma";
 import { UnleashClient } from "unleash-proxy-client";
 import { ConnectionGame } from "../_types";
 import { redirect } from "next/navigation";
-import GameTesting from "@/app/_components/game-testing";
+import GameTesting from "@/app/[locale]/_components/game-testing";
 
 export default async function Page({
   searchParams,

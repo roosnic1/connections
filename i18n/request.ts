@@ -1,12 +1,17 @@
 import { getRequestConfig } from "next-intl/server";
+import { hasLocale } from "use-intl";
+import { ALL_LANGUAGES, DEFAULT_LANGUAGE } from "@/tolgee/shared";
 
-export default getRequestConfig(async () => {
-  // Provide a static locale, fetch a user setting,
-  // read from `cookies()`, `headers()`, etc.
-  const locale = "en";
+// @ts-ignore
+export default getRequestConfig(async ({ requestLocale }) => {
+  const requested = await requestLocale;
+  const locale = hasLocale(ALL_LANGUAGES, requested)
+    ? requested
+    : DEFAULT_LANGUAGE;
 
   return {
+    // do this to make next-intl not emmit any warnings
     locale,
-    messages: (await import(`../messages/${locale}.json`)).default,
+    //messages: { locale: locale! },
   };
 });

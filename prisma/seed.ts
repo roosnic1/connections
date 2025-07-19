@@ -1,4 +1,4 @@
-import { PrismaClient } from "@/app/generated/prisma/client";
+import { PrismaClient } from "@/app/[locale]/generated/prisma/client";
 import { DateTime } from "luxon";
 const prisma = new PrismaClient();
 

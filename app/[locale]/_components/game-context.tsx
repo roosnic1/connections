@@ -1,8 +1,17 @@
 "use client";
 
 import { createContext, useState, useEffect, useMemo } from "react";
-import { Word, Category, SubmitResult, LocalStorageGame } from "@/app/_types";
-import { delay, generateHashFromArray, shuffleArray } from "@/app/_utils";
+import {
+  Word,
+  Category,
+  SubmitResult,
+  LocalStorageGame,
+} from "@/app/[locale]/_types";
+import {
+  delay,
+  generateHashFromArray,
+  shuffleArray,
+} from "@/app/[locale]/_utils";
 import * as Sentry from "@sentry/nextjs";
 import { DateTime } from "luxon";
 
