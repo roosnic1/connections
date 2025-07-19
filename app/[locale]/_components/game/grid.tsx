@@ -1,4 +1,4 @@
-import { CellAnimationState, Category, Word } from "@/app/_types";
+import { CellAnimationState, Category, Word } from "@/app/[locale]/_types";
 import Cell from "./cell";
 import ClearedCategory from "./cleared-category";
 
