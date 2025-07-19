@@ -10,6 +10,10 @@ export const { getTolgee, getTranslate, T } = createServerInstance({
         fullKeyEncode: true,
       },
       language,
+      staticData: {
+        en: () => import("../messages/en.json"),
+        de: () => import("../messages/de.json"),
+      },
     });
   },
 });
