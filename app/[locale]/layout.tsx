@@ -23,9 +23,6 @@ type Props = {
 
 export default async function RootLayout({ children, params }: Props) {
   const { locale } = await params;
-  /*if (!ALL_LANGUAGES.includes(locale)) {
-    notFound();
-  }*/
   const tolgee = await getTolgee();
   const records = await tolgee.loadRequired();
 

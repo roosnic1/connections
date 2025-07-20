@@ -1,6 +1,5 @@
 "use client";
 import { useState } from "react";
-import { useTranslations } from "next-intl";
 import { Category, ConnectionGame, Word } from "@/app/[locale]/_types";
 import { useTranslate } from "@tolgee/react";
 

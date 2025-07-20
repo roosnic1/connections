@@ -5,7 +5,7 @@ import CollapsibleTable from "@/app/[locale]/_components/collapsibleTable";
 import prisma from "@/lib/prisma";
 import { ConnectionGame } from "@/app/[locale]/_types";
 
-export default async () => {
+export default async function Page() {
   const session = await auth();
 
   if (!session) {
@@ -47,4 +47,4 @@ export default async () => {
       <CollapsibleTable connections={connectionGames} />
     </div>
   );
-};
+}
