@@ -82,7 +82,7 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
     async signIn({ user, account, profile }: any) {
       return (
         user.email === "nicolas.k.roos@protonmail.com" ||
-        user.email === "maria.kraehenbuehl@gmail.com" ||
+        user.email === "maria.kraehenbuehl@protonmail.com" ||
         user.email === "nicolas.k.roos+testuser@protonmail.com"
       );
     },
