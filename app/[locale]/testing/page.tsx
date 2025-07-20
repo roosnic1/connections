@@ -42,6 +42,7 @@ export default async function Page({
       id: connection.id,
       publishDate: connection.publishDate,
       categories: connection.categories.map((category) => ({
+        id: category.id,
         category: category.title,
         items: category.words,
         level: category.level as 1 | 2 | 3 | 4,

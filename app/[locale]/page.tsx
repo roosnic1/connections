@@ -27,6 +27,7 @@ export default async function Page({
   if (!connection) return;
 
   const categories: Category[] = connection.categories.map((category) => ({
+    id: category.id,
     category: category.title,
     items: category.words,
     level: category.level as 1 | 2 | 3 | 4,

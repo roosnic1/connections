@@ -1,4 +1,5 @@
 export type Category = {
+  id: number;
   category: string;
   items: string[];
   level: 1 | 2 | 3 | 4;

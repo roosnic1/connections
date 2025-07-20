@@ -41,7 +41,7 @@ const MyAdapter: Adapter = {
 };
 
 export const { auth, handlers, signIn, signOut } = NextAuth({
-  debug: true,
+  debug: false,
   adapter: MyAdapter,
   providers: [
     KeycloakProvider({

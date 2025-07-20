@@ -1,13 +1,12 @@
-import { getServerSession } from "next-auth/next";
-import { authOptions } from "../api/auth/[...nextauth]/route";
 import { redirect } from "next/navigation";
+import { auth } from "@/auth";
 import Link from "next/link";
-import CollapsibleTable from "@/app/_components/collapsibleTable";
+import CollapsibleTable from "@/app/[locale]/_components/collapsibleTable";
 import prisma from "@/lib/prisma";
-import { ConnectionGame } from "@/app/_types";
+import { ConnectionGame } from "@/app/[locale]/_types";
 
 export default async () => {
-  const session = await getServerSession(authOptions);
+  const session = await auth();
 
   if (!session) {
     redirect(`/api/auth/signin?callbackUrl=${encodeURIComponent("/admin")}`);
