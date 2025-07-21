@@ -3,7 +3,7 @@ import { auth } from "@/auth";
 import Link from "next/link";
 import CollapsibleTable from "@/app/[locale]/_components/collapsibleTable";
 import prisma from "@/lib/prisma";
-import { ConnectionGame } from "@/app/[locale]/_types";
+import { HandleSaveParams, ConnectionGame } from "@/app/[locale]/_types";
 
 export default async function Page() {
   const session = await auth();

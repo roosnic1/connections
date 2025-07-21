@@ -1,8 +1,9 @@
 "use client";
 import { useState } from "react";
-import { Category, ConnectionGame, Word } from "@/app/[locale]/_types";
+import { Category, ConnectionGame } from "@/app/[locale]/_types";
 import { useTranslate } from "@tolgee/react";
 import AdminControlButton from "@/app/[locale]/_components/button/admin-control-button";
+import DatePicker from "@/app/[locale]/_components/button/date-picker";
 
 type RowDetailsProps = {
   categories: CategoriesState[];
@@ -15,6 +16,8 @@ type CollapsibleRowProps = {
   createUpdateDates: Date[];
   publishDate: Date;
   categories: Category[];
+  setAddNew?: React.Dispatch<React.SetStateAction<boolean>>;
+  handleSave: (params: HandleSaveParams) => Promise<void>;
 };
 
 type CollapsibleTableProps = {
@@ -22,6 +25,19 @@ type CollapsibleTableProps = {
 };
 
 type CategoriesState = [number, string, string[]];
+
+type HandleSaveParams = {
+  id: number;
+  publishingDate: Date;
+  categoriesState: CategoriesState[];
+};
+
+const NEW_GAME_CATEGORIES: Category[] = [
+  { id: -1, category: "", items: ["", "", "", ""], level: 1 },
+  { id: -1, category: "", items: ["", "", "", ""], level: 2 },
+  { id: -1, category: "", items: ["", "", "", ""], level: 3 },
+  { id: -1, category: "", items: ["", "", "", ""], level: 4 },
+];
 
 const RowDetails = ({
   categories,
@@ -109,13 +125,16 @@ const CollapsibleRow = ({
   publishDate,
   createUpdateDates,
   categories,
+  setAddNew,
+  handleSave,
 }: CollapsibleRowProps) => {
-  const [open, setOpen] = useState(false);
-  const [edit, setEdit] = useState(false);
+  const [edit, setEdit] = useState(id < 0);
 
   const sortCategories = (categories: Category[]): Category[] => {
     return categories.sort((a, b) => (a.level > b.level ? 1 : -1));
   };
+
+  const [publishingDate, setPublishingDate] = useState<Date>(publishDate);
 
   const [categoriesState, setCategoriesState] = useState<CategoriesState[]>(
     sortCategories(categories).map((category) => [
@@ -125,36 +144,19 @@ const CollapsibleRow = ({
     ]),
   );
 
-  const handleSave = async () => {
-    const result = await fetch(`/api/admin`, {
-      method: "POST",
-      headers: new Headers({ "content-type": "application/json" }),
-      body: JSON.stringify({
-        id: id,
-        data: {
-          publishDate: publishDate,
-          categories: categoriesState.map((category, i) => {
-            return {
-              id: category[0],
-              category: category[1],
-              items: category[2],
-              level: i,
-            };
-          }),
-        },
-      }),
-    });
-
-    console.log("result", result);
-  };
-
   const { t } = useTranslate();
 
   return (
     <>
       <tr className="border-b hover:bg-gray-100">
         <td className="py-3 px-4">{id}</td>
-        <td className="py-3 px-4">{publishDate.toDateString()}</td>
+        <td className="py-3 px-4">
+          <DatePicker
+            date={publishingDate}
+            onChange={(date) => setPublishingDate(date)}
+            unclickable={!edit}
+          />
+        </td>
         {createUpdateDates.map((cell, i) => (
           <td key={i} className="py-3 px-4">
             {cell.toDateString()}
@@ -165,14 +167,18 @@ const CollapsibleRow = ({
             text={edit ? t("admin.cancel") : t("admin.edit")}
             onClick={() => {
               if (edit) {
-                setCategoriesState(
-                  sortCategories(categories).map((category) => [
-                    category.id,
-                    category.category,
-                    category.items,
-                  ]),
-                );
-                setEdit(!edit);
+                if (setAddNew) {
+                  setAddNew(false);
+                } else {
+                  setCategoriesState(
+                    sortCategories(categories).map((category) => [
+                      category.id,
+                      category.category,
+                      category.items,
+                    ]),
+                  );
+                  setEdit(!edit);
+                }
               } else {
                 setEdit(!edit);
               }
@@ -196,7 +202,7 @@ const CollapsibleRow = ({
           <div className="flex justify-end w-full pr-2">
             <AdminControlButton
               onClick={() => {
-                handleSave();
+                handleSave({ id, publishingDate, categoriesState });
                 setEdit(!edit);
               }}
               unclickable={!edit}
@@ -214,6 +220,31 @@ export default function CollapsibleTable({
 }: CollapsibleTableProps) {
   const { t } = useTranslate();
 
+  const [addNew, setAddNew] = useState<boolean>(false);
+
+  const handleSave = async (params: HandleSaveParams) => {
+    const result = await fetch(`/api/admin`, {
+      method: "POST",
+      headers: new Headers({ "content-type": "application/json" }),
+      body: JSON.stringify({
+        id: params.id,
+        data: {
+          publishDate: params.publishingDate,
+          categories: params.categoriesState.map((category, i) => {
+            return {
+              id: category[0],
+              category: category[1],
+              items: category[2],
+              level: i,
+            };
+          }),
+        },
+      }),
+    });
+
+    console.log("result", result);
+  };
+
   return (
     <div className="overflow-x-auto bg-white shadow-md rounded p-4 w-full">
       <table className="w-full min-w-full">
@@ -227,6 +258,26 @@ export default function CollapsibleTable({
           </tr>
         </thead>
         <tbody>
+          {!addNew && (
+            <tr>
+              <td colSpan={5} className="px-3 py-1 ">
+                <AdminControlButton
+                  text={t("admin.addNew")}
+                  onClick={() => setAddNew(true)}
+                />
+              </td>
+            </tr>
+          )}
+          {addNew && (
+            <CollapsibleRow
+              id={-1}
+              createUpdateDates={[new Date(), new Date()]}
+              publishDate={new Date()}
+              categories={NEW_GAME_CATEGORIES}
+              setAddNew={setAddNew}
+              handleSave={handleSave}
+            />
+          )}
           {connections.map((connection, i) => {
             return (
               <CollapsibleRow
@@ -235,6 +286,7 @@ export default function CollapsibleTable({
                 createUpdateDates={[new Date(), new Date()]}
                 publishDate={connection.publishDate}
                 categories={connection.categories}
+                handleSave={handleSave}
               />
             );
           })}

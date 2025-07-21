@@ -10,7 +10,7 @@ export default function AdminControlButton(props: {
   return (
     <button
       disabled={props.unclickable}
-      className={`${borderColor} border rounded-full ${textColor} font-medium py-1 px-2 text-sm ${click}`}
+      className={`${borderColor} border ${textColor} font-medium py-1 px-2 mr-1 text-sm ${click}`}
       onClick={props.onClick}
     >
       {props.text}
