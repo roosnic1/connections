@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { Category, ConnectionGame, Word } from "@/app/[locale]/_types";
 import { useTranslate } from "@tolgee/react";
+import AdminControlButton from "@/app/[locale]/_components/button/admin-control-button";
 
 type RowDetailsProps = {
   categories: CategoriesState[];
@@ -160,71 +161,50 @@ const CollapsibleRow = ({
           </td>
         ))}
         <td className="py-3 px-4">
-          <button
-            onClick={() => setOpen(!open)}
-            className="text-blue-600 hover:underline"
-          >
-            {open ? t("admin.hide") : t("admin.show")}
-          </button>
+          <AdminControlButton
+            text={edit ? t("admin.cancel") : t("admin.edit")}
+            onClick={() => {
+              if (edit) {
+                setCategoriesState(
+                  sortCategories(categories).map((category) => [
+                    category.id,
+                    category.category,
+                    category.items,
+                  ]),
+                );
+                setEdit(!edit);
+              } else {
+                setEdit(!edit);
+              }
+            }}
+          />
+          <AdminControlButton
+            text={t("admin.delete")}
+            onClick={() => {}}
+            unclickable={true}
+          />
         </td>
       </tr>
-      {open && (
-        <>
-          <tr>
-            <td colSpan={5} className="p-4 bg-gray-50">
-              {!edit && (
-                <button
-                  onClick={() => setEdit(!edit)}
-                  className="text-blue-600 hover:underline"
-                >
-                  {t("admin.edit")}
-                </button>
-              )}
-              {edit && (
-                <button
-                  onClick={() => {
-                    handleSave();
-                    setEdit(!edit);
-                  }}
-                  className="text-blue-600 hover:underline"
-                >
-                  {t("admin.save")}
-                </button>
-              )}
-              {edit && (
-                <button
-                  onClick={() => {
-                    setCategoriesState(
-                      sortCategories(categories).map((category) => [
-                        category.id,
-                        category.category,
-                        category.items,
-                      ]),
-                    );
-                    setEdit(!edit);
-                  }}
-                  className="text-blue-600 hover:underline"
-                >
-                  {t("admin.cancel")}
-                </button>
-              )}
-              {edit && (
-                <button
-                  onClick={() => setEdit(!edit)}
-                  className="text-blue-600 hover:underline"
-                >
-                  {t("admin.delete")}
-                </button>
-              )}
-            </td>
-          </tr>
-          <RowDetails
-            categories={categoriesState}
-            edit={edit}
-            setCategoriesState={setCategoriesState}
-          />
-        </>
-      )}
+
+      <RowDetails
+        categories={categoriesState}
+        edit={edit}
+        setCategoriesState={setCategoriesState}
+      />
+      <tr>
+        <td colSpan={5} className="px-3 py-1 ">
+          <div className="flex justify-end w-full pr-2">
+            <AdminControlButton
+              onClick={() => {
+                handleSave();
+                setEdit(!edit);
+              }}
+              unclickable={!edit}
+              text={t("admin.save")}
+            />
+          </div>
+        </td>
+      </tr>
     </>
   );
 };
