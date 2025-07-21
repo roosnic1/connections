@@ -78,6 +78,8 @@ model Session {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@id([userId, sessionToken])
 }
 
 model VerificationToken {
