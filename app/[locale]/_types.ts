@@ -44,3 +44,11 @@ export type LocalStorageGame = {
   clearedCategories: Category[];
   guessHistory: Word[][];
 };
+
+export type CategoriesState = [number, string, string[]];
+
+export type createOrUpdateConnectionActionParams = {
+  id: number;
+  publishingDate: Date;
+  categoriesState: CategoriesState[];
+};

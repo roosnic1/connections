@@ -1,6 +1,11 @@
 "use client";
 import { useState } from "react";
-import { Category, ConnectionGame } from "@/app/[locale]/_types";
+import {
+  CategoriesState,
+  Category,
+  ConnectionGame,
+  createOrUpdateConnectionActionParams,
+} from "@/app/[locale]/_types";
 import { useTranslate } from "@tolgee/react";
 import AdminControlButton from "@/app/[locale]/_components/button/admin-control-button";
 import DatePicker from "@/app/[locale]/_components/button/date-picker";
@@ -17,19 +22,18 @@ type CollapsibleRowProps = {
   publishDate: Date;
   categories: Category[];
   setAddNew?: React.Dispatch<React.SetStateAction<boolean>>;
-  handleSave: (params: HandleSaveParams) => Promise<void>;
+  createOrUpdateConnectionAction: (
+    params: createOrUpdateConnectionActionParams,
+  ) => void;
+  deleteConnectionAction: (id: number) => void;
 };
 
 type CollapsibleTableProps = {
   connections: ConnectionGame[];
-};
-
-type CategoriesState = [number, string, string[]];
-
-type HandleSaveParams = {
-  id: number;
-  publishingDate: Date;
-  categoriesState: CategoriesState[];
+  createOrUpdateConnectionAction: (
+    data: createOrUpdateConnectionActionParams,
+  ) => void;
+  deleteConnectionAction: (id: number) => void;
 };
 
 const NEW_GAME_CATEGORIES: Category[] = [
@@ -126,7 +130,8 @@ const CollapsibleRow = ({
   createUpdateDates,
   categories,
   setAddNew,
-  handleSave,
+  createOrUpdateConnectionAction,
+  deleteConnectionAction,
 }: CollapsibleRowProps) => {
   const [edit, setEdit] = useState(id < 0);
 
@@ -186,8 +191,10 @@ const CollapsibleRow = ({
           />
           <AdminControlButton
             text={t("admin.delete")}
-            onClick={() => {}}
-            unclickable={true}
+            onClick={() => {
+              deleteConnectionAction(id);
+            }}
+            unclickable={edit}
           />
         </td>
       </tr>
@@ -202,7 +209,11 @@ const CollapsibleRow = ({
           <div className="flex justify-end w-full pr-2">
             <AdminControlButton
               onClick={() => {
-                handleSave({ id, publishingDate, categoriesState });
+                createOrUpdateConnectionAction({
+                  id,
+                  publishingDate,
+                  categoriesState,
+                });
                 setEdit(!edit);
               }}
               unclickable={!edit}
@@ -217,33 +228,12 @@ const CollapsibleRow = ({
 
 export default function CollapsibleTable({
   connections,
+  createOrUpdateConnectionAction,
+  deleteConnectionAction,
 }: CollapsibleTableProps) {
   const { t } = useTranslate();
 
   const [addNew, setAddNew] = useState<boolean>(false);
-
-  const handleSave = async (params: HandleSaveParams) => {
-    const result = await fetch(`/api/admin`, {
-      method: "POST",
-      headers: new Headers({ "content-type": "application/json" }),
-      body: JSON.stringify({
-        id: params.id,
-        data: {
-          publishDate: params.publishingDate,
-          categories: params.categoriesState.map((category, i) => {
-            return {
-              id: category[0],
-              category: category[1],
-              items: category[2],
-              level: i,
-            };
-          }),
-        },
-      }),
-    });
-
-    console.log("result", result);
-  };
 
   return (
     <div className="overflow-x-auto bg-white shadow-md rounded p-4 w-full">
@@ -275,7 +265,8 @@ export default function CollapsibleTable({
               publishDate={new Date()}
               categories={NEW_GAME_CATEGORIES}
               setAddNew={setAddNew}
-              handleSave={handleSave}
+              createOrUpdateConnectionAction={createOrUpdateConnectionAction}
+              deleteConnectionAction={deleteConnectionAction}
             />
           )}
           {connections.map((connection, i) => {
@@ -286,7 +277,8 @@ export default function CollapsibleTable({
                 createUpdateDates={[new Date(), new Date()]}
                 publishDate={connection.publishDate}
                 categories={connection.categories}
-                handleSave={handleSave}
+                createOrUpdateConnectionAction={createOrUpdateConnectionAction}
+                deleteConnectionAction={deleteConnectionAction}
               />
             );
           })}
