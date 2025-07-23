@@ -1,37 +1,49 @@
-import { withSentryConfig } from "@sentry/nextjs";
-/** @type {import('next').NextConfig} */
-const nextConfig = {};
 import createNextIntlPlugin from "next-intl/plugin";
+import { withPostHogConfig } from "@posthog/nextjs-config";
+
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  webpack(config, { dev, isServer }) {
+    if (!dev && !isServer) {
+      config.devtool = "source-map"; // enable for production build
+    }
+    return config;
+  },
+  productionBrowserSourceMaps: true, // 👈 this is key!
+  async rewrites() {
+    return [
+      {
+        source: "/:locale*/relay-by9l/static/:path*",
+        destination: "https://eu-assets.i.posthog.com/static/:path*",
+        locale: false,
+      },
+      {
+        source: "/:locale*/relay-by9l/:path*",
+        destination: "https://eu.i.posthog.com/:path*",
+        locale: false,
+      },
+      {
+        source: "/:locale*/relay-by9l/flags",
+        destination: "https://eu.i.posthog.com/flags",
+        locale: false,
+      },
+    ];
+  },
+  // This is required to support PostHog trailing slash API requests
+  skipTrailingSlashRedirect: true,
+};
 
 const withNextIntl = createNextIntlPlugin();
-export default withSentryConfig(withNextIntl(nextConfig), {
-  // For all available options, see:
-  // https://www.npmjs.com/package/@sentry/webpack-plugin#options
 
-  org: "roosnic1",
-  project: "connections",
-
-  // Only print logs for uploading source maps in CI
-  silent: !process.env.CI,
-
-  // For all available options, see:
-  // https://docs.sentry.io/platforms/javascript/guides/nextjs/manual-setup/
-
-  // Upload a larger set of source maps for prettier stack traces (increases build time)
-  widenClientFileUpload: true,
-
-  // Route browser requests to Sentry through a Next.js rewrite to circumvent ad-blockers.
-  // This can increase your server load as well as your hosting bill.
-  // Note: Check that the configured route will not match with your Next.js middleware, otherwise reporting of client-
-  // side errors will fail.
-  tunnelRoute: "/monitoring",
-
-  // Automatically tree-shake Sentry logger statements to reduce bundle size
-  disableLogger: true,
-
-  // Enables automatic instrumentation of Vercel Cron Monitors. (Does not yet work with App Router route handlers.)
-  // See the following for more information:
-  // https://docs.sentry.io/product/crons/
-  // https://vercel.com/docs/cron-jobs
-  automaticVercelMonitors: true,
+export default withPostHogConfig(withNextIntl(nextConfig), {
+  personalApiKey: process.env.POSTHOG_API_KEY, // Personal API Key
+  envId: process.env.POSTHOG_ENV_ID, // Environment ID
+  host: process.env.NEXT_PUBLIC_POSTHOG_HOST, // (optional), defaults to https://us.posthog.com
+  sourcemaps: {
+    // (optional)
+    enabled: false, // (optional) Enable sourcemaps generation and upload, default to true on production builds
+    project: "connections", // (optional) Project name, defaults to repository name
+    version: "1.0.0", // (optional) Release version, defaults to current git commit
+    deleteAfterUpload: true, // (optional) Delete sourcemaps after upload, defaults to true
+  },
 });

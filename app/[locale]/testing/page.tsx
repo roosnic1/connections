@@ -1,29 +1,23 @@
 import prisma from "@/lib/prisma";
-import { UnleashClient } from "unleash-proxy-client";
 import { ConnectionGame } from "../_types";
 import { redirect } from "next/navigation";
 import GameTesting from "@/app/[locale]/_components/game-testing";
+import { getPostHogServer } from "@/lib/posthog-server";
 
 export default async function Page({
   searchParams,
 }: {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
-  const unleash = new UnleashClient({
-    url: process.env.NEXT_PUBLIC_UNLEASH_FRONTEND_API_URL || "",
-    clientKey: process.env.NEXT_PUBLIC_UNLEASH_FRONTEND_API_TOKEN || "",
-    appName: "connections",
-  });
-
-  await unleash.start();
-
-  const isTestingEnabled = unleash.isEnabled("game_testing");
-  if (!isTestingEnabled) {
+  const posthog = getPostHogServer();
+  const gameTestingAllowed = await posthog.isFeatureEnabled(
+    "game-testing-allowed",
+    "asd",
+  );
+  if (!gameTestingAllowed) {
     console.warn("Game testing is disabled. Redirecting to home page.");
     redirect("/");
   }
-
-  console.log("testing enabled.");
 
   const connections = await prisma.connection.findMany({
     take: 100,

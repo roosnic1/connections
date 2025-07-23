@@ -16,6 +16,7 @@ import { toast } from "react-toastify";
 import { GameContext } from "@/app/[locale]/_components/game-context";
 import { DateTime } from "luxon";
 import { useTranslate } from "@tolgee/react";
+import posthog from "posthog-js";
 
 type GameProps = {
   game: ConnectionGame;
@@ -119,7 +120,12 @@ export default function Game(props: GameProps) {
       <>
         <ControlButton
           text={t("HomePage.shuffle")}
-          onClick={shuffleWords}
+          onClick={() => {
+            shuffleWords();
+            posthog.capture("button_clicked", {
+              button_name: "shuffle",
+            });
+          }}
           unclickable={submitted}
         />
         <ControlButton
