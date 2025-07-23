@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   CategoriesState,
   Category,
@@ -21,7 +21,7 @@ type CollapsibleRowProps = {
   createUpdateDates: Date[];
   publishDate: Date;
   categories: Category[];
-  setAddNew?: React.Dispatch<React.SetStateAction<boolean>>;
+  cancelAddNew: () => void;
   createOrUpdateConnectionAction: (
     params: createOrUpdateConnectionActionParams,
   ) => void;
@@ -129,17 +129,25 @@ const CollapsibleRow = ({
   publishDate,
   createUpdateDates,
   categories,
-  setAddNew,
+  cancelAddNew,
   createOrUpdateConnectionAction,
   deleteConnectionAction,
 }: CollapsibleRowProps) => {
   const [edit, setEdit] = useState(id < 0);
+
+  useEffect(() => {
+    setEdit(id < 0);
+  }, [id]);
 
   const sortCategories = (categories: Category[]): Category[] => {
     return categories.sort((a, b) => (a.level > b.level ? 1 : -1));
   };
 
   const [publishingDate, setPublishingDate] = useState<Date>(publishDate);
+
+  useEffect(() => {
+    setPublishingDate(publishDate);
+  }, [publishDate]);
 
   const [categoriesState, setCategoriesState] = useState<CategoriesState[]>(
     sortCategories(categories).map((category) => [
@@ -148,6 +156,16 @@ const CollapsibleRow = ({
       category.items,
     ]),
   );
+
+  useEffect(() => {
+    setCategoriesState(
+      sortCategories(categories).map((category) => [
+        category.id,
+        category.category,
+        category.items,
+      ]),
+    );
+  }, [categories]);
 
   const { t } = useTranslate();
 
@@ -172,18 +190,15 @@ const CollapsibleRow = ({
             text={edit ? t("admin.cancel") : t("admin.edit")}
             onClick={() => {
               if (edit) {
-                if (setAddNew) {
-                  setAddNew(false);
-                } else {
-                  setCategoriesState(
-                    sortCategories(categories).map((category) => [
-                      category.id,
-                      category.category,
-                      category.items,
-                    ]),
-                  );
-                  setEdit(!edit);
-                }
+                cancelAddNew();
+                setCategoriesState(
+                  sortCategories(categories).map((category) => [
+                    category.id,
+                    category.category,
+                    category.items,
+                  ]),
+                );
+                setEdit(!edit);
               } else {
                 setEdit(!edit);
               }
@@ -233,7 +248,31 @@ export default function CollapsibleTable({
 }: CollapsibleTableProps) {
   const { t } = useTranslate();
 
-  const [addNew, setAddNew] = useState<boolean>(false);
+  const [connectionsState, setConnectionsState] =
+    useState<ConnectionGame[]>(connections);
+
+  useEffect(() => {
+    setConnectionsState(connections);
+  }, [connections]);
+
+  const handleAddNew = () => {
+    if (connectionsState.length > 0 && connectionsState[0].id !== -1) {
+      setConnectionsState([
+        {
+          id: -1,
+          publishDate: new Date(),
+          categories: NEW_GAME_CATEGORIES,
+        },
+        ...connectionsState,
+      ]);
+    }
+  };
+
+  const handleCancelAddNew = () => {
+    if (connectionsState.length > 0 && connectionsState[0].id === -1) {
+      setConnectionsState([...connectionsState.splice(1)]);
+    }
+  };
 
   return (
     <div className="overflow-x-auto bg-white shadow-md rounded p-4 w-full">
@@ -248,28 +287,15 @@ export default function CollapsibleTable({
           </tr>
         </thead>
         <tbody>
-          {!addNew && (
-            <tr>
-              <td colSpan={5} className="px-3 py-1 ">
-                <AdminControlButton
-                  text={t("admin.addNew")}
-                  onClick={() => setAddNew(true)}
-                />
-              </td>
-            </tr>
-          )}
-          {addNew && (
-            <CollapsibleRow
-              id={-1}
-              createUpdateDates={[new Date(), new Date()]}
-              publishDate={new Date()}
-              categories={NEW_GAME_CATEGORIES}
-              setAddNew={setAddNew}
-              createOrUpdateConnectionAction={createOrUpdateConnectionAction}
-              deleteConnectionAction={deleteConnectionAction}
-            />
-          )}
-          {connections.map((connection, i) => {
+          <tr>
+            <td colSpan={5} className="px-3 py-1 ">
+              <AdminControlButton
+                text={t("admin.addNew")}
+                onClick={handleAddNew}
+              />
+            </td>
+          </tr>
+          {connectionsState.map((connection, i) => {
             return (
               <CollapsibleRow
                 key={i}
@@ -277,6 +303,7 @@ export default function CollapsibleTable({
                 createUpdateDates={[new Date(), new Date()]}
                 publishDate={connection.publishDate}
                 categories={connection.categories}
+                cancelAddNew={handleCancelAddNew}
                 createOrUpdateConnectionAction={createOrUpdateConnectionAction}
                 deleteConnectionAction={deleteConnectionAction}
               />
