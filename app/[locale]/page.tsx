@@ -1,5 +1,4 @@
 import prisma from "@/lib/prisma";
-import { UnleashClient } from "unleash-proxy-client";
 import { Category, ConnectionGame } from "./_types";
 import Game from "./_components/game";
 import { DateTime } from "luxon";

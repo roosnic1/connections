@@ -12,8 +12,8 @@ import {
   generateHashFromArray,
   shuffleArray,
 } from "@/app/[locale]/_utils";
-import * as Sentry from "@sentry/nextjs";
 import { DateTime } from "luxon";
+import posthog from "posthog-js";
 
 type GameContextType = {
   setTodaysCategories: React.Dispatch<React.SetStateAction<Category[]>>;
@@ -86,7 +86,7 @@ export function GameContextProvider(props: GameContextProviderProps) {
       games.push(...gamesLocalStorage);
     } catch (error) {
       console.log("loading localStorage error", error);
-      Sentry.captureException(error);
+      posthog.captureException(error);
     }
     return games;
   };
