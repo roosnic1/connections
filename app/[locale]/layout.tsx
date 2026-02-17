@@ -8,6 +8,7 @@ import { getTolgee } from "@/tolgee/server";
 import { Bounce, ToastContainer } from "react-toastify";
 import { GameContextProvider } from "@/app/[locale]/_components/game-context";
 import { ReactNode } from "react";
+import Footer from "@/app/[locale]/_components/footer";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -48,6 +49,7 @@ export default async function RootLayout({ children, params }: Props) {
             theme="light"
             transition={Bounce}
           />
+          <Footer locale={locale} />
           <Analytics />
           <SpeedInsights />
         </TolgeeNextProvider>
