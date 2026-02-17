@@ -42,4 +42,7 @@ next-env.d.ts
 .env.sentry-build-plugin
 
 # prisma
-app/*/generated
+prisma/generated
+
+# mcp
+.mcp.json

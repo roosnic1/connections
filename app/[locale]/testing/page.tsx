@@ -1,6 +1,6 @@
 import prisma from "@/lib/prisma";
 import { ConnectionGame } from "../_types";
-import { redirect } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import GameTesting from "@/app/[locale]/_components/game-testing";
 import { getPostHogServer } from "@/lib/posthog-server";
 
@@ -28,8 +28,7 @@ export default async function Page({
     },
   });
 
-  // TODO: what to do when no connection is found.
-  if (connections.length === 0) return;
+  if (connections.length === 0) notFound();
 
   const connectionGames: ConnectionGame[] = connections.map((connection) => {
     return {

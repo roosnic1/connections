@@ -1,6 +1,8 @@
-import { PrismaClient } from "@/app/[locale]/generated/prisma/client";
+import { PrismaClient } from "@/prisma/generated/prisma/client";
 import { DateTime } from "luxon";
-const prisma = new PrismaClient();
+const prisma = new PrismaClient({
+  accelerateUrl: process.env.DATABASE_URL!,
+});
 
 async function main() {
   const now = DateTime.now().setZone("Europe/Berlin");

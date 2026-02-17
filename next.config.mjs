@@ -36,8 +36,8 @@ const nextConfig = {
 const withNextIntl = createNextIntlPlugin();
 
 export default withPostHogConfig(withNextIntl(nextConfig), {
-  personalApiKey: process.env.POSTHOG_API_KEY, // Personal API Key
-  envId: process.env.POSTHOG_ENV_ID, // Environment ID
+  personalApiKey: process.env.POSTHOG_PERSONAL_API_KEY, // Personal API Key
+  projectId: process.env.POSTHOG_PROJECT_ID, // Project ID
   host: process.env.NEXT_PUBLIC_POSTHOG_HOST, // (optional), defaults to https://us.posthog.com
   sourcemaps: {
     // (optional)
