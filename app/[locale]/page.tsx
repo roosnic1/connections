@@ -2,6 +2,7 @@ import prisma from "@/lib/prisma";
 import { Category, ConnectionGame } from "./_types";
 import Game from "./_components/game";
 import { DateTime } from "luxon";
+import { notFound } from "next/navigation";
 
 export default async function Page({
   searchParams,
@@ -22,8 +23,7 @@ export default async function Page({
     },
   });
 
-  // TODO: what to do when no connection is found.
-  if (!connection) return;
+  if (!connection) notFound();
 
   const categories: Category[] = connection.categories.map((category) => ({
     category: category.title,
