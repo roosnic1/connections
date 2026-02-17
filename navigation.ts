@@ -5,4 +5,5 @@ import { ALL_LANGUAGES } from "./tolgee/shared";
 // https://next-intl-docs.vercel.app
 export const { Link, redirect, usePathname, useRouter } = createNavigation({
   locales: ALL_LANGUAGES,
+  localePrefix: "never",
 });
