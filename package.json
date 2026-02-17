@@ -3,7 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev:new": "next dev",
     "dev": "next dev",
     "build": "next build",
     "build:prod": "npx prisma migrate deploy && npx next build",

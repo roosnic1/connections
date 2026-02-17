@@ -4,15 +4,14 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-NYT Connections clone built with Next.js 15 (App Router), React 19, TypeScript, and Tailwind CSS v4. The game presents a 4x4 grid of words where players find four groups of four related words.
+NYT Connections clone built with Next.js 16 (App Router), React 19, TypeScript, and Tailwind CSS v4. The game presents a 4x4 grid of words where players find four groups of four related words.
 
 ## Commands
 
 ```bash
-npm run dev              # Development server (port 3000)
-npm run dev:new          # Development server with Turbopack
-npm run build            # Production build
-npm run lint             # ESLint (extends next/core-web-vitals)
+npm run dev              # Development server (port 3000, Turbopack default)
+npm run build            # Production build (Turbopack default)
+npm run lint             # ESLint 9 (extends next/core-web-vitals)
 
 # Prisma commands (use dotenv-cli to load .env.local)
 npm run prisma:migrate   # Run database migrations
@@ -21,13 +20,13 @@ npm run prisma:seed      # Seed database (uses tsx prisma/seed.ts)
 npm run prisma:studio    # Open Prisma Studio GUI
 ```
 
-Note: `prisma generate` runs automatically on `npm install` (postinstall hook). Prisma 7 uses a TypeScript query engine (no Rust binary). Accelerate is configured via `accelerateUrl` in PrismaClient constructor. Prisma config (datasource URL, seed command) lives in `prisma.config.ts`.
+Note: `prisma generate` runs automatically on `npm install` (postinstall hook). Prisma 7 uses a TypeScript query engine (no Rust binary). Accelerate is configured via `accelerateUrl` in PrismaClient constructor. Prisma config (datasource URL, seed command) lives in `prisma.config.ts`. Turbopack is the default bundler in Next.js 16 (use `--webpack` flag to opt out). The proxy file (`proxy.ts`) replaces `middleware.ts` per Next.js 16 convention.
 
 ## Architecture
 
 ### Routing & i18n
 
-- Locale-based routing via `app/[locale]/` with next-intl middleware
+- Locale-based routing via `app/[locale]/` with next-intl proxy (formerly middleware)
 - Supported languages: German (de, default), English (en)
 - Locale prefix strategy: `as-needed` (default locale omitted from URL)
 - Translations managed via Tolgee with fallback JSON files in `messages/`
