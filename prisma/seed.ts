@@ -33,7 +33,9 @@ async function main() {
       ],
     },
     {
-      publishDate: now.set({ hour: 0, minute: 0, second: 1, millisecond: 0 }),
+      publishDate: now
+        .set({ hour: 0, minute: 0, second: 1, millisecond: 0 })
+        .plus({ days: 1 }),
       categories: [
         {
           title: "Supermarkt",
@@ -60,7 +62,7 @@ async function main() {
     {
       publishDate: now
         .set({ hour: 0, minute: 0, second: 1, millisecond: 0 })
-        .plus({ days: 1 }),
+        .plus({ days: 2 }),
       categories: [
         {
           title: "Fussballspieler",
@@ -87,7 +89,7 @@ async function main() {
     {
       publishDate: now
         .set({ hour: 0, minute: 0, second: 1, millisecond: 0 })
-        .plus({ days: 2 }),
+        .plus({ days: 3 }),
       categories: [
         {
           title: "____grund",
