@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-NYT Connections clone built with Next.js 16 (App Router), React 19, TypeScript, and Tailwind CSS v4. The game presents a 4x4 grid of words where players find four groups of four related words.
+NYT Connections clone built with Next.js 15 (App Router), React 19, TypeScript, and Tailwind CSS v4. The game presents a 4x4 grid of words where players find four groups of four related words.
 
 ## Commands
 
