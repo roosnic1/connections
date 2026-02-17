@@ -21,7 +21,7 @@ npm run prisma:seed      # Seed database (uses tsx prisma/seed.ts)
 npm run prisma:studio    # Open Prisma Studio GUI
 ```
 
-Note: `prisma generate --no-engine` runs automatically on `npm install` (postinstall hook). Prisma uses Accelerate (serverless-compatible, no local engine).
+Note: `prisma generate` runs automatically on `npm install` (postinstall hook). Prisma 7 uses a TypeScript query engine (no Rust binary). Accelerate is configured via `accelerateUrl` in PrismaClient constructor. Prisma config (datasource URL, seed command) lives in `prisma.config.ts`.
 
 ## Architecture
 
@@ -35,10 +35,11 @@ Note: `prisma generate --no-engine` runs automatically on `npm install` (postins
 
 ### Data Layer
 
-- PostgreSQL via Prisma ORM with Prisma Accelerate for serverless
+- PostgreSQL via Prisma ORM 7 with Prisma Accelerate for serverless
 - Schema: `Connection` → `Category[]` (4 per game) → `words: String[]` (4 per category)
 - Each category has a `level` (1-4) representing difficulty
-- Prisma client generated to non-standard path: `app/[locale]/generated/prisma/client`
+- Prisma client generated to `prisma/generated/prisma/` (configured in `prisma/schema.prisma`)
+- Prisma config (datasource URL, seed) in `prisma.config.ts` (loads `.env.local` via dotenv)
 - Prisma singleton in `lib/prisma.ts`
 - Data fetched server-side in `app/[locale]/page.tsx`
 

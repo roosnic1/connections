@@ -13,17 +13,17 @@
     "prisma:push": "dotenv -e .env.local -- prisma db push",
     "prisma:seed": "dotenv -e .env.local -- prisma db seed",
     "prisma:studio": "dotenv -e .env.local -- prisma studio",
-    "postinstall": "prisma generate --no-engine",
+    "postinstall": "prisma generate",
     "prepare": "husky"
   },
   "dependencies": {
     "@posthog/nextjs-config": "^1.0.2",
-    "@prisma/client": "^6.9.0",
-    "@prisma/extension-accelerate": "^2.0.1",
+    "@prisma/client": "^7.4.0",
     "@tolgee/react": "^6.2.6",
     "@tolgee/web": "^6.2.6",
     "@vercel/analytics": "^1.5.0",
     "@vercel/speed-insights": "^1.2.0",
+    "dotenv": "^17.3.1",
     "luxon": "^3.6.1",
     "next": "15.3.3",
     "next-intl": "^4.3.4",
@@ -46,13 +46,10 @@
     "lint-staged": "^16.1.0",
     "postcss": "^8",
     "prettier": "3.5.3",
-    "prisma": "^6.9.0",
+    "prisma": "^7.4.0",
     "tailwindcss": "^4.1.8",
     "tsx": "^4.19.4",
     "typescript": "^5.8.3"
-  },
-  "prisma": {
-    "seed": "tsx prisma/seed.ts"
   },
   "lint-staged": {
     "**/*": "prettier --write --ignore-unknown"
