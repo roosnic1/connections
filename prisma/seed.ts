@@ -1,4 +1,4 @@
-import { PrismaClient } from "@/prisma/generated/prisma/client";
+import { PrismaClient, Difficulty } from "@/prisma/generated/prisma/client";
 import { DateTime } from "luxon";
 const prisma = new PrismaClient({
   accelerateUrl: process.env.DATABASE_URL!,
@@ -13,22 +13,22 @@ async function main() {
         {
           title: "letzi____",
           words: ["park", "grund", "graben", "strasse"],
-          level: 1,
+          level: Difficulty.EASY,
         },
         {
           title: "____quai",
           words: ["limmat", "sihl", "bahnhof", "uto"],
-          level: 2,
+          level: Difficulty.MEDIUM,
         },
         {
           title: "Schweizer Schauspielerinnen",
           words: ["wedler", "braunschweig", "schuler", "winiger"],
-          level: 3,
+          level: Difficulty.HARD,
         },
         {
           title: "Thomas",
           words: ["mann", "bucheli", "müller", "borer"],
-          level: 4,
+          level: Difficulty.EXPERT,
         },
       ],
     },
@@ -40,22 +40,22 @@ async function main() {
         {
           title: "Supermarkt",
           words: ["frisch", "gefroren", "konserviert", "eingemacht"],
-          level: 1,
+          level: Difficulty.EASY,
         },
         {
           title: "Homo _____",
           words: ["faber", "deus", "sapiens", "sexuell"],
-          level: 2,
+          level: Difficulty.MEDIUM,
         },
         {
           title: "Zürcher Rapper:innen",
           words: ["skor", "big zis", "luuk", "eaz"],
-          level: 3,
+          level: Difficulty.HARD,
         },
         {
           title: "Orte an der Amerikanischen Ostküste:",
           words: ["montauk", "beaufort", "brunswick", "st. augustine"],
-          level: 4,
+          level: Difficulty.EXPERT,
         },
       ],
     },
@@ -67,22 +67,22 @@ async function main() {
         {
           title: "Fussballspieler",
           words: ["sommer", "keller", "hitz", "frei"],
-          level: 1,
+          level: Difficulty.EASY,
         },
         {
           title: "Musikerinnen",
           words: ["winter", "button", "känzig", "gfeller"],
-          level: 2,
+          level: Difficulty.MEDIUM,
         },
         {
           title: "Zürcher Wege",
           words: ["laternen", "herbst", "panorama", "zelt"],
-          level: 3,
+          level: Difficulty.HARD,
         },
         {
           title: "Spät____",
           words: ["frühling", "lese", "zünder", "i"],
-          level: 4,
+          level: Difficulty.EXPERT,
         },
       ],
     },
@@ -94,22 +94,22 @@ async function main() {
         {
           title: "____grund",
           words: ["ab", "letzi", "unter", "hinter"],
-          level: 1,
+          level: Difficulty.EASY,
         },
         {
           title: "Zürcher Areale",
           words: ["hunziker", "hürlimann", "toni", "koch"],
-          level: 2,
+          level: Difficulty.MEDIUM,
         },
         {
           title: "Zürcher Bier",
           words: ["löwenbräu", "chopfab", "sprint", "amboss"],
-          level: 3,
+          level: Difficulty.HARD,
         },
         {
           title: "Schmied-Werkzeuge",
           words: ["hammer", "glut", "wasser", "zange"],
-          level: 4,
+          level: Difficulty.EXPERT,
         },
       ],
     },

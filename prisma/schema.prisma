@@ -21,13 +21,20 @@ model Connection {
   categories  Category[]
 }
 
+enum Difficulty {
+  EASY
+  MEDIUM
+  HARD
+  EXPERT
+}
+
 model Category {
   id           Int        @id @default(autoincrement())
   createdAt    DateTime   @default(now())
   updatedAt    DateTime   @updatedAt
   title        String
   words        String[]
-  level        Int
+  level        Difficulty
   connection   Connection @relation(fields: [connectionId], references: [id], onDelete: Cascade)
   connectionId Int
 

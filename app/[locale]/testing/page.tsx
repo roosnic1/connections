@@ -1,5 +1,5 @@
 import prisma from "@/lib/prisma";
-import { ConnectionGame } from "../_types";
+import { ConnectionGame, Difficulty } from "../_types";
 import { notFound, redirect } from "next/navigation";
 import GameTesting from "@/app/[locale]/_components/game-testing";
 import { getPostHogServer } from "@/lib/posthog-server";
@@ -37,7 +37,7 @@ export default async function Page({
       categories: connection.categories.map((category) => ({
         category: category.title,
         items: category.words,
-        level: category.level as 1 | 2 | 3 | 4,
+        level: category.level as Difficulty,
       })),
     };
   });

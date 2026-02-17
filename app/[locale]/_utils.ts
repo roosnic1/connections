@@ -1,3 +1,5 @@
+import { Difficulty } from "@/app/[locale]/_types";
+
 export const shuffleArray = <T>(array: T[]): T[] => {
   const shuffledArray = [...array];
   for (let i = array.length - 1; i > 0; i--) {
@@ -10,30 +12,30 @@ export const shuffleArray = <T>(array: T[]): T[] => {
   return shuffledArray;
 };
 
-export const getWordColor = (category: 1 | 2 | 3 | 4): string => {
+export const getWordColor = (category: Difficulty): string => {
   switch (category) {
-    case 1:
+    case Difficulty.EASY:
       return "bg-yellow-300";
-    case 2:
+    case Difficulty.MEDIUM:
       return "bg-lime-500";
-    case 3:
+    case Difficulty.HARD:
       return "bg-blue-300";
-    case 4:
+    case Difficulty.EXPERT:
       return "bg-purple-400";
     default:
       return "bg-black";
   }
 };
 
-export const getWordEmoji = (category: 1 | 2 | 3 | 4): string => {
+export const getWordEmoji = (category: Difficulty): string => {
   switch (category) {
-    case 1:
+    case Difficulty.EASY:
       return "🟨";
-    case 2:
+    case Difficulty.MEDIUM:
       return "🟩";
-    case 3:
+    case Difficulty.HARD:
       return "🟦";
-    case 4:
+    case Difficulty.EXPERT:
       return "🟪";
     default:
       return "⬛️";
