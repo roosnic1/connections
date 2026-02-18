@@ -5,7 +5,7 @@ import GuessHistory from "@/app/[locale]/_components/guess-history";
 import ControlButton from "@/app/[locale]/_components/button/control-button";
 import { getPerfection, getWordEmoji } from "@/app/[locale]/_utils";
 import { GameContext } from "@/app/[locale]/_components/game-context";
-import { useTranslate } from "@tolgee/react";
+import { useTranslations } from "next-intl";
 
 type GameModalProps = {
   isOpen: boolean;
@@ -66,7 +66,7 @@ export default function GameModal(props: GameModalProps) {
     }
   };
 
-  const { t } = useTranslate();
+  const t = useTranslations();
 
   return (
     <dialog
@@ -80,12 +80,12 @@ export default function GameModal(props: GameModalProps) {
         </h1>
         <hr className="mb-2 md:mb-4 w-full"></hr>
         <h2 className="text-black mb-8">
-          {isWon ? t("HomePage.wonGame") : t("HomePage.lostGame")}
+          {isWon ? t("HomePage_wonGame") : t("HomePage_lostGame")}
         </h2>
         <GuessHistory guessHistory={guessHistory} />
         <div className="flex gap-2 mb-12">
-          <ControlButton text={t("HomePage.share")} onClick={handleShare} />
-          <ControlButton text={t("HomePage.close")} onClick={props.onClose} />
+          <ControlButton text={t("HomePage_share")} onClick={handleShare} />
+          <ControlButton text={t("HomePage_close")} onClick={props.onClose} />
         </div>
       </div>
     </dialog>

@@ -1,5 +1,5 @@
 import { createNavigation } from "next-intl/navigation";
-import { ALL_LANGUAGES } from "./tolgee/shared";
+import { ALL_LANGUAGES } from "@/i18n/config";
 
 // read more about next-intl library
 // https://next-intl-docs.vercel.app

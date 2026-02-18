@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { ALL_LANGUAGES } from "@/tolgee/shared";
+import { ALL_LANGUAGES } from "@/i18n/config";
 
 const LANGUAGE_LABELS: Record<string, string> = {
   de: "Deutsch",
