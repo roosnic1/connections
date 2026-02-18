@@ -1,15 +1,17 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { ALL_LANGUAGES } from "@/i18n/config";
-
-const LANGUAGE_LABELS: Record<string, string> = {
-  de: "Deutsch",
-  en: "English",
-};
 
 export default function Footer({ locale }: { locale: string }) {
   const router = useRouter();
+  const t = useTranslations();
+
+  const LANGUAGE_LABELS: Record<string, string> = {
+    de: t("footer_lang_de"),
+    en: t("footer_lang_en"),
+  };
 
   function handleLanguageChange(e: React.ChangeEvent<HTMLSelectElement>) {
     const newLocale = e.target.value;
@@ -19,7 +21,7 @@ export default function Footer({ locale }: { locale: string }) {
 
   return (
     <footer className="flex items-center justify-between px-6 py-3 text-sm text-gray-500">
-      <span>&copy; {new Date().getFullYear()} Connections</span>
+      <span>{t("footer_copyright", { year: new Date().getFullYear() })}</span>
       <select
         value={locale}
         onChange={handleLanguageChange}

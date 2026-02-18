@@ -24,6 +24,7 @@ export default function GameModal(props: GameModalProps) {
     }
   }, [props.isOpen]);
 
+  const t = useTranslations();
   const gameContext = useContext(GameContext);
   if (!gameContext)
     throw new Error(
@@ -55,18 +56,16 @@ export default function GameModal(props: GameModalProps) {
     if (navigator.share) {
       try {
         await navigator.share({
-          text: `Connections \n${resultsEmojiis}`,
+          text: `${t("HomePage_shareText")} \n${resultsEmojiis}`,
         });
         console.log("Shared successfully");
       } catch (error) {
         console.log("Error sharing:", error);
       }
     } else {
-      alert("Sharing not supported in this browser.");
+      alert(t("HomePage_shareNotSupported"));
     }
   };
-
-  const t = useTranslations();
 
   return (
     <dialog

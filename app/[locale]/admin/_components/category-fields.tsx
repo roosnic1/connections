@@ -1,3 +1,6 @@
+"use client";
+
+import { useTranslations } from "next-intl";
 import { Difficulty } from "@/app/[locale]/_types";
 import { getWordColor } from "@/app/[locale]/_utils";
 
@@ -12,6 +15,8 @@ export default function CategoryFields({
   defaultTitle = "",
   defaultWords = ["", "", "", ""],
 }: CategoryFieldsProps) {
+  const t = useTranslations();
+
   return (
     <div className="rounded-lg overflow-hidden">
       <div className={`${getWordColor(level)} px-4 py-2 font-semibold text-sm`}>
@@ -23,7 +28,7 @@ export default function CategoryFields({
             htmlFor={`category_${level}_title`}
             className="block text-sm font-medium text-gray-700 mb-1"
           >
-            Title
+            {t("admin_categoryTitle")}
           </label>
           <input
             type="text"
@@ -36,7 +41,7 @@ export default function CategoryFields({
         </div>
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">
-            Words
+            {t("admin_categoryWords")}
           </label>
           <div className="grid grid-cols-2 gap-2">
             {[0, 1, 2, 3].map((i) => (
@@ -46,7 +51,7 @@ export default function CategoryFields({
                 name={`category_${level}_word_${i}`}
                 defaultValue={defaultWords[i] ?? ""}
                 required
-                placeholder={`Word ${i + 1}`}
+                placeholder={t("admin_wordPlaceholder", { number: i + 1 })}
                 className="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
               />
             ))}
