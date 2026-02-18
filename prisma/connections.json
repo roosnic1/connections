@@ -2,22 +2,22 @@
   {
     "categories": [
       {
-        "title": "fussballspieler",
+        "title": "Fussballspieler",
         "words": ["sommer", "keller", "hitz", "frei"],
         "level": "EASY"
       },
       {
-        "title": "musikerinnen",
+        "title": "Musikerinnen",
         "words": ["winter", "button", "känzig", "gfeller"],
         "level": "MEDIUM"
       },
       {
-        "title": "zürcher wege",
+        "title": "Zürcher wege",
         "words": ["laternen", "herbst", "panorama", "zelt"],
         "level": "HARD"
       },
       {
-        "title": "spät",
+        "title": "Spät",
         "words": ["frühling", "lese", "zünder", "i"],
         "level": "EXPERT"
       }
@@ -31,17 +31,17 @@
         "level": "EASY"
       },
       {
-        "title": "areale",
+        "title": "Areale",
         "words": ["hunziker", "hürlimann", "toni", "koch"],
         "level": "MEDIUM"
       },
       {
-        "title": "bier",
+        "title": "Biere",
         "words": ["löwenbräu", "chopfab", "sprint", "amboss"],
         "level": "HARD"
       },
       {
-        "title": "schmiedutensielien",
+        "title": "Schmiedutensielien",
         "words": ["hammer", "glut", "wasser", "fächer"],
         "level": "EXPERT"
       }
@@ -50,22 +50,22 @@
   {
     "categories": [
       {
-        "title": "letzi____",
+        "title": "Letzi____",
         "words": ["park", "grund", "graben", "strasse"],
         "level": "EASY"
       },
       {
-        "title": "schauspielerinnen",
+        "title": "Schauspielerinnen",
         "words": ["wedler", "braunschweig", "schuler", "winiger"],
         "level": "MEDIUM"
       },
       {
-        "title": "thomas",
+        "title": "Thomas",
         "words": ["mann", "bucheli", "müller", "borer"],
         "level": "HARD"
       },
       {
-        "title": "quai",
+        "title": "Quai",
         "words": ["limmat", "sihl", "bahnhof", "uto"],
         "level": "EXPERT"
       }
@@ -74,22 +74,22 @@
   {
     "categories": [
       {
-        "title": "schauspielhaus",
+        "title": "Schauspielhaus",
         "words": ["kammer", "halle", "saal", "box"],
         "level": "EASY"
       },
       {
-        "title": "theater",
+        "title": "Theater",
         "words": ["neumarkt", "11", "rigiblick", "sogar"],
         "level": "MEDIUM"
       },
       {
-        "title": "kino",
+        "title": "Kino",
         "words": ["metropol", "abaton", "riffraff", "picadilly"],
         "level": "HARD"
       },
       {
-        "title": "london underground",
+        "title": "London underground",
         "words": ["bakerloo", "northern", "circle", "elizabeth"],
         "level": "EXPERT"
       }
@@ -98,22 +98,22 @@
   {
     "categories": [
       {
-        "title": "homo",
+        "title": "Homo",
         "words": ["faber", "deus", "sapiens", "sexuell"],
         "level": "EASY"
       },
       {
-        "title": "zürcher rapper:innen",
+        "title": "Zürcher rapper:innen",
         "words": ["skor", "big zis", "luuk", "eaz"],
         "level": "MEDIUM"
       },
       {
-        "title": "supermarkt",
+        "title": "Supermarkt",
         "words": ["frisch", "gefroren", "konserviert", "eingemacht"],
         "level": "HARD"
       },
       {
-        "title": "orte amerikanische ostküste:",
+        "title": "Orte an der amerikanischen Ostküste",
         "words": ["montauk", "beaufort", "brunswick", "St. Augustine"],
         "level": "EXPERT"
       }
@@ -127,17 +127,17 @@
         "level": "EASY"
       },
       {
-        "title": "justiz",
+        "title": "Justiz",
         "words": ["anwalt", "opfer", "polizei", "gesetz"],
         "level": "MEDIUM"
       },
       {
-        "title": "stadt",
+        "title": "____stadt",
         "words": ["alt", "gross", "haupt", "vor"],
         "level": "HARD"
       },
       {
-        "title": "kopf",
+        "title": "Kopf",
         "words": ["rübe", "grind", "nuss", "schädel"],
         "level": "EXPERT"
       }
@@ -146,12 +146,12 @@
   {
     "categories": [
       {
-        "title": "srf shows",
+        "title": "SRF Sendungen",
         "words": ["arena", "puls", "reporter", "impact"],
         "level": "EASY"
       },
       {
-        "title": "media jobs",
+        "title": "Berufe in der Medienbranche",
         "words": ["journalist", "verleger", "editor", "produzent"],
         "level": "MEDIUM"
       },
