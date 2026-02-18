@@ -1,0 +1,184 @@
+"use server";
+
+import { auth } from "@/lib/auth";
+import prisma from "@/lib/prisma";
+import { Difficulty } from "@/prisma/generated/prisma/client";
+import { PrismaClientKnownRequestError } from "@/prisma/generated/prisma/internal/prismaNamespace";
+import { revalidatePath } from "next/cache";
+import { headers } from "next/headers";
+import { redirect } from "next/navigation";
+
+async function requireAuth() {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+  if (!session) {
+    redirect("/admin/login");
+  }
+  return session;
+}
+
+const DIFFICULTIES = [
+  Difficulty.EASY,
+  Difficulty.MEDIUM,
+  Difficulty.HARD,
+  Difficulty.EXPERT,
+] as const;
+
+export type ConnectionActionState = {
+  error?: string;
+};
+
+type ParsedCategory = { level: Difficulty; title: string; words: string[] };
+
+function parseCategories(formData: FormData): ParsedCategory[] {
+  return DIFFICULTIES.map((level) => {
+    const title = (formData.get(`category_${level}_title`) as string)?.trim();
+    const words = [0, 1, 2, 3].map(
+      (i) =>
+        (formData.get(`category_${level}_word_${i}`) as string)?.trim() ?? "",
+    );
+    return { level, title, words };
+  });
+}
+
+function validateFormData(
+  publishDate: string,
+  categories: ParsedCategory[],
+): ConnectionActionState | null {
+  if (!publishDate) {
+    return { error: "Publish date is required." };
+  }
+  for (const cat of categories) {
+    if (!cat.title) {
+      return { error: `Title is required for ${cat.level} category.` };
+    }
+    if (cat.words.some((w) => !w)) {
+      return { error: `All 4 words are required for ${cat.level} category.` };
+    }
+  }
+  return null;
+}
+
+export async function createConnection(
+  _prevState: ConnectionActionState,
+  formData: FormData,
+): Promise<ConnectionActionState> {
+  await requireAuth();
+
+  const publishDate = formData.get("publishDate") as string;
+  const categories = parseCategories(formData);
+  const validationError = validateFormData(publishDate, categories);
+  if (validationError) return validationError;
+
+  try {
+    await prisma.connection.create({
+      data: {
+        publishDate: new Date(publishDate),
+        categories: {
+          create: categories.map((cat) => ({
+            title: cat.title,
+            words: cat.words,
+            level: cat.level,
+          })),
+        },
+      },
+    });
+  } catch (e) {
+    if (e instanceof PrismaClientKnownRequestError && e.code === "P2002") {
+      return { error: "A connection with this publish date already exists." };
+    }
+    throw e;
+  }
+
+  revalidatePath("/admin/connections");
+  redirect("/admin/connections");
+}
+
+export async function updateConnection(
+  connectionId: number,
+  _prevState: ConnectionActionState,
+  formData: FormData,
+): Promise<ConnectionActionState> {
+  await requireAuth();
+
+  const publishDate = formData.get("publishDate") as string;
+  const categories = parseCategories(formData);
+  const validationError = validateFormData(publishDate, categories);
+  if (validationError) return validationError;
+
+  try {
+    await prisma.$transaction(async (tx) => {
+      await tx.connection.update({
+        where: { id: connectionId },
+        data: { publishDate: new Date(publishDate) },
+      });
+
+      for (const cat of categories) {
+        await tx.category.upsert({
+          where: {
+            connectionId_level: {
+              connectionId,
+              level: cat.level,
+            },
+          },
+          update: {
+            title: cat.title,
+            words: cat.words,
+          },
+          create: {
+            connectionId,
+            title: cat.title,
+            words: cat.words,
+            level: cat.level,
+          },
+        });
+      }
+    });
+  } catch (e) {
+    if (e instanceof PrismaClientKnownRequestError && e.code === "P2002") {
+      return { error: "A connection with this publish date already exists." };
+    }
+    throw e;
+  }
+
+  revalidatePath("/admin/connections");
+  redirect("/admin/connections");
+}
+
+export async function deleteConnection(connectionId: number) {
+  await requireAuth();
+
+  await prisma.connection.delete({
+    where: { id: connectionId },
+  });
+
+  revalidatePath("/admin/connections");
+  redirect("/admin/connections");
+}
+
+export async function getConnections(page: number = 1, pageSize: number = 10) {
+  const [connections, total] = await Promise.all([
+    prisma.connection.findMany({
+      include: { categories: { orderBy: { level: "asc" } } },
+      orderBy: { publishDate: "desc" },
+      skip: (page - 1) * pageSize,
+      take: pageSize,
+    }),
+    prisma.connection.count(),
+  ]);
+
+  return {
+    connections,
+    total,
+    totalPages: Math.ceil(total / pageSize),
+    page,
+  };
+}
+
+export async function getConnection(id: number) {
+  return prisma.connection.findUnique({
+    where: { id },
+    include: { categories: { orderBy: { level: "asc" } } },
+  });
+}
