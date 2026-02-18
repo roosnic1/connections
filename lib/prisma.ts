@@ -7,7 +7,7 @@ const globalForPrisma = globalThis as unknown as {
 const prisma =
   globalForPrisma.prisma ??
   new PrismaClient({
-    log: ["query"],
+    log: ["warn"],
     accelerateUrl: process.env.DATABASE_URL!,
   });
 
