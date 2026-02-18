@@ -161,7 +161,7 @@ export async function getConnections(page: number = 1, pageSize: number = 10) {
   const [connections, total] = await Promise.all([
     prisma.connection.findMany({
       include: { categories: { orderBy: { level: "asc" } } },
-      orderBy: { publishDate: "desc" },
+      orderBy: { publishDate: "asc" },
       skip: (page - 1) * pageSize,
       take: pageSize,
     }),

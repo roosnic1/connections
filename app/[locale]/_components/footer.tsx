@@ -18,7 +18,7 @@ export default function Footer({ locale }: { locale: string }) {
   }
 
   return (
-    <footer className="fixed bottom-0 left-0 right-0 flex items-center justify-between px-6 py-3 text-sm text-gray-500">
+    <footer className="flex items-center justify-between px-6 py-3 text-sm text-gray-500">
       <span>&copy; {new Date().getFullYear()} Connections</span>
       <select
         value={locale}
