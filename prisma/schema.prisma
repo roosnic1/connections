@@ -13,11 +13,19 @@ datasource db {
   provider = "postgresql"
 }
 
+enum ConnectionState {
+  DRAFT
+  REVIEW
+  PUBLISHED
+}
+
 model Connection {
-  id          Int        @id @default(autoincrement())
-  createdAt   DateTime   @default(now())
-  updatedAt   DateTime   @updatedAt
-  publishDate DateTime   @unique
+  id          Int             @id @default(autoincrement())
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+  state       ConnectionState @default(DRAFT)
+  publishDate DateTime?
+  publishedAt DateTime?
   categories  Category[]
 }
 
