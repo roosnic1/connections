@@ -5,7 +5,7 @@ import { ConnectionGame } from "../_types";
 import { GameContext } from "@/app/[locale]/_components/game-context";
 import Game from "@/app/[locale]/_components/game";
 import ControlButton from "@/app/[locale]/_components/button/control-button";
-import { useTranslate } from "@tolgee/react";
+import { useTranslations } from "next-intl";
 
 type GameTestingProps = {
   games: ConnectionGame[];
@@ -69,13 +69,13 @@ export default function GameTesting(props: GameTestingProps) {
     selectRandomGame();
   };
 
-  const { t } = useTranslate();
+  const t = useTranslations();
 
   return (
     <>
       {!game && (
         <h1 className="text-black text-4xl font-semibold my-4 ml-4">
-          {t("testing.noGamesToTest")}
+          {t("testing_noGamesToTest")}
         </h1>
       )}
       {game && (
@@ -85,7 +85,7 @@ export default function GameTesting(props: GameTestingProps) {
           extraButtons={[
             <ControlButton
               key="new-game-button"
-              text={t("testing.newGame")}
+              text={t("testing_newGame")}
               onClick={handleNewGame}
             />,
           ]}

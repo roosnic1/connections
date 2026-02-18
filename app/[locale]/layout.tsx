@@ -3,8 +3,8 @@ import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import { TolgeeNextProvider } from "@/tolgee/client";
-import { getTolgee } from "@/tolgee/server";
+import { NextIntlClientProvider } from "next-intl";
+import { getMessages } from "next-intl/server";
 import { Bounce, ToastContainer } from "react-toastify";
 import { GameContextProvider } from "@/app/[locale]/_components/game-context";
 import { ReactNode } from "react";
@@ -24,16 +24,12 @@ type Props = {
 
 export default async function RootLayout({ children, params }: Props) {
   const { locale } = await params;
-  /*if (!ALL_LANGUAGES.includes(locale)) {
-    notFound();
-  }*/
-  const tolgee = await getTolgee();
-  const records = await tolgee.loadRequired();
+  const messages = await getMessages();
 
   return (
     <html lang={locale}>
       <body className={`${inter.className} min-h-screen flex flex-col`}>
-        <TolgeeNextProvider language={locale} staticData={records}>
+        <NextIntlClientProvider messages={messages}>
           <GameContextProvider>
             <div className="flex-1">{children}</div>
           </GameContextProvider>
@@ -54,7 +50,7 @@ export default async function RootLayout({ children, params }: Props) {
           <Footer locale={locale} />
           <Analytics />
           <SpeedInsights />
-        </TolgeeNextProvider>
+        </NextIntlClientProvider>
       </body>
     </html>
   );

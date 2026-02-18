@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { getTranslations } from "next-intl/server";
 import type {
   Connection,
   Category as PrismaCategory,
@@ -16,17 +17,19 @@ const DIFFICULTY_ORDER: Difficulty[] = [
   Difficulty.EXPERT,
 ];
 
-export default function ConnectionList({
+export default async function ConnectionList({
   connections,
 }: {
   connections: ConnectionWithCategories[];
 }) {
+  const t = await getTranslations();
+
   if (connections.length === 0) {
     return (
       <p className="text-gray-500 text-center py-8">
-        No connections yet.{" "}
+        {t("admin_noConnections")}{" "}
         <Link href="/admin/connections/new" className="text-blue-600 underline">
-          Create one
+          {t("admin_createOne")}
         </Link>
       </p>
     );
@@ -49,7 +52,7 @@ export default function ConnectionList({
                 href={`/admin/connections/${connection.id}`}
                 className="px-3 py-1 bg-black text-white text-sm rounded hover:bg-gray-800"
               >
-                Edit
+                {t("admin_edit")}
               </Link>
               <DeleteButton connectionId={connection.id} />
             </div>

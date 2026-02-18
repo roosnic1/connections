@@ -15,7 +15,7 @@ import GameModal from "@/app/[locale]/_components/modal/game-modal";
 import { toast } from "react-toastify";
 import { GameContext } from "@/app/[locale]/_components/game-context";
 import { DateTime } from "luxon";
-import { useTranslate } from "@tolgee/react";
+import { useTranslations } from "next-intl";
 import posthog from "posthog-js";
 
 type GameProps = {
@@ -66,7 +66,7 @@ export default function Game(props: GameProps) {
     animateWrongGuess,
   } = useAnimation();
 
-  const { t } = useTranslate();
+  const t = useTranslations();
 
   const handleSubmit = async () => {
     setSubmitted(true);
@@ -76,15 +76,14 @@ export default function Game(props: GameProps) {
 
     switch (result.result) {
       case "same":
-        toast(t("HomePage.alreadyGuessed"));
-        //showPopup(t("alreadyGuessed"));
+        toast(t("HomePage_alreadyGuessed"));
         break;
       case "one-away":
         animateWrongGuess();
-        toast(t("HomePage.oneAway"));
+        toast(t("HomePage_oneAway"));
         break;
       case "loss":
-        toast(t("HomePage.betterLuck"));
+        toast(t("HomePage_betterLuck"));
         await handleLoss();
         setShowGameModal(true);
         break;
@@ -110,7 +109,7 @@ export default function Game(props: GameProps) {
   const renderControlButtons = () => {
     const showResultsButton = (
       <ControlButton
-        text={t("HomePage.showResults")}
+        text={t("HomePage_showResults")}
         onClick={() => setShowGameModal(true)}
         unclickable={submitted}
       />
@@ -119,7 +118,7 @@ export default function Game(props: GameProps) {
     const inProgressButtons = (
       <>
         <ControlButton
-          text={t("HomePage.shuffle")}
+          text={t("HomePage_shuffle")}
           onClick={() => {
             shuffleWords();
             posthog.capture("button_clicked", {
@@ -129,23 +128,17 @@ export default function Game(props: GameProps) {
           unclickable={submitted}
         />
         <ControlButton
-          text={t("HomePage.clear")}
+          text={t("HomePage_clear")}
           onClick={deselectAllWords}
           unclickable={selectedWords.length === 0 || submitted}
         />
         <ControlButton
-          text={t("HomePage.submit")}
+          text={t("HomePage_submit")}
           unclickable={selectedWords.length !== 4 || submitted}
           onClick={handleSubmit}
         />
       </>
     );
-
-    /*if (isWon || isLost) {
-      return showResultsButton;
-    } else {
-      return inProgressButtons;
-    }*/
 
     return (
       <div className="flex gap-2 mb-12">
@@ -163,11 +156,11 @@ export default function Game(props: GameProps) {
     <>
       <div className="min-w-full sm:min-w-[630px]">
         <h1 className="text-black text-4xl font-semibold my-4 ml-4">
-          {t("HomePage.title", {
+          {t("HomePage_title", {
             day: `${publishDate.setLocale("de-CH").toLocaleString(DateTime.DATE_SHORT)}`,
           })}
         </h1>
-        <h1 className="text-black mb-4">{t("HomePage.subtitle")}</h1>
+        <h1 className="text-black mb-4">{t("HomePage_subtitle")}</h1>
         <hr className="mb-4 md:mb-4 w-full"></hr>
         <div className="relative w-full">
           <Grid
@@ -180,7 +173,7 @@ export default function Game(props: GameProps) {
           />
         </div>
         <h2 className="text-black my-4 md:my-8 mx-8">
-          {t("HomePage.mistakesRemaining", {
+          {t("HomePage_mistakesRemaining", {
             count:
               mistakesRemaining > 0
                 ? Array(mistakesRemaining).fill("•").join("")
