@@ -32,9 +32,11 @@ export default async function RootLayout({ children, params }: Props) {
 
   return (
     <html lang={locale}>
-      <body className={inter.className}>
+      <body className={`${inter.className} min-h-screen flex flex-col`}>
         <TolgeeNextProvider language={locale} staticData={records}>
-          <GameContextProvider>{children}</GameContextProvider>
+          <GameContextProvider>
+            <div className="flex-1">{children}</div>
+          </GameContextProvider>
           <ToastContainer
             position="top-center"
             autoClose={5000}

@@ -1,12 +1,19 @@
+export enum Difficulty {
+  EASY = "EASY",
+  MEDIUM = "MEDIUM",
+  HARD = "HARD",
+  EXPERT = "EXPERT",
+}
+
 export type Category = {
   category: string;
   items: string[];
-  level: 1 | 2 | 3 | 4;
+  level: Difficulty;
 };
 
 export type Word = {
   word: string;
-  level: 1 | 2 | 3 | 4;
+  level: Difficulty;
   selected?: boolean;
 };
 

@@ -1,133 +1,43 @@
-import { PrismaClient } from "@/prisma/generated/prisma/client";
+import { PrismaClient, Difficulty } from "@/prisma/generated/prisma/client";
 import { DateTime } from "luxon";
+import connections from "./connections.json";
+
 const prisma = new PrismaClient({
   accelerateUrl: process.env.DATABASE_URL!,
 });
 
+const levelMap: Record<string, Difficulty> = {
+  EASY: Difficulty.EASY,
+  MEDIUM: Difficulty.MEDIUM,
+  HARD: Difficulty.HARD,
+  EXPERT: Difficulty.EXPERT,
+};
+
 async function main() {
-  const now = DateTime.now().setZone("Europe/Berlin");
-  const data = [
-    {
-      publishDate: now.set({ hour: 0, minute: 0, second: 1, millisecond: 0 }),
-      categories: [
-        {
-          title: "letzi____",
-          words: ["park", "grund", "graben", "strasse"],
-          level: 1,
-        },
-        {
-          title: "____quai",
-          words: ["limmat", "sihl", "bahnhof", "uto"],
-          level: 2,
-        },
-        {
-          title: "Schweizer Schauspielerinnen",
-          words: ["wedler", "braunschweig", "schuler", "winiger"],
-          level: 3,
-        },
-        {
-          title: "Thomas",
-          words: ["mann", "bucheli", "müller", "borer"],
-          level: 4,
-        },
-      ],
-    },
-    {
-      publishDate: now.set({ hour: 0, minute: 0, second: 1, millisecond: 0 }),
-      categories: [
-        {
-          title: "Supermarkt",
-          words: ["frisch", "gefroren", "konserviert", "eingemacht"],
-          level: 1,
-        },
-        {
-          title: "Homo _____",
-          words: ["faber", "deus", "sapiens", "sexuell"],
-          level: 2,
-        },
-        {
-          title: "Zürcher Rapper:innen",
-          words: ["skor", "big zis", "luuk", "eaz"],
-          level: 3,
-        },
-        {
-          title: "Orte an der Amerikanischen Ostküste:",
-          words: ["montauk", "beaufort", "brunswick", "st. augustine"],
-          level: 4,
-        },
-      ],
-    },
-    {
-      publishDate: now
-        .set({ hour: 0, minute: 0, second: 1, millisecond: 0 })
-        .plus({ days: 1 }),
-      categories: [
-        {
-          title: "Fussballspieler",
-          words: ["sommer", "keller", "hitz", "frei"],
-          level: 1,
-        },
-        {
-          title: "Musikerinnen",
-          words: ["winter", "button", "känzig", "gfeller"],
-          level: 2,
-        },
-        {
-          title: "Zürcher Wege",
-          words: ["laternen", "herbst", "panorama", "zelt"],
-          level: 3,
-        },
-        {
-          title: "Spät____",
-          words: ["frühling", "lese", "zünder", "i"],
-          level: 4,
-        },
-      ],
-    },
-    {
-      publishDate: now
-        .set({ hour: 0, minute: 0, second: 1, millisecond: 0 })
-        .plus({ days: 2 }),
-      categories: [
-        {
-          title: "____grund",
-          words: ["ab", "letzi", "unter", "hinter"],
-          level: 1,
-        },
-        {
-          title: "Zürcher Areale",
-          words: ["hunziker", "hürlimann", "toni", "koch"],
-          level: 2,
-        },
-        {
-          title: "Zürcher Bier",
-          words: ["löwenbräu", "chopfab", "sprint", "amboss"],
-          level: 3,
-        },
-        {
-          title: "Schmied-Werkzeuge",
-          words: ["hammer", "glut", "wasser", "zange"],
-          level: 4,
-        },
-      ],
-    },
-  ];
-  const connections = [];
-  for (const item of data) {
-    connections.push(
+  const today = DateTime.utc().startOf("day");
+  const created = [];
+
+  for (const [index, connection] of connections.entries()) {
+    const publishDate = today.plus({ days: index }).toJSDate();
+    created.push(
       await prisma.connection.create({
         data: {
-          publishDate: item.publishDate.toJSDate(),
+          publishDate,
           categories: {
-            create: item.categories,
+            create: connection.categories.map((cat) => ({
+              title: cat.title,
+              words: cat.words,
+              level: levelMap[cat.level],
+            })),
           },
         },
       }),
     );
   }
 
-  console.log(connections);
+  console.log(`Created ${created.length} connections`);
 }
+
 main()
   .then(async () => {
     await prisma.$disconnect();

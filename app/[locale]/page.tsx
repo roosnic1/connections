@@ -1,5 +1,5 @@
 import prisma from "@/lib/prisma";
-import { Category, ConnectionGame } from "./_types";
+import { Category, ConnectionGame, Difficulty } from "./_types";
 import Game from "./_components/game";
 import { DateTime } from "luxon";
 import { notFound } from "next/navigation";
@@ -28,7 +28,7 @@ export default async function Page({
   const categories: Category[] = connection.categories.map((category) => ({
     category: category.title,
     items: category.words,
-    level: category.level as 1 | 2 | 3 | 4,
+    level: category.level as Difficulty,
   }));
 
   const connectionGame: ConnectionGame = {

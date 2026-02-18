@@ -1,6 +1,7 @@
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
+import Link from "next/link";
 import AdminLogoutButton from "./_components/admin-logout-button";
 
 export default async function AdminPage() {
@@ -20,7 +21,15 @@ export default async function AdminPage() {
           Logged in as: {session.user.name || session.user.email}
         </p>
         <p className="text-black mb-4">Email: {session.user.email}</p>
-        <AdminLogoutButton />
+        <div className="flex gap-3">
+          <Link
+            href="/admin/connections"
+            className="px-4 py-2 bg-black text-white rounded-lg hover:bg-gray-800"
+          >
+            Manage Connections
+          </Link>
+          <AdminLogoutButton />
+        </div>
       </div>
     </div>
   );
