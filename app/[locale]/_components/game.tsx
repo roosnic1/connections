@@ -51,7 +51,11 @@ export default function Game(props: GameProps) {
 
   useEffect(() => {
     setTodaysCategories(props.game.categories);
-    setPublishDate(DateTime.fromJSDate(props.game.publishDate));
+    setPublishDate(
+      props.game.publishDate
+        ? DateTime.fromJSDate(props.game.publishDate)
+        : DateTime.now(),
+    );
     props.saveDataToLocalStorage !== undefined &&
       setUseLocalStorageData(props.saveDataToLocalStorage);
   }, [props.game]);

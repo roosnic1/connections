@@ -2,7 +2,7 @@
 
 import { auth } from "@/lib/auth";
 import prisma from "@/lib/prisma";
-import { Difficulty } from "@/prisma/generated/prisma/client";
+import { ConnectionState, Difficulty } from "@/prisma/generated/prisma/client";
 import { PrismaClientKnownRequestError } from "@/prisma/generated/prisma/internal/prismaNamespace";
 import { revalidatePath } from "next/cache";
 import { headers } from "next/headers";
@@ -43,12 +43,8 @@ function parseCategories(formData: FormData): ParsedCategory[] {
 }
 
 function validateFormData(
-  publishDate: string,
   categories: ParsedCategory[],
 ): ConnectionActionState | null {
-  if (!publishDate) {
-    return { error: "Publish date is required." };
-  }
   for (const cat of categories) {
     if (!cat.title) {
       return { error: `Title is required for ${cat.level} category.` };
@@ -68,13 +64,13 @@ export async function createConnection(
 
   const publishDate = formData.get("publishDate") as string;
   const categories = parseCategories(formData);
-  const validationError = validateFormData(publishDate, categories);
+  const validationError = validateFormData(categories);
   if (validationError) return validationError;
 
   try {
     await prisma.connection.create({
       data: {
-        publishDate: new Date(publishDate),
+        publishDate: publishDate ? new Date(publishDate) : null,
         categories: {
           create: categories.map((cat) => ({
             title: cat.title,
@@ -104,14 +100,14 @@ export async function updateConnection(
 
   const publishDate = formData.get("publishDate") as string;
   const categories = parseCategories(formData);
-  const validationError = validateFormData(publishDate, categories);
+  const validationError = validateFormData(categories);
   if (validationError) return validationError;
 
   try {
     await prisma.$transaction(async (tx) => {
       await tx.connection.update({
         where: { id: connectionId },
-        data: { publishDate: new Date(publishDate) },
+        data: { publishDate: publishDate ? new Date(publishDate) : null },
       });
 
       for (const cat of categories) {
@@ -157,15 +153,21 @@ export async function deleteConnection(connectionId: number) {
   redirect("/admin/connections");
 }
 
-export async function getConnections(page: number = 1, pageSize: number = 10) {
+export async function getConnections(
+  page: number = 1,
+  pageSize: number = 10,
+  state?: ConnectionState,
+) {
+  const where = state ? { state } : {};
   const [connections, total] = await Promise.all([
     prisma.connection.findMany({
+      where,
       include: { categories: { orderBy: { level: "asc" } } },
-      orderBy: { publishDate: "asc" },
+      orderBy: { updatedAt: "desc" },
       skip: (page - 1) * pageSize,
       take: pageSize,
     }),
-    prisma.connection.count(),
+    prisma.connection.count({ where }),
   ]);
 
   return {
@@ -174,6 +176,35 @@ export async function getConnections(page: number = 1, pageSize: number = 10) {
     totalPages: Math.ceil(total / pageSize),
     page,
   };
+}
+
+export async function updateConnectionState(
+  connectionId: number,
+  newState: ConnectionState,
+  publishDate?: string,
+): Promise<ConnectionActionState> {
+  await requireAuth();
+
+  const updateData: {
+    state: ConnectionState;
+    publishedAt?: Date;
+    publishDate?: Date;
+  } = { state: newState };
+
+  if (newState === ConnectionState.PUBLISHED) {
+    updateData.publishedAt = new Date();
+    if (publishDate) {
+      updateData.publishDate = new Date(publishDate);
+    }
+  }
+
+  await prisma.connection.update({
+    where: { id: connectionId },
+    data: updateData,
+  });
+
+  revalidatePath("/admin/connections");
+  return {};
 }
 
 export async function getConnection(id: number) {

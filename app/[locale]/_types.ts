@@ -1,3 +1,12 @@
+export const ConnectionState = {
+  DRAFT: "DRAFT",
+  REVIEW: "REVIEW",
+  PUBLISHED: "PUBLISHED",
+} as const;
+
+export type ConnectionState =
+  (typeof ConnectionState)[keyof typeof ConnectionState];
+
 export enum Difficulty {
   EASY = "EASY",
   MEDIUM = "MEDIUM",
@@ -19,7 +28,7 @@ export type Word = {
 
 export type ConnectionGame = {
   id: number;
-  publishDate: Date;
+  publishDate: Date | null;
   categories: Category[];
 };
 

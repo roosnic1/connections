@@ -20,7 +20,7 @@ export default function DeleteButton({
   return (
     <button
       onClick={handleDelete}
-      className="px-3 py-1 bg-red-500 text-white text-sm rounded hover:bg-red-600"
+      className="px-2 py-0.5 bg-red-500 text-white text-xs rounded hover:bg-red-600"
     >
       {t("admin_delete")}
     </button>

@@ -29,7 +29,7 @@ export default async function EditConnectionPage({ params }: Props) {
     notFound();
   }
 
-  const publishDate = connection.publishDate.toISOString().split("T")[0];
+  const publishDate = connection.publishDate?.toISOString().split("T")[0] ?? "";
   const t = await getTranslations();
 
   return (

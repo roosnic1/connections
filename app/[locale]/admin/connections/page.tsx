@@ -4,11 +4,13 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import { getTranslations } from "next-intl/server";
 import { getConnections } from "../_actions/connections";
+import { ConnectionState } from "@/app/[locale]/_types";
 import ConnectionList from "../_components/connection-list";
 import Pagination from "../_components/pagination";
+import StateFilterBar from "../_components/state-filter-bar";
 
 type Props = {
-  searchParams: Promise<{ page?: string }>;
+  searchParams: Promise<{ page?: string; state?: string }>;
 };
 
 export default async function ConnectionsPage({ searchParams }: Props) {
@@ -20,9 +22,20 @@ export default async function ConnectionsPage({ searchParams }: Props) {
     redirect("/admin/login");
   }
 
-  const { page: pageParam } = await searchParams;
+  const { page: pageParam, state: stateParam } = await searchParams;
   const page = Math.max(1, parseInt(pageParam ?? "1", 10) || 1);
-  const { connections, totalPages } = await getConnections(page);
+
+  const validStates: string[] = Object.values(ConnectionState);
+  const stateFilter =
+    stateParam && validStates.includes(stateParam)
+      ? (stateParam as ConnectionState)
+      : undefined;
+
+  const { connections, totalPages } = await getConnections(
+    page,
+    10,
+    stateFilter,
+  );
   const t = await getTranslations();
 
   return (
@@ -38,6 +51,7 @@ export default async function ConnectionsPage({ searchParams }: Props) {
           {t("admin_newConnection")}
         </Link>
       </div>
+      <StateFilterBar currentState={stateFilter} />
       <ConnectionList connections={connections} />
       <Pagination page={page} totalPages={totalPages} />
     </div>
