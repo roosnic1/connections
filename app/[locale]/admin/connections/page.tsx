@@ -39,7 +39,7 @@ export default async function ConnectionsPage({ searchParams }: Props) {
   const t = await getTranslations();
 
   return (
-    <div className="w-11/12 md:w-3/4 lg:w-7/12 mx-auto mt-14">
+    <div className="p-8">
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-black text-4xl font-semibold">
           {t("admin_connections")}

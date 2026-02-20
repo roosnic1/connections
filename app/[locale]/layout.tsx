@@ -29,11 +29,13 @@ export default async function RootLayout({ children, params }: Props) {
 
   return (
     <html lang={locale}>
-      <body className={`${inter.className} min-h-screen flex flex-col`}>
+      <body
+        className={`${inter.className} h-screen overflow-hidden flex flex-col`}
+      >
         <NextIntlClientProvider messages={messages}>
           <GameContextProvider>
             <Header />
-            <div className="flex-1">{children}</div>
+            <div className="flex-1 min-h-0 overflow-y-auto">{children}</div>
             <Footer locale={locale} />
           </GameContextProvider>
           <ToastContainer
