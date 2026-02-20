@@ -98,10 +98,19 @@ export default async function ConnectionReviewsPage({ params }: Props) {
 
           <div className="flex flex-col gap-4">
             {reviews.map((review) => {
+              const VALID_DIFFICULTIES = new Set(Object.values(Difficulty));
+              const isWord = (w: unknown): w is Word =>
+                typeof w === "object" &&
+                w !== null &&
+                typeof (w as Record<string, unknown>).word === "string" &&
+                VALID_DIFFICULTIES.has(
+                  (w as Record<string, unknown>).level as Difficulty,
+                );
               const guessHistory: Word[][] = Array.isArray(review.guessHistory)
-                ? ((review.guessHistory as unknown[]).filter(
-                    Array.isArray,
-                  ) as Word[][])
+                ? (review.guessHistory as unknown[])
+                    .filter(Array.isArray)
+                    .map((arr) => (arr as unknown[]).filter(isWord))
+                    .filter((arr) => arr.length > 0)
                 : [];
               return (
                 <Link

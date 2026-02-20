@@ -1,0 +1,29 @@
+# yaml-language-server: $schema=https://coderabbit.ai/integrations/schema.v2.json
+language: "en-US"
+early_access: true
+reviews:
+  profile: "assertive"
+  request_changes_workflow: false
+  high_level_summary: true
+  poem: true
+  review_status: true
+  review_details: false
+  path_filters:
+    - "!prisma/generated/**" # exclude generated Prisma files
+    - "!messages/**" # exclude translation files
+    - "!prisma/connections.json" # exclude all JSON files
+    - "!package-lock.json"
+  path_instructions:
+    - path: "**/*.{ts,tsx}"
+      instructions: |
+        Review the Typescript and React code for conformity with best practices in React, and Typescript. Highlight any deviations.
+         Note: This project uses next-intl with localePrefix: "never" — the locale is read from cookies, never appears in URLs. Do NOT flag missing locale prefixes in href links or redirects.
+  auto_review:
+    enabled: true
+    drafts: false
+    ignore_title_keywords:
+      - "WIP"
+    base_branches:
+      - main
+chat:
+  auto_reply: true

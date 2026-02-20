@@ -1,6 +1,6 @@
 "use client";
 
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { ConnectionGame, Word } from "@/app/[locale]/_types";
 import Game from "@/app/[locale]/_components/game";
 import ReviewModal from "./review-modal";
@@ -25,6 +25,7 @@ export default function ReviewPageClient(props: ReviewPageClientProps) {
   const [gameOverGuessHistory, setGameOverGuessHistory] = useState<Word[][]>(
     [],
   );
+  const contextFreshRef = useRef(false);
 
   const getReviewedIds = (): number[] => {
     try {
@@ -62,7 +63,12 @@ export default function ReviewPageClient(props: ReviewPageClientProps) {
   useEffect(() => {
     if (!gameContext || !currentGame || showReviewModal) return;
     const { isWon, isLost, guessHistory } = gameContext;
-    if (isWon || isLost) {
+    if (!isWon && !isLost) {
+      contextFreshRef.current = true;
+      return;
+    }
+    if (contextFreshRef.current) {
+      contextFreshRef.current = false;
       setGameOverIsWon(isWon);
       setGameOverGuessHistory(guessHistory);
       setShowReviewModal(true);
@@ -80,9 +86,14 @@ export default function ReviewPageClient(props: ReviewPageClientProps) {
 
     const reviewedIds = getReviewedIds();
     const updatedIds = [...reviewedIds, currentGame.id];
-    localStorage.setItem(REVIEWED_GAMES_KEY, JSON.stringify(updatedIds));
+    try {
+      localStorage.setItem(REVIEWED_GAMES_KEY, JSON.stringify(updatedIds));
+    } catch {
+      // Storage full or unavailable — continue without persisting
+    }
 
     setShowReviewModal(false);
+    contextFreshRef.current = false;
 
     const next = pickNextGame(updatedIds);
     if (!next) {

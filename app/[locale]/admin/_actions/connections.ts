@@ -42,6 +42,15 @@ function parseCategories(formData: FormData): ParsedCategory[] {
   });
 }
 
+function validateAndParseDate(
+  publishDate: string,
+): { date: Date | null } | { error: string } {
+  if (!publishDate) return { date: null };
+  const parsed = new Date(publishDate);
+  if (isNaN(parsed.getTime())) return { error: "Invalid publish date format." };
+  return { date: parsed };
+}
+
 function validateFormData(
   categories: ParsedCategory[],
 ): ConnectionActionState | null {
@@ -63,6 +72,8 @@ export async function createConnection(
   await requireAuth();
 
   const publishDate = formData.get("publishDate") as string;
+  const parsedDate = validateAndParseDate(publishDate);
+  if ("error" in parsedDate) return parsedDate;
   const categories = parseCategories(formData);
   const validationError = validateFormData(categories);
   if (validationError) return validationError;
@@ -70,7 +81,7 @@ export async function createConnection(
   try {
     await prisma.connection.create({
       data: {
-        publishDate: publishDate ? new Date(publishDate) : null,
+        publishDate: parsedDate.date,
         categories: {
           create: categories.map((cat) => ({
             title: cat.title,
@@ -99,6 +110,8 @@ export async function updateConnection(
   await requireAuth();
 
   const publishDate = formData.get("publishDate") as string;
+  const parsedDate = validateAndParseDate(publishDate);
+  if ("error" in parsedDate) return parsedDate;
   const categories = parseCategories(formData);
   const validationError = validateFormData(categories);
   if (validationError) return validationError;
@@ -107,7 +120,7 @@ export async function updateConnection(
     await prisma.$transaction(async (tx) => {
       await tx.connection.update({
         where: { id: connectionId },
-        data: { publishDate: publishDate ? new Date(publishDate) : null },
+        data: { publishDate: parsedDate.date },
       });
 
       for (const cat of categories) {
@@ -142,12 +155,21 @@ export async function updateConnection(
   redirect("/admin/connections");
 }
 
-export async function deleteConnection(connectionId: number) {
+export async function deleteConnection(
+  connectionId: number,
+): Promise<ConnectionActionState> {
   await requireAuth();
 
-  await prisma.connection.delete({
-    where: { id: connectionId },
-  });
+  try {
+    await prisma.connection.delete({
+      where: { id: connectionId },
+    });
+  } catch (e) {
+    if (e instanceof PrismaClientKnownRequestError && e.code === "P2025") {
+      return { error: "Connection not found." };
+    }
+    throw e;
+  }
 
   revalidatePath("/admin/connections");
   redirect("/admin/connections");
@@ -160,6 +182,9 @@ export async function getConnections(
 ) {
   await requireAuth();
 
+  const safePage = Math.max(1, Math.floor(page));
+  const safePageSize = Math.min(100, Math.max(1, Math.floor(pageSize)));
+
   const where = state ? { state } : {};
   const [connections, total] = await Promise.all([
     prisma.connection.findMany({
@@ -169,8 +194,8 @@ export async function getConnections(
         _count: { select: { reviews: true } },
       },
       orderBy: { updatedAt: "desc" },
-      skip: (page - 1) * pageSize,
-      take: pageSize,
+      skip: (safePage - 1) * safePageSize,
+      take: safePageSize,
     }),
     prisma.connection.count({ where }),
   ]);
@@ -178,8 +203,8 @@ export async function getConnections(
   return {
     connections,
     total,
-    totalPages: Math.ceil(total / pageSize),
-    page,
+    totalPages: Math.ceil(total / safePageSize),
+    page: safePage,
   };
 }
 

@@ -18,6 +18,12 @@ async function requireAuth() {
 export type ReviewSortField = "createdAt" | "difficulty" | "reviewerName";
 export type SortDir = "asc" | "desc";
 
+const VALID_SORT_FIELDS: ReviewSortField[] = [
+  "createdAt",
+  "difficulty",
+  "reviewerName",
+];
+
 export async function getReviews(
   page: number = 1,
   pageSize: number = 20,
@@ -26,25 +32,31 @@ export async function getReviews(
 ) {
   await requireAuth();
 
+  const safePage = Number.isFinite(page) && page > 0 ? Math.floor(page) : 1;
   const safePageSize =
     Number.isFinite(pageSize) && pageSize > 0 ? Math.floor(pageSize) : 20;
-
-  const where = {};
+  const safeSortBy = VALID_SORT_FIELDS.includes(sortBy) ? sortBy : "createdAt";
+  const safeSortDir: SortDir = sortDir === "asc" ? "asc" : "desc";
 
   const [reviews, total] = await Promise.all([
     prisma.review.findMany({
-      where,
+      where: {},
       include: {
         connection: { select: { id: true, publishDate: true } },
       },
-      orderBy: { [sortBy]: sortDir },
-      skip: (page - 1) * safePageSize,
+      orderBy: { [safeSortBy]: safeSortDir },
+      skip: (safePage - 1) * safePageSize,
       take: safePageSize,
     }),
-    prisma.review.count({ where }),
+    prisma.review.count({ where: {} }),
   ]);
 
-  return { reviews, total, totalPages: Math.ceil(total / safePageSize), page };
+  return {
+    reviews,
+    total,
+    totalPages: Math.ceil(total / safePageSize),
+    page: safePage,
+  };
 }
 
 export async function getConnectionReviews(connectionId: number) {
