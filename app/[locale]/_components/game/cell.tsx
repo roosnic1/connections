@@ -24,11 +24,13 @@ export default function Cell(props: CellProps) {
 
   return (
     <button
-      className={`${bgColor} py-6 rounded-md break-all px-1 cursor-pointer transition ease-in-out ${guessAnimation} ${wrongGuessAnimation}`}
+      className={`${bgColor} aspect-square flex items-center justify-center rounded-md px-1 cursor-pointer transition ease-in-out ${guessAnimation} ${wrongGuessAnimation}`}
       onClick={handleClick}
     >
-      <h2 className={`${textColor} text-xs md:text-lg text-center font-bold`}>
-        {props.cellValue.word.toUpperCase()}
+      <h2
+        className={`${textColor} text-xs md:text-lg text-center font-bold w-full break-words hyphens-auto`}
+      >
+        {props.cellValue.word.toUpperCase().replace(/\|/g, "\u00AD")}
       </h2>
     </button>
   );
