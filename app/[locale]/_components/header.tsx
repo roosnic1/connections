@@ -12,9 +12,7 @@ export default function Header() {
   const t = useTranslations();
 
   const publishDate = gameContext?.publishDate ?? DateTime.now();
-  const dateFormatted = publishDate
-    .setLocale("de-CH")
-    .toLocaleString(DateTime.DATE_SHORT);
+  const dateFormatted = publishDate.toLocaleString(DateTime.DATE_FULL);
   const title = t("HomePage_title", { day: dateFormatted });
 
   const HamburgerIcon = () => (
