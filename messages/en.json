@@ -92,5 +92,6 @@
   "review_modal_commentPlaceholder": "Any thoughts about this game?",
   "review_modal_error": "Something went wrong. Please try again.",
   "review_modal_submitting": "Submitting...",
-  "review_modal_submit": "Submit Feedback"
+  "review_modal_submit": "Submit Feedback",
+  "review_modal_charsLeft": "{count} chars left"
 }

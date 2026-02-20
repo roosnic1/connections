@@ -1,10 +1,11 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { ConnectionGame } from "@/app/[locale]/_types";
+import { useContext, useEffect, useState } from "react";
+import { ConnectionGame, Word } from "@/app/[locale]/_types";
 import Game from "@/app/[locale]/_components/game";
 import ReviewModal from "./review-modal";
 import { useTranslations } from "next-intl";
+import { GameContext } from "@/app/[locale]/_components/game-context";
 
 const REVIEWED_GAMES_KEY = "reviewedGames";
 
@@ -14,12 +15,16 @@ type ReviewPageClientProps = {
 
 export default function ReviewPageClient(props: ReviewPageClientProps) {
   const t = useTranslations();
+  const gameContext = useContext(GameContext);
   const [currentGame, setCurrentGame] = useState<ConnectionGame | null>(null);
   const [gamesLeft, setGamesLeft] = useState(0);
   const [allDone, setAllDone] = useState(false);
   const [loaded, setLoaded] = useState(false);
   const [showReviewModal, setShowReviewModal] = useState(false);
   const [gameOverIsWon, setGameOverIsWon] = useState(false);
+  const [gameOverGuessHistory, setGameOverGuessHistory] = useState<Word[][]>(
+    [],
+  );
 
   const getReviewedIds = (): number[] => {
     try {
@@ -54,10 +59,15 @@ export default function ReviewPageClient(props: ReviewPageClientProps) {
     setLoaded(true);
   }, [props.connections]);
 
-  const handleGameOver = (isWon: boolean) => {
-    setGameOverIsWon(isWon);
-    setShowReviewModal(true);
-  };
+  useEffect(() => {
+    if (!gameContext || !currentGame || showReviewModal) return;
+    const { isWon, isLost, guessHistory } = gameContext;
+    if (isWon || isLost) {
+      setGameOverIsWon(isWon);
+      setGameOverGuessHistory(guessHistory);
+      setShowReviewModal(true);
+    }
+  }, [gameContext?.isWon, gameContext?.isLost]);
 
   const handleReviewSubmitted = () => {
     if (!currentGame) return;
@@ -111,12 +121,13 @@ export default function ReviewPageClient(props: ReviewPageClientProps) {
               key={currentGame.id}
               game={currentGame}
               saveDataToLocalStorage={false}
-              onGameOver={handleGameOver}
+              onGameOver={() => {}}
             />
             <ReviewModal
               isOpen={showReviewModal}
               connectionId={currentGame.id}
               isWon={gameOverIsWon}
+              guessHistory={gameOverGuessHistory}
               onSubmitted={handleReviewSubmitted}
             />
           </>

@@ -2,11 +2,14 @@
 
 import React, { useState, useEffect } from "react";
 import { useTranslations } from "next-intl";
+import { Word } from "@/app/[locale]/_types";
+import GuessHistory from "@/app/[locale]/_components/guess-history";
 
 type ReviewModalProps = {
   isOpen: boolean;
   connectionId: number;
   isWon: boolean;
+  guessHistory: Word[][];
   onSubmitted: () => void;
 };
 
@@ -53,6 +56,7 @@ export default function ReviewModal(props: ReviewModalProps) {
           difficulty,
           comment: comment.trim() || null,
           isWon: props.isWon,
+          guessHistory: props.guessHistory,
         }),
       });
 
@@ -86,6 +90,8 @@ export default function ReviewModal(props: ReviewModalProps) {
           </p>
         </div>
 
+        <GuessHistory guessHistory={props.guessHistory} showWords />
+
         <div className="flex flex-col gap-1">
           <label className="text-sm font-medium text-black">
             {t("review_modal_nameLabel")}{" "}
@@ -94,7 +100,8 @@ export default function ReviewModal(props: ReviewModalProps) {
           <input
             type="text"
             value={name}
-            onChange={(e) => setName(e.target.value)}
+            onChange={(e) => setName(e.target.value.slice(0, 50))}
+            maxLength={50}
             placeholder={t("review_modal_namePlaceholder")}
             className="border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-black"
           />
@@ -135,11 +142,15 @@ export default function ReviewModal(props: ReviewModalProps) {
           </label>
           <textarea
             value={comment}
-            onChange={(e) => setComment(e.target.value)}
+            onChange={(e) => setComment(e.target.value.slice(0, 1000))}
+            maxLength={1000}
             placeholder={t("review_modal_commentPlaceholder")}
             rows={3}
             className="border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-black resize-none"
           />
+          <span className="text-xs text-gray-400 text-right">
+            {t("review_modal_charsLeft", { count: 1000 - comment.length })}
+          </span>
         </div>
 
         {error && <p className="text-red-500 text-sm">{error}</p>}

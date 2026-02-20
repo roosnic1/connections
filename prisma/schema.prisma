@@ -37,6 +37,7 @@ model Review {
   difficulty   Int
   comment      String?
   isWon        Boolean
+  guessHistory Json       @default("{}")
   connection   Connection @relation(fields: [connectionId], references: [id], onDelete: Cascade)
   connectionId Int
 

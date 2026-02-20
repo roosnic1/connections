@@ -92,5 +92,6 @@
   "review_modal_commentPlaceholder": "Irgendwelche Gedanken zu diesem Spiel?",
   "review_modal_error": "Etwas ist schiefgelaufen. Bitte versuche es erneut.",
   "review_modal_submitting": "Wird gesendet...",
-  "review_modal_submit": "Feedback einreichen"
+  "review_modal_submit": "Feedback einreichen",
+  "review_modal_charsLeft": "{count} Zeichen übrig"
 }
