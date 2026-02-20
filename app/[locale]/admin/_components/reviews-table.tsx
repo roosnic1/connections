@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { getTranslations, getFormatter } from "next-intl/server";
 import type { Review, Connection } from "@/prisma/generated/prisma/client";
-import type { ReviewSortField, SortDir } from "../_actions/reviews";
+import type { ReviewSortField, SortDir } from "../_types";
 
 type ReviewWithConnection = Review & {
   connection: Pick<Connection, "id" | "publishDate">;

@@ -4,6 +4,8 @@ import { auth } from "@/lib/auth";
 import prisma from "@/lib/prisma";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
+import type { ReviewSortField, SortDir } from "../_types";
+import { VALID_SORT_FIELDS } from "../_types";
 
 async function requireAuth() {
   const session = await auth.api.getSession({
@@ -14,15 +16,6 @@ async function requireAuth() {
   }
   return session;
 }
-
-export type ReviewSortField = "createdAt" | "difficulty" | "reviewerName";
-export type SortDir = "asc" | "desc";
-
-const VALID_SORT_FIELDS: ReviewSortField[] = [
-  "createdAt",
-  "difficulty",
-  "reviewerName",
-];
 
 export async function getReviews(
   page: number = 1,

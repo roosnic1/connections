@@ -11,7 +11,7 @@ reviews:
   path_filters:
     - "!prisma/generated/**" # exclude generated Prisma files
     - "!messages/**" # exclude translation files
-    - "!prisma/connections.json" # exclude all JSON files
+    - "!prisma/connections.json" # exclude seed JSON file
     - "!package-lock.json"
   path_instructions:
     - path: "**/*.{ts,tsx}"

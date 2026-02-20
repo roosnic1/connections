@@ -6,7 +6,7 @@ import { ConnectionState, Difficulty } from "@/prisma/generated/prisma/client";
 import { PrismaClientKnownRequestError } from "@/prisma/generated/prisma/internal/prismaNamespace";
 import { revalidatePath } from "next/cache";
 import { headers } from "next/headers";
-import { redirect } from "next/navigation";
+import { redirect, unstable_rethrow } from "next/navigation";
 
 async function requireAuth() {
   const session = await auth.api.getSession({
@@ -165,6 +165,7 @@ export async function deleteConnection(
       where: { id: connectionId },
     });
   } catch (e) {
+    unstable_rethrow(e);
     if (e instanceof PrismaClientKnownRequestError && e.code === "P2025") {
       return { error: "Connection not found." };
     }

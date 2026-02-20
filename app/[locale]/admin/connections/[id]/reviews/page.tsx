@@ -3,10 +3,11 @@ import { headers } from "next/headers";
 import { redirect, notFound } from "next/navigation";
 import Link from "next/link";
 import { getTranslations, getFormatter } from "next-intl/server";
-import { getConnectionReviews } from "../../../_actions/reviews";
+import { getConnectionReviews } from "@/app/[locale]/admin/_actions/reviews";
 import GuessHistory from "@/app/[locale]/_components/guess-history";
 import { getWordColor } from "@/app/[locale]/_utils";
-import { Difficulty, Word } from "@/app/[locale]/_types";
+import { Difficulty } from "@/app/[locale]/_types";
+import { parseGuessHistory } from "@/app/[locale]/admin/_utils";
 
 const DIFFICULTY_ORDER: Difficulty[] = [
   Difficulty.EASY,
@@ -98,20 +99,7 @@ export default async function ConnectionReviewsPage({ params }: Props) {
 
           <div className="flex flex-col gap-4">
             {reviews.map((review) => {
-              const VALID_DIFFICULTIES = new Set(Object.values(Difficulty));
-              const isWord = (w: unknown): w is Word =>
-                typeof w === "object" &&
-                w !== null &&
-                typeof (w as Record<string, unknown>).word === "string" &&
-                VALID_DIFFICULTIES.has(
-                  (w as Record<string, unknown>).level as Difficulty,
-                );
-              const guessHistory: Word[][] = Array.isArray(review.guessHistory)
-                ? (review.guessHistory as unknown[])
-                    .filter(Array.isArray)
-                    .map((arr) => (arr as unknown[]).filter(isWord))
-                    .filter((arr) => arr.length > 0)
-                : [];
+              const guessHistory = parseGuessHistory(review.guessHistory);
               return (
                 <Link
                   key={review.id}
