@@ -13,6 +13,7 @@ export default function ControlButton(props: {
             ? "border-[#99a1af] text-[#4a5565] opacity-50 pointer-events-none"
             : "border-black text-black"
         }`}
+      disabled={disabled}
       onClick={props.onClick}
     >
       {props.text}

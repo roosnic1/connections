@@ -20,7 +20,7 @@ export default function ClearedCategory(props: { category: Category }) {
       <h1 className="text-black font-bold text-md md:text-lg">
         {props.category.category}
       </h1>
-      <h2 className="text-black text-sm md:text-md text-center mx-2">
+      <h2 className="text-black text-sm md:text-md text-center mx-2 hyphens-auto">
         {t("HomePage_categoryItems", { items: concatItems })}
       </h2>
     </div>

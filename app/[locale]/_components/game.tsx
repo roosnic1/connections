@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useContext, useEffect, useState } from "react";
+import { Fragment, useCallback, useContext, useEffect, useState } from "react";
 import ControlButton from "./button/control-button";
 import Grid from "./game/grid";
 import useAnimation from "../_hooks/use-animation";
@@ -59,7 +59,13 @@ export default function Game(props: GameProps) {
     );
     props.saveDataToLocalStorage !== undefined &&
       setUseLocalStorageData(props.saveDataToLocalStorage);
-  }, [props.game]);
+  }, [
+    props.game,
+    props.saveDataToLocalStorage,
+    setTodaysCategories,
+    setPublishDate,
+    setUseLocalStorageData,
+  ]);
 
   const [showGameModal, setShowGameModal] = useState(false);
   const [submitted, setSubmitted] = useState(false);
@@ -162,7 +168,9 @@ export default function Game(props: GameProps) {
         {props.extraButtons && props.extraButtons.length > 0 && (
           <>
             <div className="ml-3"></div>
-            {props.extraButtons.map((button) => button)}
+            {props.extraButtons.map((button, index) => (
+              <Fragment key={`extra-button-${index}`}>{button}</Fragment>
+            ))}
           </>
         )}
       </div>

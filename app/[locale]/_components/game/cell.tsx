@@ -27,11 +27,11 @@ export default function Cell(props: CellProps) {
       className={`${bgColor} aspect-square flex items-center justify-center rounded-md px-1 cursor-pointer transition ease-in-out ${guessAnimation} ${wrongGuessAnimation}`}
       onClick={handleClick}
     >
-      <h2
+      <span
         className={`${textColor} text-xs md:text-lg text-center font-bold w-full break-words hyphens-auto`}
       >
         {props.cellValue.word.toUpperCase().replace(/\|/g, "\u00AD")}
-      </h2>
+      </span>
     </button>
   );
 }
