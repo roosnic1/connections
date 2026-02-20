@@ -4,6 +4,8 @@ import { auth } from "@/lib/auth";
 import prisma from "@/lib/prisma";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
+import type { ReviewSortField, SortDir } from "../_types";
+import { VALID_SORT_FIELDS } from "../_types";
 
 async function requireAuth() {
   const session = await auth.api.getSession({
@@ -15,9 +17,6 @@ async function requireAuth() {
   return session;
 }
 
-export type ReviewSortField = "createdAt" | "difficulty" | "reviewerName";
-export type SortDir = "asc" | "desc";
-
 export async function getReviews(
   page: number = 1,
   pageSize: number = 20,
@@ -26,22 +25,31 @@ export async function getReviews(
 ) {
   await requireAuth();
 
-  const where = {};
+  const safePage = Number.isFinite(page) && page > 0 ? Math.floor(page) : 1;
+  const safePageSize =
+    Number.isFinite(pageSize) && pageSize > 0 ? Math.floor(pageSize) : 20;
+  const safeSortBy = VALID_SORT_FIELDS.includes(sortBy) ? sortBy : "createdAt";
+  const safeSortDir: SortDir = sortDir === "asc" ? "asc" : "desc";
 
   const [reviews, total] = await Promise.all([
     prisma.review.findMany({
-      where,
+      where: {},
       include: {
         connection: { select: { id: true, publishDate: true } },
       },
-      orderBy: { [sortBy]: sortDir },
-      skip: (page - 1) * pageSize,
-      take: pageSize,
+      orderBy: { [safeSortBy]: safeSortDir },
+      skip: (safePage - 1) * safePageSize,
+      take: safePageSize,
     }),
-    prisma.review.count({ where }),
+    prisma.review.count({ where: {} }),
   ]);
 
-  return { reviews, total, totalPages: Math.ceil(total / pageSize), page };
+  return {
+    reviews,
+    total,
+    totalPages: Math.ceil(total / safePageSize),
+    page: safePage,
+  };
 }
 
 export async function getConnectionReviews(connectionId: number) {

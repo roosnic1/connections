@@ -15,7 +15,7 @@ export default function Footer({ locale }: { locale: string }) {
 
   function handleLanguageChange(e: React.ChangeEvent<HTMLSelectElement>) {
     const newLocale = e.target.value;
-    document.cookie = `NEXT_LOCALE=${newLocale};path=/;max-age=31536000`;
+    document.cookie = `NEXT_LOCALE=${newLocale};path=/;max-age=31536000;SameSite=Lax`;
     router.refresh();
   }
 

@@ -3,10 +3,11 @@ import { headers } from "next/headers";
 import { redirect, notFound } from "next/navigation";
 import Link from "next/link";
 import { getTranslations, getFormatter } from "next-intl/server";
-import { getConnectionReviews } from "../../../_actions/reviews";
+import { getConnectionReviews } from "@/app/[locale]/admin/_actions/reviews";
 import GuessHistory from "@/app/[locale]/_components/guess-history";
 import { getWordColor } from "@/app/[locale]/_utils";
-import { Difficulty, Word } from "@/app/[locale]/_types";
+import { Difficulty } from "@/app/[locale]/_types";
+import { parseGuessHistory } from "@/app/[locale]/admin/_utils";
 
 const DIFFICULTY_ORDER: Difficulty[] = [
   Difficulty.EASY,
@@ -98,11 +99,7 @@ export default async function ConnectionReviewsPage({ params }: Props) {
 
           <div className="flex flex-col gap-4">
             {reviews.map((review) => {
-              const guessHistory: Word[][] = Array.isArray(review.guessHistory)
-                ? ((review.guessHistory as unknown[]).filter(
-                    Array.isArray,
-                  ) as Word[][])
-                : [];
+              const guessHistory = parseGuessHistory(review.guessHistory);
               return (
                 <Link
                   key={review.id}

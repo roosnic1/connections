@@ -44,8 +44,6 @@ export default function ReviewModal(props: ReviewModalProps) {
     setSubmitting(true);
     setError(null);
 
-    localStorage.setItem("reviewerName", name.trim());
-
     try {
       const res = await fetch("/api/review", {
         method: "POST",
@@ -62,6 +60,7 @@ export default function ReviewModal(props: ReviewModalProps) {
 
       if (!res.ok) throw new Error("Failed to submit");
 
+      localStorage.setItem("reviewerName", name.trim());
       props.onSubmitted();
     } catch {
       setError(t("review_modal_error"));

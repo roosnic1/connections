@@ -8,6 +8,16 @@ if (!keycloakIssuer) {
   throw new Error("AUTH_KEYCLOAK_ISSUER environment variable is required");
 }
 
+const keycloakId = process.env.AUTH_KEYCLOAK_ID;
+if (!keycloakId) {
+  throw new Error("AUTH_KEYCLOAK_ID environment variable is required");
+}
+
+const keycloakSecret = process.env.AUTH_KEYCLOAK_SECRET;
+if (!keycloakSecret) {
+  throw new Error("AUTH_KEYCLOAK_SECRET environment variable is required");
+}
+
 export const auth = betterAuth({
   secret: process.env.AUTH_SECRET,
   baseURL: process.env.BETTER_AUTH_URL,
@@ -18,8 +28,8 @@ export const auth = betterAuth({
     genericOAuth({
       config: [
         keycloak({
-          clientId: process.env.AUTH_KEYCLOAK_ID!,
-          clientSecret: process.env.AUTH_KEYCLOAK_SECRET!,
+          clientId: keycloakId,
+          clientSecret: keycloakSecret,
           issuer: keycloakIssuer,
           scopes: ["openid", "email", "profile"],
         }),

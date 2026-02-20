@@ -3,10 +3,11 @@ import { headers } from "next/headers";
 import { redirect, notFound } from "next/navigation";
 import Link from "next/link";
 import { getTranslations, getFormatter } from "next-intl/server";
-import { getReview } from "../../_actions/reviews";
+import { getReview } from "@/app/[locale]/admin/_actions/reviews";
 import GuessHistory from "@/app/[locale]/_components/guess-history";
 import { getWordColor } from "@/app/[locale]/_utils";
-import { Difficulty, Word } from "@/app/[locale]/_types";
+import { Difficulty } from "@/app/[locale]/_types";
+import { parseGuessHistory } from "@/app/[locale]/admin/_utils";
 
 const DIFFICULTY_ORDER: Difficulty[] = [
   Difficulty.EASY,
@@ -14,23 +15,6 @@ const DIFFICULTY_ORDER: Difficulty[] = [
   Difficulty.HARD,
   Difficulty.EXPERT,
 ];
-
-const VALID_DIFFICULTIES = new Set<string>(Object.values(Difficulty));
-
-function isWord(v: unknown): v is Word {
-  if (typeof v !== "object" || v === null) return false;
-  const obj = v as Record<string, unknown>;
-  return (
-    typeof obj.word === "string" && VALID_DIFFICULTIES.has(obj.level as string)
-  );
-}
-
-function parseGuessHistory(raw: unknown): Word[][] {
-  if (!Array.isArray(raw)) return [];
-  return raw
-    .filter(Array.isArray)
-    .map((row) => (row as unknown[]).filter(isWord));
-}
 
 type Props = { params: Promise<{ id: string }> };
 

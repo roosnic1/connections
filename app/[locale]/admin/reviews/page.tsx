@@ -2,16 +2,15 @@ import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { getTranslations } from "next-intl/server";
-import { getReviews, ReviewSortField, SortDir } from "../_actions/reviews";
+import { getReviews } from "../_actions/reviews";
+import {
+  ReviewSortField,
+  SortDir,
+  VALID_SORT_FIELDS,
+  VALID_SORT_DIRS,
+} from "../_types";
 import ReviewsTable from "../_components/reviews-table";
 import Pagination from "../_components/pagination";
-
-const VALID_SORT_FIELDS: ReviewSortField[] = [
-  "createdAt",
-  "difficulty",
-  "reviewerName",
-];
-const VALID_SORT_DIRS: SortDir[] = ["asc", "desc"];
 
 type Props = {
   searchParams: Promise<{ page?: string; sortBy?: string; sortDir?: string }>;
