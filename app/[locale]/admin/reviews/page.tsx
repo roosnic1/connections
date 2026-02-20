@@ -35,7 +35,7 @@ export default async function ReviewsPage({ searchParams }: Props) {
     ? (sortDirParam as SortDir)
     : "desc";
 
-  const { reviews, totalPages } = await getReviews(page, 20, sortBy, sortDir);
+  const { reviews, totalPages } = await getReviews(page, 10, sortBy, sortDir);
   const t = await getTranslations();
 
   return (
