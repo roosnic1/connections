@@ -9,7 +9,9 @@ export default function ClearedCategory(props: { category: Category }) {
   const level = props.category.level;
   const bgColor = getWordColor(level);
 
-  const concatItems = props.category.items.join(", ");
+  const concatItems = props.category.items
+    .map((item) => item.toUpperCase().replace(/\|/g, "\u00AD"))
+    .join(", ");
 
   return (
     <div

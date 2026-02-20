@@ -145,13 +145,15 @@ export default function Game(props: GameProps) {
     );
 
     return (
-      <div className="flex gap-2 mb-12 w-full">
+      <div className="flex justify-center gap-2 mb-12 w-full">
         {(isWon || isLost) && showResultsButton}
         {!isWon && !isLost && inProgressButtons}
-        <div className="ml-3"></div>
-        {props.extraButtons &&
-          props.extraButtons.length > 0 &&
-          props.extraButtons.map((button) => button)}
+        {props.extraButtons && props.extraButtons.length > 0 && (
+          <>
+            <div className="ml-3"></div>
+            {props.extraButtons.map((button) => button)}
+          </>
+        )}
       </div>
     );
   };
@@ -169,7 +171,7 @@ export default function Game(props: GameProps) {
             wrongGuessAnimationState={wrongGuessAnimationState}
           />
         </div>
-        <h2 className="text-black my-4 md:my-8 mx-8">
+        <h2 className="text-black my-4 md:my-8 text-center">
           {t("HomePage_mistakesRemaining", {
             count:
               mistakesRemaining > 0
