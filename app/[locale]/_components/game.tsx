@@ -22,6 +22,7 @@ type GameProps = {
   game: ConnectionGame;
   saveDataToLocalStorage?: boolean;
   extraButtons?: [React.ReactNode];
+  onGameOver?: (isWon: boolean) => void;
 };
 
 export default function Game(props: GameProps) {
@@ -89,12 +90,20 @@ export default function Game(props: GameProps) {
       case "loss":
         toast(t("HomePage_betterLuck"));
         await handleLoss();
-        setShowGameModal(true);
+        if (props.onGameOver) {
+          props.onGameOver(false);
+        } else {
+          setShowGameModal(true);
+        }
         break;
       case "win":
         toast(getPerfection(mistakesRemaining));
         await handleWin();
-        setShowGameModal(true);
+        if (props.onGameOver) {
+          props.onGameOver(true);
+        } else {
+          setShowGameModal(true);
+        }
         break;
       case "incorrect":
         animateWrongGuess();
@@ -114,7 +123,9 @@ export default function Game(props: GameProps) {
     const showResultsButton = (
       <ControlButton
         text={t("HomePage_showResults")}
-        onClick={() => setShowGameModal(true)}
+        onClick={() =>
+          props.onGameOver ? props.onGameOver(isWon) : setShowGameModal(true)
+        }
         unclickable={submitted}
       />
     );
@@ -181,10 +192,12 @@ export default function Game(props: GameProps) {
         </h2>
         {renderControlButtons()}
       </div>
-      <GameModal
-        isOpen={showGameModal}
-        onClose={() => setShowGameModal(false)}
-      />
+      {!props.onGameOver && (
+        <GameModal
+          isOpen={showGameModal}
+          onClose={() => setShowGameModal(false)}
+        />
+      )}
     </>
   );
 }

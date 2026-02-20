@@ -14,12 +14,15 @@ export default function Header() {
   const pathname = usePathname();
 
   const isAdmin = pathname.includes("/admin");
+  const isReview = pathname.includes("/review");
 
   const publishDate = gameContext?.publishDate ?? DateTime.now();
   const dateFormatted = publishDate.toLocaleString(DateTime.DATE_FULL);
   const title = isAdmin
     ? t("header_admin_title")
-    : t("HomePage_title", { day: dateFormatted });
+    : isReview
+      ? t("header_review_title")
+      : t("HomePage_title", { day: dateFormatted });
 
   const HamburgerIcon = () => (
     <svg

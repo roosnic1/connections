@@ -27,6 +27,20 @@ model Connection {
   publishDate DateTime?
   publishedAt DateTime?
   categories  Category[]
+  reviews     Review[]
+}
+
+model Review {
+  id           Int        @id @default(autoincrement())
+  createdAt    DateTime   @default(now())
+  reviewerName String
+  difficulty   Int
+  comment      String?
+  isWon        Boolean
+  connection   Connection @relation(fields: [connectionId], references: [id], onDelete: Cascade)
+  connectionId Int
+
+  @@index([connectionId])
 }
 
 enum Difficulty {
