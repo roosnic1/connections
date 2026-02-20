@@ -9,6 +9,7 @@ import { Bounce, ToastContainer } from "react-toastify";
 import { GameContextProvider } from "@/app/[locale]/_components/game-context";
 import { ReactNode } from "react";
 import Footer from "@/app/[locale]/_components/footer";
+import Header from "@/app/[locale]/_components/header";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -31,7 +32,9 @@ export default async function RootLayout({ children, params }: Props) {
       <body className={`${inter.className} min-h-screen flex flex-col`}>
         <NextIntlClientProvider messages={messages}>
           <GameContextProvider>
+            <Header />
             <div className="flex-1">{children}</div>
+            <Footer locale={locale} />
           </GameContextProvider>
           <ToastContainer
             position="top-center"
@@ -47,7 +50,6 @@ export default async function RootLayout({ children, params }: Props) {
             theme="light"
             transition={Bounce}
           />
-          <Footer locale={locale} />
           <Analytics />
           <SpeedInsights />
         </NextIntlClientProvider>

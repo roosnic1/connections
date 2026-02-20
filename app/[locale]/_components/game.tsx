@@ -145,7 +145,7 @@ export default function Game(props: GameProps) {
     );
 
     return (
-      <div className="flex gap-2 mb-12">
+      <div className="flex gap-2 mb-12 w-full">
         {(isWon || isLost) && showResultsButton}
         {!isWon && !isLost && inProgressButtons}
         <div className="ml-3"></div>
@@ -159,13 +159,6 @@ export default function Game(props: GameProps) {
   return (
     <>
       <div className="min-w-full sm:min-w-[630px]">
-        <h1 className="text-black text-4xl font-semibold my-4 ml-4">
-          {t("HomePage_title", {
-            day: `${publishDate.setLocale("de-CH").toLocaleString(DateTime.DATE_SHORT)}`,
-          })}
-        </h1>
-        <h1 className="text-black mb-4">{t("HomePage_subtitle")}</h1>
-        <hr className="mb-4 md:mb-4 w-full"></hr>
         <div className="relative w-full">
           <Grid
             words={gameWords}

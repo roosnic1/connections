@@ -38,7 +38,7 @@ export default async function Page({
   };
 
   return (
-    <div className="flex flex-col items-center w-11/12 md:w-3/4 lg:w-7/12 mx-auto mt-14">
+    <div className="flex flex-col items-center w-11/12 md:w-3/4 lg:w-7/12 mx-auto mt-12">
       <Game game={connectionGame} saveDataToLocalStorage={true} />
     </div>
   );
