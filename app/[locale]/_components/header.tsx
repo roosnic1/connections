@@ -2,6 +2,7 @@
 
 import { useContext, useState } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { GameContext } from "@/app/[locale]/_components/game-context";
 import { DateTime } from "luxon";
 import { useTranslations } from "next-intl";
@@ -10,10 +11,15 @@ export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
   const gameContext = useContext(GameContext);
   const t = useTranslations();
+  const pathname = usePathname();
+
+  const isAdmin = pathname.includes("/admin");
 
   const publishDate = gameContext?.publishDate ?? DateTime.now();
   const dateFormatted = publishDate.toLocaleString(DateTime.DATE_FULL);
-  const title = t("HomePage_title", { day: dateFormatted });
+  const title = isAdmin
+    ? t("header_admin_title")
+    : t("HomePage_title", { day: dateFormatted });
 
   const HamburgerIcon = () => (
     <svg
