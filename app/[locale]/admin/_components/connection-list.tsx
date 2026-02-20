@@ -10,7 +10,10 @@ import { getWordColor } from "@/app/[locale]/_utils";
 import DeleteButton from "./delete-button";
 import StateTransitionButton from "./state-transition-button";
 
-type ConnectionWithCategories = Connection & { categories: PrismaCategory[] };
+type ConnectionWithCategories = Connection & {
+  categories: PrismaCategory[];
+  _count: { reviews: number };
+};
 
 const DIFFICULTY_ORDER: Difficulty[] = [
   Difficulty.EASY,
@@ -87,6 +90,19 @@ export default async function ConnectionList({
                   currentState={connection.state}
                   publishDate={connection.publishDate ?? null}
                 />
+                <div className="w-px h-4 bg-gray-400 mx-0.5" />
+                {connection._count.reviews > 0 ? (
+                  <Link
+                    href={`/admin/connections/${connection.id}/reviews`}
+                    className="px-2 py-0.5 bg-blue-600 text-white text-xs rounded hover:bg-blue-700"
+                  >
+                    {t("admin_viewReviews")} ({connection._count.reviews})
+                  </Link>
+                ) : (
+                  <span className="px-2 py-0.5 bg-blue-600 text-white text-xs rounded opacity-50 cursor-not-allowed">
+                    {t("admin_viewReviews")}
+                  </span>
+                )}
                 <div className="w-px h-4 bg-gray-400 mx-0.5" />
                 {isEditable ? (
                   <Link

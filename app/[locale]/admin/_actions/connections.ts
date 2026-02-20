@@ -162,7 +162,10 @@ export async function getConnections(
   const [connections, total] = await Promise.all([
     prisma.connection.findMany({
       where,
-      include: { categories: { orderBy: { level: "asc" } } },
+      include: {
+        categories: { orderBy: { level: "asc" } },
+        _count: { select: { reviews: true } },
+      },
       orderBy: { updatedAt: "desc" },
       skip: (page - 1) * pageSize,
       take: pageSize,

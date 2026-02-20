@@ -38,6 +38,12 @@ export default async function AdminLayout({
               >
                 {t("admin_manageConnections")}
               </Link>
+              <Link
+                href="/admin/reviews"
+                className="px-3 py-2 rounded-lg text-sm font-medium text-black hover:bg-gray-200 transition-colors"
+              >
+                {t("admin_manageReviews")}
+              </Link>
             </nav>
 
             <AdminLogoutButton />
