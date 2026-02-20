@@ -98,7 +98,11 @@ export default async function ConnectionReviewsPage({ params }: Props) {
 
           <div className="flex flex-col gap-4">
             {reviews.map((review) => {
-              const guessHistory = review.guessHistory as Word[][];
+              const guessHistory: Word[][] = Array.isArray(review.guessHistory)
+                ? ((review.guessHistory as unknown[]).filter(
+                    Array.isArray,
+                  ) as Word[][])
+                : [];
               return (
                 <Link
                   key={review.id}

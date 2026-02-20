@@ -26,8 +26,11 @@ export async function getReviews(
 ) {
   await requireAuth();
 
+  const where = {};
+
   const [reviews, total] = await Promise.all([
     prisma.review.findMany({
+      where,
       include: {
         connection: { select: { id: true, publishDate: true } },
       },
@@ -35,7 +38,7 @@ export async function getReviews(
       skip: (page - 1) * pageSize,
       take: pageSize,
     }),
-    prisma.review.count(),
+    prisma.review.count({ where }),
   ]);
 
   return { reviews, total, totalPages: Math.ceil(total / pageSize), page };

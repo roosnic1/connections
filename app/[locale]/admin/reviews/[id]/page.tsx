@@ -15,6 +15,23 @@ const DIFFICULTY_ORDER: Difficulty[] = [
   Difficulty.EXPERT,
 ];
 
+const VALID_DIFFICULTIES = new Set<string>(Object.values(Difficulty));
+
+function isWord(v: unknown): v is Word {
+  if (typeof v !== "object" || v === null) return false;
+  const obj = v as Record<string, unknown>;
+  return (
+    typeof obj.word === "string" && VALID_DIFFICULTIES.has(obj.level as string)
+  );
+}
+
+function parseGuessHistory(raw: unknown): Word[][] {
+  if (!Array.isArray(raw)) return [];
+  return raw
+    .filter(Array.isArray)
+    .map((row) => (row as unknown[]).filter(isWord));
+}
+
 type Props = { params: Promise<{ id: string }> };
 
 export default async function ReviewDetailPage({ params }: Props) {
@@ -31,7 +48,7 @@ export default async function ReviewDetailPage({ params }: Props) {
   const t = await getTranslations();
   const format = await getFormatter();
 
-  const guessHistory = review.guessHistory as Word[][];
+  const guessHistory = parseGuessHistory(review.guessHistory);
 
   return (
     <div className="p-8 max-w-3xl">

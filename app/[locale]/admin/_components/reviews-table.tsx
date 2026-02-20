@@ -11,19 +11,23 @@ type ReviewsTableProps = {
   reviews: ReviewWithConnection[];
   sortBy: ReviewSortField;
   sortDir: SortDir;
+  basePath?: string;
 };
 
 export default async function ReviewsTable({
   reviews,
   sortBy,
   sortDir,
+  basePath = "/admin/reviews",
 }: ReviewsTableProps) {
   const t = await getTranslations();
   const format = await getFormatter();
 
+  const base = basePath.endsWith("/") ? basePath.slice(0, -1) : basePath;
+
   function sortLink(field: ReviewSortField) {
     const newDir = sortBy === field && sortDir === "asc" ? "desc" : "asc";
-    return `/admin/reviews?sortBy=${field}&sortDir=${newDir}`;
+    return `${base}?sortBy=${field}&sortDir=${newDir}`;
   }
 
   function sortIcon(field: ReviewSortField) {
@@ -88,7 +92,7 @@ export default async function ReviewsTable({
             >
               <td className="py-3 px-4 text-gray-600 whitespace-nowrap">
                 <Link
-                  href={`/admin/reviews/${review.id}`}
+                  href={`${base}/${review.id}`}
                   className="block hover:underline"
                 >
                   {format.dateTime(review.createdAt, {
@@ -99,7 +103,7 @@ export default async function ReviewsTable({
               </td>
               <td className="py-3 px-4 font-medium">
                 <Link
-                  href={`/admin/reviews/${review.id}`}
+                  href={`${base}/${review.id}`}
                   className="block hover:underline"
                 >
                   {review.reviewerName}
@@ -118,7 +122,7 @@ export default async function ReviewsTable({
               </td>
               <td className="py-3 px-4 whitespace-nowrap">
                 <Link
-                  href={`/admin/reviews/${review.id}`}
+                  href={`${base}/${review.id}`}
                   className="block hover:underline"
                 >
                   <span className="font-semibold">{review.difficulty}</span>
@@ -126,7 +130,7 @@ export default async function ReviewsTable({
                 </Link>
               </td>
               <td className="py-3 px-4">
-                <Link href={`/admin/reviews/${review.id}`} className="block">
+                <Link href={`${base}/${review.id}`} className="block">
                   <span
                     className={`px-2 py-0.5 rounded text-xs font-medium ${
                       review.isWon
@@ -140,7 +144,7 @@ export default async function ReviewsTable({
               </td>
               <td className="py-3 px-4 text-gray-500 max-w-xs truncate">
                 <Link
-                  href={`/admin/reviews/${review.id}`}
+                  href={`${base}/${review.id}`}
                   className="block hover:underline"
                 >
                   {review.comment ?? (

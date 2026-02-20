@@ -158,6 +158,8 @@ export async function getConnections(
   pageSize: number = 10,
   state?: ConnectionState,
 ) {
+  await requireAuth();
+
   const where = state ? { state } : {};
   const [connections, total] = await Promise.all([
     prisma.connection.findMany({
@@ -211,6 +213,8 @@ export async function updateConnectionState(
 }
 
 export async function getConnection(id: number) {
+  await requireAuth();
+
   return prisma.connection.findUnique({
     where: { id },
     include: { categories: { orderBy: { level: "asc" } } },
