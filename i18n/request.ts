@@ -1,6 +1,6 @@
 import { getRequestConfig } from "next-intl/server";
 import { hasLocale } from "use-intl";
-import { ALL_LANGUAGES, DEFAULT_LANGUAGE } from "@/tolgee/shared";
+import { ALL_LANGUAGES, DEFAULT_LANGUAGE } from "@/i18n/config";
 
 // @ts-ignore
 export default getRequestConfig(async ({ requestLocale }) => {
@@ -10,8 +10,7 @@ export default getRequestConfig(async ({ requestLocale }) => {
     : DEFAULT_LANGUAGE;
 
   return {
-    // do this to make next-intl not emmit any warnings
     locale,
-    //messages: { locale: locale! },
+    messages: (await import(`../messages/${locale}.json`)).default,
   };
 });

@@ -2,9 +2,11 @@
 
 import { authClient } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 
 export default function AdminLogoutButton() {
   const router = useRouter();
+  const t = useTranslations();
 
   const handleLogout = async () => {
     await authClient.signOut();
@@ -15,9 +17,9 @@ export default function AdminLogoutButton() {
   return (
     <button
       onClick={handleLogout}
-      className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
+      className="w-full px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 text-sm"
     >
-      Logout
+      {t("admin_logout")}
     </button>
   );
 }

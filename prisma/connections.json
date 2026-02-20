@@ -1,0 +1,703 @@
+[
+  {
+    "categories": [
+      {
+        "title": "Fussballspieler",
+        "words": ["sommer", "keller", "hitz", "frei"],
+        "level": "EASY"
+      },
+      {
+        "title": "Musikerinnen",
+        "words": ["winter", "button", "känzig", "gfeller"],
+        "level": "MEDIUM"
+      },
+      {
+        "title": "Zürcher wege",
+        "words": ["laternen", "herbst", "panorama", "zelt"],
+        "level": "HARD"
+      },
+      {
+        "title": "Spät",
+        "words": ["frühling", "lese", "zünder", "i"],
+        "level": "EXPERT"
+      }
+    ]
+  },
+  {
+    "categories": [
+      {
+        "title": "____grund",
+        "words": ["ab", "letzi", "unter", "hinter"],
+        "level": "EASY"
+      },
+      {
+        "title": "Areale",
+        "words": ["hunziker", "hürlimann", "toni", "koch"],
+        "level": "MEDIUM"
+      },
+      {
+        "title": "Biere",
+        "words": ["löwenbräu", "chopfab", "sprint", "amboss"],
+        "level": "HARD"
+      },
+      {
+        "title": "Schmiedutensielien",
+        "words": ["hammer", "glut", "wasser", "fächer"],
+        "level": "EXPERT"
+      }
+    ]
+  },
+  {
+    "categories": [
+      {
+        "title": "Letzi____",
+        "words": ["park", "grund", "graben", "strasse"],
+        "level": "EASY"
+      },
+      {
+        "title": "Schauspielerinnen",
+        "words": ["wedler", "braun|schweig", "schuler", "winiger"],
+        "level": "MEDIUM"
+      },
+      {
+        "title": "Thomas",
+        "words": ["mann", "bucheli", "müller", "borer"],
+        "level": "HARD"
+      },
+      {
+        "title": "Quai",
+        "words": ["limmat", "sihl", "bahnhof", "uto"],
+        "level": "EXPERT"
+      }
+    ]
+  },
+  {
+    "categories": [
+      {
+        "title": "Schauspielhaus",
+        "words": ["kammer", "halle", "saal", "box"],
+        "level": "EASY"
+      },
+      {
+        "title": "Theater",
+        "words": ["neumarkt", "11", "rigiblick", "sogar"],
+        "level": "MEDIUM"
+      },
+      {
+        "title": "Kino",
+        "words": ["metropol", "abaton", "riffraff", "picadilly"],
+        "level": "HARD"
+      },
+      {
+        "title": "London underground",
+        "words": ["bakerloo", "northern", "circle", "elizabeth"],
+        "level": "EXPERT"
+      }
+    ]
+  },
+  {
+    "categories": [
+      {
+        "title": "Homo",
+        "words": ["faber", "deus", "sapiens", "sexuell"],
+        "level": "EASY"
+      },
+      {
+        "title": "Zürcher rapper:innen",
+        "words": ["skor", "big zis", "luuk", "eaz"],
+        "level": "MEDIUM"
+      },
+      {
+        "title": "Supermarkt",
+        "words": ["frisch", "gefroren", "konserviert", "eingemacht"],
+        "level": "HARD"
+      },
+      {
+        "title": "Orte an der amerikanischen Ostküste",
+        "words": ["montauk", "beaufort", "brunswick", "St. Augustine"],
+        "level": "EXPERT"
+      }
+    ]
+  },
+  {
+    "categories": [
+      {
+        "title": "___wil",
+        "words": ["ober", "richter", "unter", "neu"],
+        "level": "EASY"
+      },
+      {
+        "title": "Justiz",
+        "words": ["anwalt", "opfer", "polizei", "gesetz"],
+        "level": "MEDIUM"
+      },
+      {
+        "title": "____stadt",
+        "words": ["alt", "gross", "haupt", "vor"],
+        "level": "HARD"
+      },
+      {
+        "title": "Kopf",
+        "words": ["rübe", "grind", "nuss", "schädel"],
+        "level": "EXPERT"
+      }
+    ]
+  },
+  {
+    "categories": [
+      {
+        "title": "SRF Sendungen",
+        "words": ["arena", "puls", "reporter", "impact"],
+        "level": "EASY"
+      },
+      {
+        "title": "Berufe in der Medienbranche",
+        "words": ["journalist", "verleger", "editor", "produzent"],
+        "level": "MEDIUM"
+      },
+      {
+        "title": "Zürcher Music Festivals:",
+        "words": ["Lauter", "Stolze", "Vorstadt", "Caliente"],
+        "level": "HARD"
+      },
+      {
+        "title": "Zürcher Gemeindefahnen mit einem Spaten",
+        "words": ["Dänikon", "Unterengstringen", "Volken", "Wil"],
+        "level": "EXPERT"
+      }
+    ]
+  },
+  {
+    "categories": [
+      {
+        "title": "Elemente von Stadtzürcherquartieren",
+        "words": ["Turm", "Anker", "Kleeblatt", "Hufeisen"],
+        "level": "EASY"
+      },
+      {
+        "title": "Insekten",
+        "words": ["Marienkäfer", "Bienen", "Flöhe", "Grasshoppers"],
+        "level": "MEDIUM"
+      },
+      {
+        "title": "Spionequipment",
+        "words": ["Mikrofon", "Wanze", "Feldstecher", "Drohne"],
+        "level": "HARD"
+      },
+      {
+        "title": "Fussballclubs",
+        "words": ["Young Boys", "Bianconeri", "Bebbi", "Eulachstädter"],
+        "level": "EXPERT"
+      }
+    ]
+  },
+  {
+    "categories": [
+      {
+        "title": "Zürcher Gemeinderät:innen",
+        "words": ["Schneider", "Locher", "Koch", "Keller"],
+        "level": "EASY"
+      },
+      {
+        "title": "Restaurantangestellte",
+        "words": ["Sommelier", "Pâtissier", "Spüler", "Barista"],
+        "level": "MEDIUM"
+      },
+      {
+        "title": "Stauräume",
+        "words": ["Estrich", "Reduit", "Kammer", "Garage"],
+        "level": "HARD"
+      },
+      {
+        "title": "Buroequipment",
+        "words": ["Schere", "Klammer", "Bostitch", "Ordner"],
+        "level": "EXPERT"
+      }
+    ]
+  },
+  {
+    "categories": [
+      {
+        "title": "Baslerfasnacht",
+        "words": ["Pfeife", "Larve", "Kostüm", "Trommel"],
+        "level": "EASY"
+      },
+      {
+        "title": "Spielzeuge",
+        "words": ["Puppe", "Teddy", "Eisenbahn", "Rassel"],
+        "level": "MEDIUM"
+      },
+      {
+        "title": "____Fahrzeug",
+        "words": ["Raupen", "Luftkissen", "Rad", "Amphibien"],
+        "level": "HARD"
+      },
+      {
+        "title": "Día de Muertos",
+        "words": ["Schmetterling", "Skelett", "Ringelblume", "Kerzen"],
+        "level": "EXPERT"
+      }
+    ]
+  },
+  {
+    "categories": [
+      {
+        "title": "Feiertage",
+        "words": ["Knabenschiessen", "Sechseläuten", "1. Mai", "Auffahrt"],
+        "level": "EASY"
+      },
+      {
+        "title": "Schweiz",
+        "words": ["1. August", "Willhelm Tell", "Käse", "Berge"],
+        "level": "MEDIUM"
+      },
+      {
+        "title": "Strassenverkehr",
+        "words": ["Zebrastreifen", "Kreisel", "Trottoir", "Passerelle"],
+        "level": "HARD"
+      },
+      {
+        "title": "Französische Lehnwörter",
+        "words": ["Portemonnaie", "Poulet", "Perron", "caquelon"],
+        "level": "EXPERT"
+      }
+    ]
+  },
+  {
+    "categories": [
+      {
+        "title": "Eingeschweizerdeutschte Französische Wörter",
+        "words": ["Geleretli", "Gascho", "Plakat", "Parterre"],
+        "level": "EASY"
+      },
+      {
+        "title": "Helvetismen",
+        "words": ["Schaffen", "Rüebli", "Ferien", "Glace"],
+        "level": "MEDIUM"
+      },
+      {
+        "title": "Gemüse",
+        "words": ["Zucchetti", "Tomaten", "Kohlrabi", "Aubergine"],
+        "level": "HARD"
+      },
+      {
+        "title": "___Kohl",
+        "words": ["Blumen", "Rosen", "Rot", "Spitz"],
+        "level": "EXPERT"
+      }
+    ]
+  },
+  {
+    "categories": [
+      {
+        "title": "Katzenfellmuster",
+        "words": ["Tabby", "Tortie", "Calico", "Smoke"],
+        "level": "EASY"
+      },
+      {
+        "title": "Pseudo anglizismen",
+        "words": ["Handy", "Beamer", "Home-Office", "Public Viewing"],
+        "level": "MEDIUM"
+      },
+      {
+        "title": "Orte für Fussballschauen",
+        "words": ["Stadion", "Pub", "Zuhause", "Fernsehstudio"],
+        "level": "HARD"
+      },
+      {
+        "title": "Orte zum Einkehren",
+        "words": ["Restaurant", "Bistro", "Café", "Gasthof"],
+        "level": "EXPERT"
+      }
+    ]
+  },
+  {
+    "categories": [
+      {
+        "title": "Schweizer Radios mit FM im Namen",
+        "words": ["GDS", "ONE", "ROUGE", "1"],
+        "level": "EASY"
+      },
+      {
+        "title": "Textnachrichten Abkürzung",
+        "words": ["ROFL", "LG", "ASAP", "NVM"],
+        "level": "MEDIUM"
+      },
+      {
+        "title": "Bundesdepartemente",
+        "words": ["EDI", "UVEK", "WBF", "VBS"],
+        "level": "HARD"
+      },
+      {
+        "title": "Datenträger",
+        "words": ["MD", "VHS", "LD", "SSD"],
+        "level": "EXPERT"
+      }
+    ]
+  },
+  {
+    "categories": [
+      {
+        "title": "Sternzeichen",
+        "words": ["Fisch", "Widder", "Stier", "Krebs"],
+        "level": "EASY"
+      },
+      {
+        "title": "Kantonswappentiere",
+        "words": ["Bär", "Steinbock", "Adler", "Löwe"],
+        "level": "MEDIUM"
+      },
+      {
+        "title": "Schweizer Alpentiere",
+        "words": ["Murmeltier", "Gams", "Bartgeier", "Alpenspitzmaus"],
+        "level": "HARD"
+      },
+      {
+        "title": "nicht domestizierte Stadttiere",
+        "words": ["Fuchs", "Marder", "Biber", "Igel"],
+        "level": "EXPERT"
+      }
+    ]
+  },
+  {
+    "categories": [
+      {
+        "title": "Emojis für Körperteile",
+        "words": ["🍑", "🍆", "🥜", "🍈🍈"],
+        "level": "EASY"
+      },
+      {
+        "title": "Drogen",
+        "words": ["🥦", "🚬", "🍹", "💳"],
+        "level": "MEDIUM"
+      },
+      {
+        "title": "Fast Food",
+        "words": ["🍕", "🥙", "🍱", "🍔"],
+        "level": "HARD"
+      },
+      {
+        "title": "Zmorge",
+        "words": ["🗞️", "☕️", "🥐", "🍯"],
+        "level": "EXPERT"
+      }
+    ]
+  },
+  {
+    "categories": [
+      {
+        "title": "Ortschaften mit Tier im Namen",
+        "words": ["Schaffhausen", "Diepoldsau", "Fischingen", "Bäretswil"],
+        "level": "EASY"
+      },
+      {
+        "title": "Schweizer Orte mit weniger als 100 Einwohner",
+        "words": ["Bister", "Berken", "Corippo", "Schweinbrunnen"],
+        "level": "MEDIUM"
+      },
+      {
+        "title": "Sternenbilder",
+        "words": ["Schwan", "Luchs", "Delfin", "Drache"],
+        "level": "HARD"
+      },
+      {
+        "title": "Fabelwesen",
+        "words": ["Phönix", "Pegasus", "Einhorn", "Hydra"],
+        "level": "EXPERT"
+      }
+    ]
+  },
+  {
+    "categories": [
+      {
+        "title": "Instrumente in einem Orchester",
+        "words": ["Piano", "Cello", "Oboe", "Becken"],
+        "level": "EASY"
+      },
+      {
+        "title": "Fussballtrainer",
+        "words": ["Forte", "Gross", "Rahmen", "Hütter"],
+        "level": "MEDIUM"
+      },
+      {
+        "title": "Musikdynamik",
+        "words": ["Crescendo", "mezzoforte", "pianissimo", "subito"],
+        "level": "HARD"
+      },
+      {
+        "title": "Körperteile",
+        "words": ["Hüfte", "Gesäss", "Steissbein", "Schambein"],
+        "level": "EXPERT"
+      }
+    ]
+  },
+  {
+    "categories": [
+      {
+        "title": "Schweizer Eisenbahnen",
+        "words": ["Cobra", "Krokodil", "Allegra", "Flirt"],
+        "level": "EASY"
+      },
+      {
+        "title": "Reptilien",
+        "words": ["Eidechse", "Salamander", "Gecko", "Alligator"],
+        "level": "MEDIUM"
+      },
+      {
+        "title": "Rätoromanisch",
+        "words": ["Bundi", "Viva", "a revair", "l'asen"],
+        "level": "HARD"
+      },
+      {
+        "title": "Berner Schimpfwörter",
+        "words": ["Glüngi", "Sürmu", "Löu", "Siech"],
+        "level": "EXPERT"
+      }
+    ]
+  },
+  {
+    "categories": [
+      {
+        "title": "Zürcher Einzugsgebiete",
+        "words": ["Züri Nord", "Links der Limmat", "Sihltal", "Goldküste"],
+        "level": "EASY"
+      },
+      {
+        "title": "Schweizer Bands",
+        "words": ["Züri West", "Baba Shrimps", "Hecht", "Carrousel"],
+        "level": "MEDIUM"
+      },
+      {
+        "title": "Abfall",
+        "words": ["Patent Ochsner", "Küdder", "Rund Archiv", "Bebbisagg"],
+        "level": "HARD"
+      },
+      {
+        "title": "Fisch",
+        "words": ["Egli", "Barsch", "Forelle", "Zander"],
+        "level": "EXPERT"
+      }
+    ]
+  },
+  {
+    "categories": [
+      {
+        "title": "Wort mit Rampe",
+        "words": ["Amboss", "Lade", "Flucht", "Rollstuhl"],
+        "level": "EASY"
+      },
+      {
+        "title": "Reiter:innen Ausrüstung",
+        "words": ["Steigbügel", "Peitsche", "Sattel", "Sporen"],
+        "level": "MEDIUM"
+      },
+      {
+        "title": "Ausdrücke der Begeisterung",
+        "words": ["Hammer", "Mega", "Krass", "Wow"],
+        "level": "HARD"
+      },
+      {
+        "title": "Meeresbewohner",
+        "words": ["Muschel", "Qualle", "Hering", "Schnecke"],
+        "level": "EXPERT"
+      }
+    ]
+  },
+  {
+    "categories": [
+      {
+        "title": "Nachtzugenddestinationen von Zürich",
+        "words": ["Zagreb", "Hamburg", "Amsterdam", "Budapest"],
+        "level": "EASY"
+      },
+      {
+        "title": "Hauptstädte Schweizer Nachbarländer",
+        "words": ["Berlin", "Paris", "Mailand", "Vaduz"],
+        "level": "MEDIUM"
+      },
+      {
+        "title": "Orte in Mikrostaaten",
+        "words": ["Monte Carlo", "Fiorentino", "Canillo", "Naxxar"],
+        "level": "HARD"
+      },
+      {
+        "title": "Weiblich gelesene Namen, die auch Orte sind",
+        "words": ["Sofia", "Valencia", "Chelsea", "Georgia"],
+        "level": "EXPERT"
+      }
+    ]
+  },
+  {
+    "categories": [
+      {
+        "title": "Magazinname",
+        "words": ["Spick", "Geo", "Landliebe", "Bilanz"],
+        "level": "EASY"
+      },
+      {
+        "title": "Gut Gemacht",
+        "words": ["Bravo", "Super", "Cool", "👍🏼"],
+        "level": "MEDIUM"
+      },
+      {
+        "title": "Budgetbegriffe",
+        "words": ["Haben", "Debitoren", "Limit", "Deckelung"],
+        "level": "HARD"
+      },
+      {
+        "title": "\"SRF bi de Lüt\" Serien",
+        "words": ["Landfrauen", "Hüttengeschichten", "Live", "Familiensache"],
+        "level": "EXPERT"
+      }
+    ]
+  },
+  {
+    "categories": [
+      {
+        "title": "Persönlichkeiten ohne cis pronomen",
+        "words": [
+          "Nemo",
+          "Kim de l'Horizon",
+          "Jessica Sigerist",
+          "Sasha Melroch"
+        ],
+        "level": "EASY"
+      },
+      {
+        "title": "Schweizer Dragqueens",
+        "words": ["Paprika", "Vicky Goldfinger", "Milky Diamond", "Mona Gamie"],
+        "level": "MEDIUM"
+      },
+      {
+        "title": "Genderneutrale Namen",
+        "words": ["Dominique", "Andrea", "Sascha", "Alex"],
+        "level": "HARD"
+      },
+      {
+        "title": "Verschmolzene Promi-Paar-Namen",
+        "words": ["Brangelina", "Zanessa", "Kimye", "Hiddleswift"],
+        "level": "EXPERT"
+      }
+    ]
+  },
+  {
+    "categories": [
+      {
+        "title": "Schweizer Nati-Torhüterinnen",
+        "words": ["Herzog", "Benz", "Schneider", "Peng"],
+        "level": "EASY"
+      },
+      {
+        "title": "Comic-Laute (Erikativ) für Knall",
+        "words": ["zack", "bumm", "rumms", "kawumm"],
+        "level": "MEDIUM"
+      },
+      {
+        "title": "___reis",
+        "words": ["puff", "milch", "wild", "natur"],
+        "level": "HARD"
+      },
+      {
+        "title": "Adelstitel",
+        "words": ["Fürst", "Graf", "Kaiser", "König"],
+        "level": "EXPERT"
+      }
+    ]
+  },
+  {
+    "categories": [
+      {
+        "title": "Hauptstädte",
+        "words": ["Washington", "Madrid", "Tokyo", "Ankara"],
+        "level": "EASY"
+      },
+      {
+        "title": "Zürcher Lokale",
+        "words": ["Rio", "Helsinki", "Lugano", "Komplex"],
+        "level": "MEDIUM"
+      },
+      {
+        "title": "Schleuder_____",
+        "words": ["Sitz", "Trauma", "Kurs", "Gang"],
+        "level": "HARD"
+      },
+      {
+        "title": "Psychische Erkankungen",
+        "words": ["Psychose", "Depression", "Insomnie", "ADHS"],
+        "level": "EXPERT"
+      }
+    ]
+  },
+  {
+    "categories": [
+      {
+        "title": "Tram____",
+        "words": ["Depot", "Polin", "Bahn", "Station"],
+        "level": "EASY"
+      },
+      {
+        "title": "Weiblichle Bewohnerin Europäischer Länder",
+        "words": ["Italienerin", "Deutsche", "Dänin", "Tschechin"],
+        "level": "MEDIUM"
+      },
+      {
+        "title": "____hof",
+        "words": ["Bauern", "Gast", "Pferde", "Land"],
+        "level": "HARD"
+      },
+      {
+        "title": "Bauernhoftiere",
+        "words": ["Schafe", "Ziegen", "Kühe", "Hühner"],
+        "level": "EXPERT"
+      }
+    ]
+  },
+  {
+    "categories": [
+      {
+        "title": "Nationalrät:innen",
+        "words": ["Pult", "Christ", "Hässig", "Rosenwasser"],
+        "level": "EASY"
+      },
+      {
+        "title": "Negroni Sbaliagto",
+        "words": ["Campari", "Wermut", "Prosecco", "Orange"],
+        "level": "MEDIUM"
+      },
+      {
+        "title": "Schaumweine",
+        "words": ["Champagner", "Sekt", "Cava", "Moscato"],
+        "level": "HARD"
+      },
+      {
+        "title": "Schulzimmer",
+        "words": ["Wandtafel", "Schwamm", "Heft", "Kreide"],
+        "level": "EXPERT"
+      }
+    ]
+  },
+  {
+    "categories": [
+      {
+        "title": "Anagram von Schweizer Städten",
+        "words": ["salbe", "lanugo", "runzel", "blei"],
+        "level": "EASY"
+      },
+      {
+        "title": "Medikamentformen",
+        "words": ["pille", "zäpfchen", "sirup", "serum"],
+        "level": "MEDIUM"
+      },
+      {
+        "title": "Metalle",
+        "words": ["alu", "nickel", "eisen", "stahl"],
+        "level": "HARD"
+      },
+      {
+        "title": "Getränke",
+        "words": ["limonade", "tee", "soda", "seltzer"],
+        "level": "EXPERT"
+      }
+    ]
+  }
+]

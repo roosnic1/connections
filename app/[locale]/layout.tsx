@@ -3,12 +3,13 @@ import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import { TolgeeNextProvider } from "@/tolgee/client";
-import { getTolgee } from "@/tolgee/server";
+import { NextIntlClientProvider } from "next-intl";
+import { getMessages } from "next-intl/server";
 import { Bounce, ToastContainer } from "react-toastify";
 import { GameContextProvider } from "@/app/[locale]/_components/game-context";
 import { ReactNode } from "react";
 import Footer from "@/app/[locale]/_components/footer";
+import Header from "@/app/[locale]/_components/header";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -24,17 +25,19 @@ type Props = {
 
 export default async function RootLayout({ children, params }: Props) {
   const { locale } = await params;
-  /*if (!ALL_LANGUAGES.includes(locale)) {
-    notFound();
-  }*/
-  const tolgee = await getTolgee();
-  const records = await tolgee.loadRequired();
+  const messages = await getMessages();
 
   return (
     <html lang={locale}>
-      <body className={inter.className}>
-        <TolgeeNextProvider language={locale} staticData={records}>
-          <GameContextProvider>{children}</GameContextProvider>
+      <body
+        className={`${inter.className} h-screen overflow-hidden flex flex-col`}
+      >
+        <NextIntlClientProvider messages={messages}>
+          <GameContextProvider>
+            <Header />
+            <div className="flex-1 min-h-0 overflow-y-auto">{children}</div>
+            <Footer locale={locale} />
+          </GameContextProvider>
           <ToastContainer
             position="top-center"
             autoClose={5000}
@@ -49,10 +52,9 @@ export default async function RootLayout({ children, params }: Props) {
             theme="light"
             transition={Bounce}
           />
-          <Footer locale={locale} />
           <Analytics />
           <SpeedInsights />
-        </TolgeeNextProvider>
+        </NextIntlClientProvider>
       </body>
     </html>
   );

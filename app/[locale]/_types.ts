@@ -1,18 +1,34 @@
+export const ConnectionState = {
+  DRAFT: "DRAFT",
+  REVIEW: "REVIEW",
+  PUBLISHED: "PUBLISHED",
+} as const;
+
+export type ConnectionState =
+  (typeof ConnectionState)[keyof typeof ConnectionState];
+
+export enum Difficulty {
+  EASY = "EASY",
+  MEDIUM = "MEDIUM",
+  HARD = "HARD",
+  EXPERT = "EXPERT",
+}
+
 export type Category = {
   category: string;
   items: string[];
-  level: 1 | 2 | 3 | 4;
+  level: Difficulty;
 };
 
 export type Word = {
   word: string;
-  level: 1 | 2 | 3 | 4;
+  level: Difficulty;
   selected?: boolean;
 };
 
 export type ConnectionGame = {
   id: number;
-  publishDate: Date;
+  publishDate: Date | null;
   categories: Category[];
 };
 

@@ -1,5 +1,5 @@
 import createMiddleware from "next-intl/middleware";
-import { ALL_LANGUAGES, DEFAULT_LANGUAGE } from "@/tolgee/shared";
+import { ALL_LANGUAGES, DEFAULT_LANGUAGE } from "@/i18n/config";
 
 // read more about next-intl middleware configuration
 // https://next-intl-docs.vercel.app/docs/routing/middleware#locale-prefix

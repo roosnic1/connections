@@ -13,23 +13,56 @@ datasource db {
   provider = "postgresql"
 }
 
+enum ConnectionState {
+  DRAFT
+  REVIEW
+  PUBLISHED
+}
+
 model Connection {
-  id            Int @id @default(autoincrement())
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
-  publishDate   DateTime
-  categories    Category[]
+  id          Int             @id @default(autoincrement())
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+  state       ConnectionState @default(DRAFT)
+  publishDate DateTime?
+  publishedAt DateTime?
+  categories  Category[]
+  reviews     Review[]
+}
+
+model Review {
+  id           Int        @id @default(autoincrement())
+  createdAt    DateTime   @default(now())
+  reviewerName String
+  difficulty   Int
+  comment      String?
+  isWon        Boolean
+  guessHistory Json       @default("[]")
+  connection   Connection @relation(fields: [connectionId], references: [id], onDelete: Cascade)
+  connectionId Int
+
+  @@index([connectionId])
+}
+
+enum Difficulty {
+  EASY
+  MEDIUM
+  HARD
+  EXPERT
 }
 
 model Category {
-  id            Int @id @default(autoincrement())
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
-  title         String
-  words         String[]
-  level         Int
-  connection    Connection @relation(fields: [connectionId], references: [id])
-  connectionId  Int
+  id           Int        @id @default(autoincrement())
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+  title        String
+  words        String[]
+  level        Difficulty
+  connection   Connection @relation(fields: [connectionId], references: [id], onDelete: Cascade)
+  connectionId Int
+
+  @@unique([connectionId, level])
+  @@index([connectionId])
 }
 
 // Better Auth tables

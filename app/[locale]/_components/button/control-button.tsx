@@ -3,13 +3,17 @@ export default function ControlButton(props: {
   onClick: () => void;
   unclickable?: boolean;
 }) {
-  const click = props.unclickable ? "pointer-events-none" : "";
-  const textColor = props.unclickable ? "border-stone-500" : "border-black";
-  const borderColor = props.unclickable ? "text-stone-500" : "text-black";
+  const disabled = props.unclickable;
 
   return (
     <button
-      className={`${borderColor} border rounded-full ${textColor} font-medium py-3 px-4 text-l ${click}`}
+      className={`flex-1 border rounded-full font-medium py-3 px-2 md:px-4 text-sm md:text-base whitespace-nowrap transition-opacity
+        ${
+          disabled
+            ? "border-[#99a1af] text-[#4a5565] opacity-50 pointer-events-none"
+            : "border-black text-black"
+        }`}
+      disabled={disabled}
       onClick={props.onClick}
     >
       {props.text}
