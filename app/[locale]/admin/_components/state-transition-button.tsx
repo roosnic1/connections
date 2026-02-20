@@ -21,10 +21,15 @@ export default function StateTransitionButton({
 
   const transition = async (newState: ConnectionState, date?: string) => {
     setLoading(true);
-    const result = await updateConnectionState(connectionId, newState, date);
-    setLoading(false);
-    if (result.error) {
-      alert(result.error);
+    try {
+      const result = await updateConnectionState(connectionId, newState, date);
+      if (result.error) {
+        alert(result.error);
+      }
+    } catch {
+      alert(t("admin_stateUpdateError"));
+    } finally {
+      setLoading(false);
     }
   };
 

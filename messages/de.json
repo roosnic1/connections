@@ -1,5 +1,7 @@
 {
   "header_admin_title": "Connections - Admin",
+  "nav_home": "Startseite",
+  "nav_about": "Über uns",
   "footer_copyright": "© {year} Connections",
   "footer_lang_de": "Deutsch",
   "footer_lang_en": "Englisch",
@@ -31,6 +33,7 @@
   "admin_createOne": "Eine erstellen",
   "admin_delete": "Löschen",
   "admin_deleteConfirm": "Bist du sicher, dass du diese Verbindung löschen möchtest?",
+  "admin_deleteError": "Verbindung konnte nicht gelöscht werden. Bitte versuche es erneut.",
   "admin_edit": "Bearbeiten",
   "admin_editConnection": "Verbindung bearbeiten",
   "admin_email": "E-Mail: {email}",
@@ -38,6 +41,7 @@
   "admin_id": "AUSWEIS",
   "admin_loggedInAs": "Angemeldet als: {name}",
   "admin_loginTitle": "Admin-Anmeldung",
+  "admin_loginError": "Anmeldung fehlgeschlagen. Bitte versuche es erneut.",
   "admin_logout": "Abmelden",
   "admin_manageConnections": "Verbindungen verwalten",
   "admin_newConnection": "Neue Verbindung",

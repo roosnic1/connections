@@ -67,7 +67,13 @@ export default function ReviewPageClient(props: ReviewPageClientProps) {
       setGameOverGuessHistory(guessHistory);
       setShowReviewModal(true);
     }
-  }, [gameContext?.isWon, gameContext?.isLost]);
+  }, [
+    gameContext?.isWon,
+    gameContext?.isLost,
+    gameContext?.guessHistory,
+    currentGame,
+    showReviewModal,
+  ]);
 
   const handleReviewSubmitted = () => {
     if (!currentGame) return;

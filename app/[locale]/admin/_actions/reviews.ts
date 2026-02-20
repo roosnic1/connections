@@ -26,6 +26,9 @@ export async function getReviews(
 ) {
   await requireAuth();
 
+  const safePageSize =
+    Number.isFinite(pageSize) && pageSize > 0 ? Math.floor(pageSize) : 20;
+
   const where = {};
 
   const [reviews, total] = await Promise.all([
@@ -35,13 +38,13 @@ export async function getReviews(
         connection: { select: { id: true, publishDate: true } },
       },
       orderBy: { [sortBy]: sortDir },
-      skip: (page - 1) * pageSize,
-      take: pageSize,
+      skip: (page - 1) * safePageSize,
+      take: safePageSize,
     }),
     prisma.review.count({ where }),
   ]);
 
-  return { reviews, total, totalPages: Math.ceil(total / pageSize), page };
+  return { reviews, total, totalPages: Math.ceil(total / safePageSize), page };
 }
 
 export async function getConnectionReviews(connectionId: number) {

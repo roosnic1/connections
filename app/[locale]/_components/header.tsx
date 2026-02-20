@@ -103,13 +103,13 @@ export default function Header() {
               href="/"
               className="text-[#364153] font-medium text-base hover:opacity-70 transition-opacity"
             >
-              Home
+              {t("nav_home")}
             </Link>
             <Link
               href="/about"
               className="text-[#364153] font-medium text-base hover:opacity-70 transition-opacity"
             >
-              About
+              {t("nav_about")}
             </Link>
           </nav>
 
@@ -146,14 +146,14 @@ export default function Header() {
               className="py-5 text-[#364153] font-medium text-xl border-b border-[#e5e7eb]"
               onClick={() => setMenuOpen(false)}
             >
-              Home
+              {t("nav_home")}
             </Link>
             <Link
               href="/about"
               className="py-5 text-[#364153] font-medium text-xl border-b border-[#e5e7eb]"
               onClick={() => setMenuOpen(false)}
             >
-              About
+              {t("nav_about")}
             </Link>
           </nav>
         </div>

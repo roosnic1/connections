@@ -203,10 +203,17 @@ export async function updateConnectionState(
     }
   }
 
-  await prisma.connection.update({
-    where: { id: connectionId },
-    data: updateData,
-  });
+  try {
+    await prisma.connection.update({
+      where: { id: connectionId },
+      data: updateData,
+    });
+  } catch (e) {
+    if (e instanceof PrismaClientKnownRequestError && e.code === "P2002") {
+      return { error: "A connection with this publish date already exists." };
+    }
+    throw e;
+  }
 
   revalidatePath("/admin/connections");
   return {};
