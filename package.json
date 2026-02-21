@@ -19,7 +19,7 @@
     "test:e2e": "NODE_ENV=test playwright test",
     "test:e2e:ui": "NODE_ENV=test playwright test --ui",
     "test:e2e:headed": "NODE_ENV=test playwright test --headed",
-    "test:e2e:codegen": "NODE_ENV=test playwright codegen http://localhost:3000",
+    "test:e2e:codegen": "NODE_ENV=test playwright codegen --viewport-size=\"800,1000\" http://localhost:3000",
     "test:e2e:report": "playwright show-report"
   },
   "dependencies": {
