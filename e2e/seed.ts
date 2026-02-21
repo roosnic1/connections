@@ -94,10 +94,12 @@ const draftCategories: CategoryInput[] = [
 async function seed() {
   const now = new Date();
 
-  await prisma.connection.upsert({
-    where: { id: 1 },
-    update: {},
-    create: {
+  // Delete existing fixtures so re-runs always reflect current seed data.
+  // Categories cascade-delete with their connection.
+  await prisma.connection.deleteMany({ where: { id: { in: [1, 2, 3] } } });
+
+  await prisma.connection.create({
+    data: {
       id: 1,
       state: "PUBLISHED",
       publishDate: new Date(
@@ -114,10 +116,8 @@ async function seed() {
     },
   });
 
-  await prisma.connection.upsert({
-    where: { id: 2 },
-    update: {},
-    create: {
+  await prisma.connection.create({
+    data: {
       id: 2,
       state: "REVIEW",
       categories: {
@@ -130,10 +130,8 @@ async function seed() {
     },
   });
 
-  await prisma.connection.upsert({
-    where: { id: 3 },
-    update: {},
-    create: {
+  await prisma.connection.create({
+    data: {
       id: 3,
       state: "DRAFT",
       categories: {

@@ -1,8 +1,11 @@
 import { test, expect } from "@playwright/test";
 
 test.describe("Game Basics", () => {
-  test("On a clean game page check the buttons state", async ({ page }) => {
+  test.beforeEach(async ({ page }) => {
     await page.goto("/");
+  });
+
+  test("On a clean game page check the buttons state", async ({ page }) => {
     await expect(page.getByRole("button", { name: "Shuffle" })).toBeEnabled();
     await expect(
       page.getByRole("button", { name: "Deselect All" }),
@@ -13,7 +16,6 @@ test.describe("Game Basics", () => {
   test("On a clean game page check the buttons state after selecting cells", async ({
     page,
   }) => {
-    await page.goto("/");
     await page.getByRole("button", { name: "SOMMER" }).click();
     await expect(page.getByRole("button", { name: "Shuffle" })).toBeEnabled();
     await expect(
