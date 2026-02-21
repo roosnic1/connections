@@ -1,6 +1,6 @@
 /**
  * E2E test seed script — invoked via `npx tsx e2e/seed.ts` from global-setup.
- * Creates two fixture connections in the test database:
+ * Creates three fixture connections in the test database:
  *   id 1 → PUBLISHED  (used by game tests)
  *   id 2 → REVIEW     (used by review tests)
  *   id 3 → DRAFT      (used by admin tests)
@@ -16,8 +16,14 @@ const levelMap: Record<string, Difficulty> = {
   EXPERT: Difficulty.EXPERT,
 };
 
+type CategoryInput = {
+  title: string;
+  words: string[];
+  level: keyof typeof levelMap;
+};
+
 // First two entries from prisma/connections.json
-const publishedCategories = [
+const publishedCategories: CategoryInput[] = [
   {
     title: "Fussballspieler",
     words: ["sommer", "keller", "hitz", "frei"],
@@ -40,7 +46,7 @@ const publishedCategories = [
   },
 ];
 
-const reviewCategories = [
+const reviewCategories: CategoryInput[] = [
   {
     title: "____grund",
     words: ["ab", "letzi", "unter", "hinter"],
@@ -63,7 +69,7 @@ const reviewCategories = [
   },
 ];
 
-const draftCategories = [
+const draftCategories: CategoryInput[] = [
   {
     title: "Elemente von Stadtzürcherquartieren",
     words: ["Turm", "Anker", "Kleeblatt", "Hufeisen"],
@@ -87,6 +93,8 @@ const draftCategories = [
 ];
 
 async function seed() {
+  const now = new Date();
+
   await prisma.connection.upsert({
     where: { id: 1 },
     update: {},
@@ -94,13 +102,9 @@ async function seed() {
       id: 1,
       state: "PUBLISHED",
       publishDate: new Date(
-        Date.UTC(
-          new Date().getUTCFullYear(),
-          new Date().getUTCMonth(),
-          new Date().getUTCDate(),
-        ),
+        Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()),
       ),
-      publishedAt: new Date(),
+      publishedAt: now,
       categories: {
         create: publishedCategories.map((c) => ({
           title: c.title,

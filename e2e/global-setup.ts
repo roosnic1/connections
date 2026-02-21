@@ -1,7 +1,8 @@
 import { execSync } from "child_process";
+import { mkdirSync } from "fs";
 import { request } from "@playwright/test";
 
-async function globalSetup() {
+async function globalSetup(): Promise<void> {
   if (!process.env.DATABASE_URL)
     throw new Error("DATABASE_URL must be set to run E2E tests");
 
@@ -20,9 +21,11 @@ async function globalSetup() {
     return;
   }
 
-  const requestContext = await request.newContext({
-    baseURL: "http://localhost:3000",
-  });
+  const baseURL = process.env.PLAYWRIGHT_BASE_URL ?? "http://localhost:3000";
+
+  mkdirSync("e2e/.auth", { recursive: true });
+
+  const requestContext = await request.newContext({ baseURL });
 
   try {
     const response = await requestContext.post("/api/test-auth", {

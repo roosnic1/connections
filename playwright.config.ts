@@ -1,7 +1,7 @@
 import { defineConfig, devices } from "@playwright/test";
 import { config } from "dotenv";
 
-// Load .env.test so TEST_DATABASE_URL and other vars are available
+// Load .env.test so DATABASE_URL and other vars are available
 // when the webServer and globalSetup blocks are evaluated.
 // In CI, these come from GitHub secrets / workflow env instead.
 if (!process.env.CI) {
@@ -35,5 +35,6 @@ export default defineConfig({
     command: process.env.CI ? "npm run build && npm start" : "npm run dev",
     url: "http://localhost:3000",
     reuseExistingServer: !process.env.CI,
+    timeout: process.env.CI ? 120_000 : 60_000,
   },
 });

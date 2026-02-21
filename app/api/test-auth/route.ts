@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { randomUUID } from "crypto";
-import { PrismaClient } from "@/prisma/generated/prisma/client";
+import prisma from "@/lib/prisma";
 
 // This route is only active in E2E test mode.
 // It creates a real session for a test admin user, bypassing Keycloak.
@@ -34,10 +34,6 @@ export async function POST(req: NextRequest) {
   ) {
     return new NextResponse("Unauthorized", { status: 401 });
   }
-
-  const prisma = new PrismaClient({
-    accelerateUrl: process.env.DATABASE_URL!,
-  });
 
   try {
     // Create or update the test admin user
@@ -79,10 +75,12 @@ export async function POST(req: NextRequest) {
       sameSite: "lax",
       path: "/",
       expires: expiresAt,
+      secure: process.env.NODE_ENV === "production",
     });
 
     return response;
-  } finally {
-    await prisma.$disconnect();
+  } catch (error) {
+    console.error("[test-auth] Failed to create test session:", error);
+    return new NextResponse("Failed to create test session", { status: 500 });
   }
 }
