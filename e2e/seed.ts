@@ -5,7 +5,7 @@
  *   id 2 → REVIEW     (used by review tests)
  *   id 3 → DRAFT      (used by admin tests)
  */
-import { Difficulty } from "@/prisma/generated/prisma/client";
+import { ConnectionState, Difficulty } from "@/prisma/generated/prisma/client";
 import prisma from "@/lib/prisma";
 
 const levelMap: Record<string, Difficulty> = {
@@ -101,7 +101,7 @@ async function seed() {
   await prisma.connection.create({
     data: {
       id: 1,
-      state: "PUBLISHED",
+      state: ConnectionState.PUBLISHED,
       publishDate: new Date(
         Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()),
       ),
@@ -119,7 +119,7 @@ async function seed() {
   await prisma.connection.create({
     data: {
       id: 2,
-      state: "REVIEW",
+      state: ConnectionState.REVIEW,
       categories: {
         create: reviewCategories.map((c) => ({
           title: c.title,
@@ -133,7 +133,7 @@ async function seed() {
   await prisma.connection.create({
     data: {
       id: 3,
-      state: "DRAFT",
+      state: ConnectionState.DRAFT,
       categories: {
         create: draftCategories.map((c) => ({
           title: c.title,
