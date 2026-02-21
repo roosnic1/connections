@@ -6,9 +6,6 @@ async function globalSetup(): Promise<void> {
   if (!process.env.DATABASE_URL)
     throw new Error("DATABASE_URL must be set to run E2E tests");
 
-  // Run migrations against the test database
-  execSync("npx prisma migrate reset --force", { stdio: "inherit" });
-
   // Seed fixture data via tsx (avoids ESM/CJS conflict in Playwright's loader)
   execSync("npx tsx e2e/seed.ts", { stdio: "inherit" });
 
