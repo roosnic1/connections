@@ -5,9 +5,8 @@
  *   id 2 → REVIEW     (used by review tests)
  *   id 3 → DRAFT      (used by admin tests)
  */
-import { PrismaClient, Difficulty } from "../prisma/generated/prisma/client";
-
-const prisma = new PrismaClient({ accelerateUrl: process.env.DATABASE_URL! });
+import { Difficulty } from "@/prisma/generated/prisma/client";
+import prisma from "@/lib/prisma";
 
 const levelMap: Record<string, Difficulty> = {
   EASY: Difficulty.EASY,
@@ -150,9 +149,7 @@ async function seed() {
   console.log("[e2e/seed] Fixture connections seeded (ids 1, 2, 3)");
 }
 
-seed()
-  .catch((e) => {
-    console.error("[e2e/seed] Error:", e);
-    process.exit(1);
-  })
-  .finally(() => prisma.$disconnect());
+seed().catch((e) => {
+  console.error("[e2e/seed] Error:", e);
+  process.exit(1);
+});
