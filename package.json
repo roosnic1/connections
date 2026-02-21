@@ -15,7 +15,12 @@
     "postinstall": "prisma generate",
     "prepare": "husky",
     "inlang:translate": "inlang machine translate --project ./project.inlang",
-    "inlang:validate": "inlang validate --project ./project.inlang"
+    "inlang:validate": "inlang validate --project ./project.inlang",
+    "test:e2e": "NODE_ENV=test playwright test",
+    "test:e2e:ui": "NODE_ENV=test playwright test --ui",
+    "test:e2e:headed": "NODE_ENV=test playwright test --headed",
+    "test:e2e:codegen": "NODE_ENV=test playwright codegen http://localhost:3000",
+    "test:e2e:report": "playwright show-report"
   },
   "dependencies": {
     "@posthog/nextjs-config": "^1.0.2",
@@ -35,6 +40,7 @@
   },
   "devDependencies": {
     "@inlang/cli": "^3.1.6",
+    "@playwright/test": "^1.58.2",
     "@tailwindcss/postcss": "^4.1.8",
     "@types/luxon": "^3.6.2",
     "@types/node": "^24.10.13",
