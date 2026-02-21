@@ -8,6 +8,8 @@ if (!process.env.CI) {
   config({ path: ".env.test" });
 }
 
+const baseURL = process.env.PLAYWRIGHT_BASE_URL ?? "http://localhost:3000";
+
 export default defineConfig({
   testDir: "./e2e",
   fullyParallel: true,
@@ -17,7 +19,7 @@ export default defineConfig({
   reporter: process.env.CI ? [["html"], ["github"]] : [["html"], ["list"]],
   globalSetup: "./e2e/global-setup.ts",
   use: {
-    baseURL: "http://localhost:3000",
+    baseURL,
     trace: "on-first-retry",
     screenshot: "only-on-failure",
   },
@@ -39,7 +41,7 @@ export default defineConfig({
     command: process.env.CI
       ? "npx prisma migrate reset --force && npm run build && npm start"
       : "npm run dev",
-    url: "http://localhost:3000",
+    url: baseURL,
     reuseExistingServer: !process.env.CI,
     timeout: process.env.CI ? 120_000 : 60_000,
   },

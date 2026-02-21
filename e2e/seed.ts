@@ -147,7 +147,12 @@ async function seed() {
   console.log("[e2e/seed] Fixture connections seeded (ids 1, 2, 3)");
 }
 
-seed().catch((e) => {
-  console.error("[e2e/seed] Error:", e);
-  process.exit(1);
-});
+seed()
+  .then(async () => {
+    await prisma.$disconnect();
+  })
+  .catch(async (e) => {
+    console.error(e);
+    await prisma.$disconnect();
+    process.exit(1);
+  });
