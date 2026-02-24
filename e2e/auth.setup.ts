@@ -1,5 +1,6 @@
 import { test as setup, expect } from "@playwright/test";
 import { mkdirSync } from "fs";
+import { TEST_EMAIL, TEST_PASSWORD } from "./constants";
 
 const authFile = "e2e/.auth/admin.json";
 
@@ -8,8 +9,8 @@ setup("authenticate as admin", async ({ request }) => {
 
   const response = await request.post("/api/auth/sign-in/email", {
     data: {
-      email: "chappell.roan@pinkponyclub.com",
-      password: "pinkdolphinclub",
+      email: TEST_EMAIL,
+      password: TEST_PASSWORD,
     },
   });
 

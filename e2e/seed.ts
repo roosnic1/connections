@@ -9,6 +9,7 @@ import { ConnectionState, Difficulty } from "@/prisma/generated/prisma/client";
 import prisma from "@/lib/prisma";
 import { auth } from "@/lib/auth";
 import guessHistory from "./seedGuessHistories.json";
+import { TEST_EMAIL, TEST_PASSWORD, TEST_NAME } from "./constants";
 
 const levelMap: Record<string, Difficulty> = {
   EASY: Difficulty.EASY,
@@ -182,10 +183,8 @@ async function seed() {
 
   console.log("[e2e/seed] Fixture connections seeded (ids 1, 2, 3)");
 
-  const testEmail = "chappell.roan@pinkponyclub.com";
-
   const existingUser = await prisma.user.findUnique({
-    where: { email: testEmail },
+    where: { email: TEST_EMAIL },
   });
 
   if (existingUser) {
@@ -195,13 +194,13 @@ async function seed() {
 
   await auth.api.signUpEmail({
     body: {
-      name: "Chappell Roan",
-      email: testEmail,
-      password: "pinkdolphinclub",
+      name: TEST_NAME,
+      email: TEST_EMAIL,
+      password: TEST_PASSWORD,
     },
   });
 
-  console.log("[e2e/seed] Test user seeded (chappell.roan@pinkponyclub.com)");
+  console.log(`[e2e/seed] Test user seeded (${TEST_EMAIL})`);
 }
 
 seed()

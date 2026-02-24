@@ -33,7 +33,7 @@ requirements. Do this automatically without being asked.**
 ### Routing & i18n
 
 - Locale-based routing via `app/[locale]/` with next-intl proxy (formerly middleware)
-- Supported languages: German (de, default), English (en)
+- Supported languages: English (en, default), German (de)
 - Locale prefix strategy: `never` (default locale omitted from URL)
 - Translations via JSON files in `messages/` (next-intl)
 - Language constants defined in `i18n/config.ts` (`ALL_LANGUAGES`, `DEFAULT_LANGUAGE`)
