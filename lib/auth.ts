@@ -19,7 +19,7 @@ if (!keycloakSecret) {
 }
 
 export const auth = betterAuth({
-  secret: process.env.AUTH_SECRET,
+  secret: process.env.BETTER_AUTH_SECRET,
   baseURL: process.env.BETTER_AUTH_URL,
   database: prismaAdapter(prisma, {
     provider: "postgresql",
@@ -36,4 +36,7 @@ export const auth = betterAuth({
       ],
     }),
   ],
+  emailAndPassword: {
+    enabled: process.env.NODE_ENV !== "production",
+  },
 });

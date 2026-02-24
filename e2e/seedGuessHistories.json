@@ -1,0 +1,248 @@
+[
+  [
+    [
+      {
+        "word": "Bistro",
+        "level": "EXPERT",
+        "selected": true
+      },
+      {
+        "word": "Café",
+        "level": "EXPERT",
+        "selected": true
+      },
+      {
+        "word": "Restaurant",
+        "level": "EXPERT",
+        "selected": true
+      },
+      {
+        "word": "Gasthof",
+        "level": "EXPERT",
+        "selected": true
+      }
+    ],
+    [
+      {
+        "word": "Zuhause",
+        "level": "HARD",
+        "selected": true
+      },
+      {
+        "word": "Stadion",
+        "level": "HARD",
+        "selected": true
+      },
+      {
+        "word": "Public Viewing",
+        "level": "MEDIUM",
+        "selected": true
+      },
+      {
+        "word": "Fernsehstudio",
+        "level": "HARD",
+        "selected": true
+      }
+    ],
+    [
+      {
+        "word": "Stadion",
+        "level": "HARD",
+        "selected": true
+      },
+      {
+        "word": "Public Viewing",
+        "level": "MEDIUM",
+        "selected": true
+      },
+      {
+        "word": "Fernsehstudio",
+        "level": "HARD",
+        "selected": true
+      },
+      {
+        "word": "Pub",
+        "level": "HARD",
+        "selected": true
+      }
+    ],
+    [
+      {
+        "word": "Zuhause",
+        "level": "HARD",
+        "selected": true
+      },
+      {
+        "word": "Stadion",
+        "level": "HARD",
+        "selected": true
+      },
+      {
+        "word": "Fernsehstudio",
+        "level": "HARD",
+        "selected": true
+      },
+      {
+        "word": "Pub",
+        "level": "HARD",
+        "selected": true
+      }
+    ],
+    [
+      {
+        "word": "Tortie",
+        "level": "EASY",
+        "selected": true
+      },
+      {
+        "word": "Tabby",
+        "level": "EASY",
+        "selected": true
+      },
+      {
+        "word": "Handy",
+        "level": "MEDIUM",
+        "selected": true
+      },
+      {
+        "word": "Smoke",
+        "level": "EASY",
+        "selected": true
+      }
+    ],
+    [
+      {
+        "word": "Tortie",
+        "level": "EASY",
+        "selected": true
+      },
+      {
+        "word": "Calico",
+        "level": "EASY",
+        "selected": true
+      },
+      {
+        "word": "Tabby",
+        "level": "EASY",
+        "selected": true
+      },
+      {
+        "word": "Smoke",
+        "level": "EASY",
+        "selected": true
+      }
+    ],
+    [
+      {
+        "word": "Home-Office",
+        "level": "MEDIUM",
+        "selected": true
+      },
+      {
+        "word": "Public Viewing",
+        "level": "MEDIUM",
+        "selected": true
+      },
+      {
+        "word": "Handy",
+        "level": "MEDIUM",
+        "selected": true
+      },
+      {
+        "word": "Beamer",
+        "level": "MEDIUM",
+        "selected": true
+      }
+    ]
+  ],
+  [
+    [
+      {
+        "word": "Caliente",
+        "level": "HARD",
+        "selected": true
+      },
+      {
+        "word": "Stolze",
+        "level": "HARD",
+        "selected": true
+      },
+      {
+        "word": "Vorstadt",
+        "level": "HARD",
+        "selected": true
+      },
+      {
+        "word": "Lauter",
+        "level": "HARD",
+        "selected": true
+      }
+    ],
+    [
+      {
+        "word": "arena",
+        "level": "EASY",
+        "selected": true
+      },
+      {
+        "word": "reporter",
+        "level": "EASY",
+        "selected": true
+      },
+      {
+        "word": "puls",
+        "level": "EASY",
+        "selected": true
+      },
+      {
+        "word": "impact",
+        "level": "EASY",
+        "selected": true
+      }
+    ],
+    [
+      {
+        "word": "Unterengstringen",
+        "level": "EXPERT",
+        "selected": true
+      },
+      {
+        "word": "Dänikon",
+        "level": "EXPERT",
+        "selected": true
+      },
+      {
+        "word": "Wil",
+        "level": "EXPERT",
+        "selected": true
+      },
+      {
+        "word": "Volken",
+        "level": "EXPERT",
+        "selected": true
+      }
+    ],
+    [
+      {
+        "word": "verleger",
+        "level": "MEDIUM",
+        "selected": true
+      },
+      {
+        "word": "journalist",
+        "level": "MEDIUM",
+        "selected": true
+      },
+      {
+        "word": "produzent",
+        "level": "MEDIUM",
+        "selected": true
+      },
+      {
+        "word": "editor",
+        "level": "MEDIUM",
+        "selected": true
+      }
+    ]
+  ]
+]

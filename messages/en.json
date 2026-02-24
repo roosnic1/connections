@@ -73,6 +73,8 @@
   "admin_choosePublishDate": "Choose a publish date to continue",
   "admin_confirmPublish": "Publish",
   "admin_stateUpdateError": "Failed to update state.",
+  "admin_notFound_connection_title": "Connection not found.",
+  "admin_notFound_review_title": "Review not found.",
   "error_title": "Something went wrong!",
   "error_tryAgain": "Try again",
   "notFound_description": "Check back later for a new puzzle.",
@@ -116,5 +118,6 @@
   "admin_guessHistory": "Guess History",
   "admin_reviewDetail": "Review Detail",
   "admin_connection": "Connection",
-  "admin_backToReviews": "← Back to Reviews"
+  "admin_backToReviews": "← Back to Reviews",
+  "admin_backToConnections": "← Manage Connections"
 }

@@ -28,7 +28,6 @@ jobs:
     env:
       DATABASE_URL: postgresql://postgres:postgres@localhost:5432/connections_test
       E2E_TEST_MODE: "true"
-      E2E_AUTH_SECRET: ${{ secrets.E2E_AUTH_SECRET }}
       BETTER_AUTH_URL: http://localhost:3000
       AUTH_SECRET: ${{ secrets.AUTH_SECRET }}
       AUTH_KEYCLOAK_ISSUER: ${{ secrets.AUTH_KEYCLOAK_ISSUER }}
@@ -41,7 +40,6 @@ jobs:
       - name: Validate required secrets
         run: |
           missing=()
-          [ -z "${{ secrets.E2E_AUTH_SECRET }}" ]    && missing+=("E2E_AUTH_SECRET")
           [ -z "${{ secrets.AUTH_SECRET }}" ]         && missing+=("AUTH_SECRET")
           [ -z "${{ secrets.AUTH_KEYCLOAK_ISSUER }}" ] && missing+=("AUTH_KEYCLOAK_ISSUER")
           [ -z "${{ secrets.AUTH_KEYCLOAK_ID }}" ]   && missing+=("AUTH_KEYCLOAK_ID")

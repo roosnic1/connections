@@ -62,6 +62,8 @@ export default async function ConnectionList({
         return (
           <div
             key={connection.id}
+            role="article"
+            aria-label={`Connection ${connection.id}: ${dateLabel}`}
             className={`${STATE_BG[connection.state]} rounded-lg p-6`}
           >
             <div className="flex items-start justify-between mb-4">

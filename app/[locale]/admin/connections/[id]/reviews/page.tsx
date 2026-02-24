@@ -42,7 +42,7 @@ export default async function ConnectionReviewsPage({ params }: Props) {
         href="/admin/connections"
         className="text-sm text-gray-500 hover:text-black mb-6 inline-block"
       >
-        ← {t("admin_manageConnections")}
+        {t("admin_backToConnections")}
       </Link>
 
       <h1 className="text-black text-4xl font-semibold mb-2">
@@ -102,6 +102,7 @@ export default async function ConnectionReviewsPage({ params }: Props) {
               const guessHistory = parseGuessHistory(review.guessHistory);
               return (
                 <Link
+                  role="article"
                   key={review.id}
                   href={`/admin/reviews/${review.id}`}
                   className="bg-gray-50 rounded-lg p-6 hover:bg-gray-100 transition-colors block"

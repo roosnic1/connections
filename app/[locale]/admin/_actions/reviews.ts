@@ -58,7 +58,7 @@ export async function getConnectionReviews(connectionId: number) {
   const [reviews, connection, aggregate] = await Promise.all([
     prisma.review.findMany({
       where: { connectionId },
-      orderBy: { createdAt: "desc" },
+      orderBy: { createdAt: "asc" },
     }),
     prisma.connection.findUnique({
       where: { id: connectionId },
