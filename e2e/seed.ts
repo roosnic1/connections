@@ -7,6 +7,9 @@
  */
 import { ConnectionState, Difficulty } from "@/prisma/generated/prisma/client";
 import prisma from "@/lib/prisma";
+import { auth } from "@/lib/auth";
+import guessHistory from "./seedGuessHistories.json";
+import { TEST_EMAIL, TEST_PASSWORD, TEST_NAME } from "./constants";
 
 const levelMap: Record<string, Difficulty> = {
   EASY: Difficulty.EASY,
@@ -96,6 +99,7 @@ async function seed() {
 
   // Delete existing fixtures so re-runs always reflect current seed data.
   // Categories cascade-delete with their connection.
+  await prisma.review.deleteMany();
   await prisma.connection.deleteMany({ where: { id: { in: [1, 2, 3] } } });
 
   await prisma.connection.create({
@@ -130,6 +134,39 @@ async function seed() {
     },
   });
 
+  await prisma.review.create({
+    data: {
+      connectionId: 2,
+      reviewerName: "Lisa Christ",
+      difficulty: 4,
+      comment: "This game was very difficult.",
+      isWon: true,
+      guessHistory: guessHistory[0],
+    },
+  });
+
+  await prisma.review.create({
+    data: {
+      connectionId: 2,
+      reviewerName: "Lara Stoll",
+      difficulty: 2,
+      comment: "This game was super easy.",
+      isWon: true,
+      guessHistory: guessHistory[1],
+    },
+  });
+
+  await prisma.review.create({
+    data: {
+      connectionId: 2,
+      reviewerName: "Tara-Louise Wittwer",
+      difficulty: 5,
+      comment: "This game was impossible.",
+      isWon: false,
+      guessHistory: guessHistory[1],
+    },
+  });
+
   await prisma.connection.create({
     data: {
       id: 3,
@@ -145,6 +182,25 @@ async function seed() {
   });
 
   console.log("[e2e/seed] Fixture connections seeded (ids 1, 2, 3)");
+
+  const existingUser = await prisma.user.findUnique({
+    where: { email: TEST_EMAIL },
+  });
+
+  if (existingUser) {
+    await prisma.user.delete({ where: { id: existingUser.id } });
+    console.log("[e2e/seed] Deleted existing test user");
+  }
+
+  await auth.api.signUpEmail({
+    body: {
+      name: TEST_NAME,
+      email: TEST_EMAIL,
+      password: TEST_PASSWORD,
+    },
+  });
+
+  console.log(`[e2e/seed] Test user seeded (${TEST_EMAIL})`);
 }
 
 seed()

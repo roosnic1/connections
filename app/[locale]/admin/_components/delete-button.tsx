@@ -22,8 +22,8 @@ export default function DeleteButton({
       await deleteConnection(connectionId);
     } catch {
       toast(t("admin_deleteError"));
-      setIsDeleting(false);
     }
+    setIsDeleting(false);
   };
 
   return (

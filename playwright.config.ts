@@ -20,21 +20,22 @@ export default defineConfig({
   globalSetup: "./e2e/global-setup.ts",
   use: {
     baseURL,
+    locale: "en",
     trace: "on-first-retry",
     screenshot: "only-on-failure",
   },
   projects: [
     {
+      name: "setup",
+      testMatch: /auth\.setup\.ts/,
+    },
+    {
       name: "chromium",
-      use: { ...devices["Desktop Chrome"] },
-    },
-    {
-      name: "firefox",
-      use: { ...devices["Desktop Firefox"] },
-    },
-    {
-      name: "webkit",
-      use: { ...devices["Desktop Safari"] },
+      use: {
+        ...devices["Desktop Chrome"],
+        storageState: "e2e/.auth/admin.json",
+      },
+      dependencies: ["setup"],
     },
   ],
   webServer: {

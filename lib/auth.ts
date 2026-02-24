@@ -18,8 +18,13 @@ if (!keycloakSecret) {
   throw new Error("AUTH_KEYCLOAK_SECRET environment variable is required");
 }
 
+const betterAuthSecret = process.env.BETTER_AUTH_SECRET;
+if (!betterAuthSecret) {
+  throw new Error("BETTER_AUTH_SECRET environment variable is required");
+}
+
 export const auth = betterAuth({
-  secret: process.env.AUTH_SECRET,
+  secret: betterAuthSecret,
   baseURL: process.env.BETTER_AUTH_URL,
   database: prismaAdapter(prisma, {
     provider: "postgresql",
@@ -36,4 +41,7 @@ export const auth = betterAuth({
       ],
     }),
   ],
+  emailAndPassword: {
+    enabled: process.env.NODE_ENV !== "production",
+  },
 });
